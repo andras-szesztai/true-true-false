@@ -2,7 +2,7 @@ import { Global } from '@emotion/react'
 
 import { globalStyles } from 'styles/global'
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
     return (
         <>
             <Global styles={globalStyles} />
