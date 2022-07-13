@@ -55,4 +55,8 @@ export const globalStyles = css`
     h6 {
         overflow-wrap: break-word;
     }
+
+    #__next {
+        height: 100%;
+    }
 `
