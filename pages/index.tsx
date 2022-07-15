@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-import { Button, ButtonSizes } from 'components/atoms/Button'
+import { Link, LinkSizes } from 'components/atoms/Link'
 import { designTokens } from 'styles/designTokens'
 
 const HomeContainer = styled.div`
@@ -30,10 +30,10 @@ const Home = () => (
     <HomeContainer>
         <ContentContainer>
             <Title>TrueTrueFalse</Title>
-            <Button text="Create a Room" size={ButtonSizes.lg} />
+            <Link href="easieasd0" text="Create a Room" size={LinkSizes.lg} />
             <InputContainer>
                 <div>Input here</div>
-                <Button text="Join" size={ButtonSizes.md} />
+                <Link href="easieasd0" text="Join" size={LinkSizes.md} />
             </InputContainer>
         </ContentContainer>
     </HomeContainer>
