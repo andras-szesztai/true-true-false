@@ -38,4 +38,10 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
         css`
             border-top: none;
         `}
+    ${({ disabled }) =>
+        disabled &&
+        css`
+            cursor: not-allowed;
+            background: ${color.accentThree};
+        `}
 `

@@ -4,6 +4,7 @@ import { HomeContentContainer } from 'components/atoms/containers/HomeContentCon
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
+import { useState } from 'react'
 import { designTokens } from 'styles/designTokens'
 import { generateRoomId } from 'utils/roomId'
 
@@ -26,12 +27,28 @@ const Input = styled.input`
     }
 `
 
-const JoinRoom = () => (
-    <JoinRoomContainer>
-        <Input type="text" maxLength={5} placeholder="Enter Room ID" />
-        <Link href="easieasd0" text="Join" size={LinkSizes.md} noBorderTop />
-    </JoinRoomContainer>
-)
+const JoinRoom = () => {
+    const [roomId, setRoomId] = useState('')
+    return (
+        <JoinRoomContainer>
+            <Input
+                type="text"
+                maxLength={5}
+                placeholder="Enter Room ID"
+                onChange={(e) => {
+                    setRoomId(e.target.value)
+                }}
+            />
+            <Link
+                href={roomId}
+                text="Join"
+                size={LinkSizes.md}
+                noBorderTop
+                disabled={roomId.length !== 5}
+            />
+        </JoinRoomContainer>
+    )
+}
 
 const Home = () => (
     <HomePageContainer>

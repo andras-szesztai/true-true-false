@@ -3,9 +3,9 @@ import NextLink from 'next/link'
 import { Props } from './types'
 import { StyledLink } from './styles'
 
-const Link = ({ text, size, href, noBorderTop }: Props) => (
-    <NextLink href={href}>
-        <StyledLink size={size} noBorderTop={noBorderTop}>
+const Link = ({ text, size, href, noBorderTop, disabled }: Props) => (
+    <NextLink href={disabled ? '' : href}>
+        <StyledLink size={size} noBorderTop={noBorderTop} disabled={disabled}>
             {text}
         </StyledLink>
     </NextLink>
