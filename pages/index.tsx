@@ -4,19 +4,33 @@ import { HomeContentContainer } from 'components/atoms/containers/HomeContentCon
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
+import { designTokens } from 'styles/designTokens'
 import { generateRoomId } from 'utils/roomId'
 
-const InputContainer = styled.div`
+const JoinRoomContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
 `
 
+const Input = styled.input`
+    text-align: center;
+    line-height: 1;
+    padding: ${designTokens.space.md}px ${designTokens.space.xxl}px;
+    font-size: ${designTokens.fontSize.xl};
+    background-color: ${designTokens.color.background};
+    border: ${designTokens.strokeWidth.md}px solid ${designTokens.color.black};
+
+    ::placeholder {
+        color: ${designTokens.color.black};
+    }
+`
+
 const JoinRoom = () => (
-    <InputContainer>
-        <div>Input here</div>
-        <Link href="easieasd0" text="Join" size={LinkSizes.md} />
-    </InputContainer>
+    <JoinRoomContainer>
+        <Input type="text" maxLength={5} placeholder="Enter Room ID" />
+        <Link href="easieasd0" text="Join" size={LinkSizes.md} noBorderTop />
+    </JoinRoomContainer>
 )
 
 const Home = () => (
