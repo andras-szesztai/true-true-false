@@ -1,14 +1,17 @@
-import { StyledInput } from './styles'
+import { InputContainer, InputError, StyledInput } from './styles'
 import { Props } from './types'
 
-const Input = ({ onChange, placeholder, maxLength = 5 }: Props) => {
+const Input = ({ onChange, placeholder, maxLength = 5, error }: Props) => {
     return (
-        <StyledInput
-            type="text"
-            maxLength={maxLength}
-            placeholder={placeholder}
-            onChange={onChange}
-        />
+        <InputContainer>
+            <StyledInput
+                type="text"
+                maxLength={maxLength}
+                placeholder={placeholder}
+                onChange={onChange}
+            />
+            {error && <InputError>{error}</InputError>}
+        </InputContainer>
     )
 }
 

@@ -3,12 +3,13 @@ export enum LinkSizes {
     lg = 'lg',
 }
 
-export type StyleProps = 'size' | 'noBorderTop' | 'disabled'
+export type StyleProps = 'size' | 'noBorderTop' | 'isDisabled' | 'isLoading'
 
 export interface Props {
     text: string
     size: LinkSizes
     href: string
     noBorderTop?: boolean
-    disabled?: boolean
+    isDisabled?: boolean
+    isLoading?: boolean
 }

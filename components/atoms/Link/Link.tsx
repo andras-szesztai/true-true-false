@@ -1,12 +1,33 @@
 import NextLink from 'next/link'
+import SquareLoader from 'react-spinners/SquareLoader'
 
+import { designTokens } from 'styles/designTokens'
 import { Props } from './types'
-import { StyledLink } from './styles'
+import { LoadingContainer, StyledLink } from './styles'
 
-const Link = ({ text, size, href, noBorderTop, disabled }: Props) => (
-    <NextLink href={disabled ? '' : href}>
-        <StyledLink size={size} noBorderTop={noBorderTop} disabled={disabled}>
+const Link = ({
+    text,
+    size,
+    href,
+    noBorderTop,
+    isDisabled,
+    isLoading = false,
+}: Props) => (
+    <NextLink href={isDisabled ? '' : href}>
+        <StyledLink
+            size={size}
+            noBorderTop={noBorderTop}
+            isDisabled={isDisabled}
+            isLoading={isLoading}
+        >
             {text}
+            <LoadingContainer>
+                <SquareLoader
+                    color={designTokens.color.black}
+                    loading={isLoading}
+                    size={32}
+                />
+            </LoadingContainer>
         </StyledLink>
     </NextLink>
 )

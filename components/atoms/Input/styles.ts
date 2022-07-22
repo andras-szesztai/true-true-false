@@ -14,3 +14,20 @@ export const StyledInput = styled.input`
         color: ${designTokens.color.black};
     }
 `
+
+export const InputContainer = styled.div`
+    position: relative;
+`
+
+export const InputError = styled.span`
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background: ${designTokens.color.accentTwo};
+    font-size: ${designTokens.fontSize.base};
+    width: 100%;
+    height: ${designTokens.space.md};
+    text-align: center;
+    border: ${designTokens.strokeWidth.md}px solid ${designTokens.color.black};
+    border-top: none;
+`

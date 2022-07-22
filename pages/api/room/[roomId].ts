@@ -1,34 +1,31 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { NextApiRequest, NextApiResponse } from 'next'
-// import { prisma } from 'utils/prisma'
+import { prisma } from 'utils/prisma'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { method } = req
-
-    if (method === 'POST') {
+    const { method, query } = req
+    if (method === 'GET' && query.roomId && typeof query.roomId === 'string') {
         try {
-            // const room = await prisma.room.create({
-            //     data: {
-            //         slug: query.roomId,
-            //     },
-            // })
-            res.status(200).json({ data: 'Creating a room' })
+            const room = await prisma.room.findUnique({
+                where: {
+                    slug: query.roomId,
+                },
+            })
+            if (!room) {
+                res.status(404).json({
+                    error: 'Sorry, could not find room by provided ID.',
+                })
+            } else {
+                return res.status(200).json({ id: room.slug })
+            }
         } catch (err) {
-            res.status(401).json({ error: 'Room already exists!' })
+            if (err instanceof Error) {
+                return res.status(404).json({
+                    error: 'Sorry, something went wrong.',
+                })
+            }
         }
-        return
     }
-    if (method === 'GET') {
-        //
-    }
-    if (method === 'DELETE') {
-        //
-    }
-    // console.log(req.method)
-    // console.log({ roomId })
-    // res.status(200).send({ roomId })
 }

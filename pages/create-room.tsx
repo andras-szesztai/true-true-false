@@ -1,8 +1,8 @@
-import { Room } from '@prisma/client'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAsync } from 'react-use'
+import { RoomIdResponse } from 'types/apiResponses'
 
 const CreateRoom = () => {
     const router = useRouter()
@@ -11,13 +11,13 @@ const CreateRoom = () => {
         const response = await fetch('/api/room', {
             method: 'POST',
         })
-        const result: { data: Room } | { error: string } = await response.json()
+        const result: RoomIdResponse = await response.json()
         return result
     }, [])
 
     useEffect(() => {
-        if (value && 'data' in value) {
-            router.push(`/${value.data.slug}/create-player`)
+        if (value && 'id' in value) {
+            router.push(`/${value.id}/create-player`)
         }
     }, [value, router])
 

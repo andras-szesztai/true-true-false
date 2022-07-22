@@ -4,4 +4,5 @@ export interface Props {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
     placeholder: string
     maxLength?: number
+    error?: string
 }

@@ -22,9 +22,10 @@ const linkStylesMapping = {
 } as const
 
 export const StyledLink = styled.a<Pick<Props, StyleProps>>`
+    position: relative;
     cursor: pointer;
     text-align: center;
-    line-height: 1;
+    line-height: 1.125;
 
     background: ${color.accentOne};
     border: ${strokeWidth.md}px solid ${color.black};
@@ -38,10 +39,22 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
         css`
             border-top: none;
         `}
-    ${({ disabled }) =>
-        disabled &&
+    ${({ isDisabled }) =>
+        isDisabled &&
         css`
             cursor: not-allowed;
             background: ${color.accentThree};
         `}
+    ${({ isLoading }) =>
+        isLoading &&
+        css`
+            color: transparent;
+        `}
+`
+
+export const LoadingContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -45%);
 `
