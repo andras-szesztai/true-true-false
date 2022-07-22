@@ -6,6 +6,7 @@ const CreateRoom = () => {
         const result = await response.json()
         return result
     }, [])
+    console.log(state)
     if (!state) return <div>Creating room, please wait . . .</div>
     if (state.error) return <div>{state.error.message}</div>
     if (state) return <div>Your room is ready</div>
