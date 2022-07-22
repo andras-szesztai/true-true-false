@@ -26,7 +26,7 @@ export const globalStyles = css`
     }
 
     body {
-        line-height: 1.5;
+        line-height: 1.125;
         -webkit-font-smoothing: antialiased;
     }
 
@@ -54,6 +54,10 @@ export const globalStyles = css`
     h5,
     h6 {
         overflow-wrap: break-word;
+    }
+
+    &::selection {
+        background: ${designTokens.color.accentTwo};
     }
 
     #__next {

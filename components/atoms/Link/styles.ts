@@ -25,7 +25,6 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
     position: relative;
     cursor: pointer;
     text-align: center;
-    line-height: 1.125;
 
     background: ${color.accentOne};
     border: ${strokeWidth.md}px solid ${color.black};
