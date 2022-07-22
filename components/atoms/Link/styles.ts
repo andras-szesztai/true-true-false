@@ -4,7 +4,7 @@ import { designTokens } from 'styles/designTokens'
 
 import { LinkSizes, Props, StyleProps } from './types'
 
-const { color, space, fontSize, strokeWidth } = designTokens
+const { color, space, fontSize, strokeWidth, shadows } = designTokens
 
 const linkStylesMapping = {
     padding: {
@@ -28,6 +28,15 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
 
     background: ${color.accentOne};
     border: ${strokeWidth.md}px solid ${color.black};
+    color: ${color.black};
+    text-decoration: none;
+    z-index: 1;
+
+    &:focus {
+        outline: none;
+        box-shadow: ${shadows.focus};
+        z-index: 0;
+    }
 
     ${({ size }) => css`
         font-size: ${linkStylesMapping.fontSize.desktop[size]};

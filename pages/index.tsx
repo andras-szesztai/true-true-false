@@ -6,7 +6,6 @@ import { JoinRoom } from 'components/molecules/JoinRoom'
 
 // TODO
 // - Add focus styling to link & input
-// - Customize user-select styling
 // - Mobile styling
 
 const Home = () => (

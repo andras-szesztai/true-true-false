@@ -15,6 +15,7 @@ const Link = ({
 }: Props) => (
     <NextLink href={isDisabled ? '' : href}>
         <StyledLink
+            href=""
             size={size}
             noBorderTop={noBorderTop}
             isDisabled={isDisabled}
