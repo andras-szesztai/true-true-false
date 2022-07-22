@@ -4,9 +4,9 @@ import { HomeContentContainer } from 'components/atoms/containers/HomeContentCon
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
-import { useState } from 'react'
 import { designTokens } from 'styles/designTokens'
 import { generateRoomId } from 'utils/roomId'
+import { useState } from 'react'
 
 const JoinRoomContainer = styled.div`
     display: flex;
