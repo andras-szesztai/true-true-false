@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -5,8 +6,6 @@ import { HomePageContainer } from 'components/atoms/containers/HomePageContainer
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { designTokens } from 'styles/designTokens'
-import { generateRoomId } from 'utils/roomId'
-import { useState } from 'react'
 
 const JoinRoomContainer = styled.div`
     display: flex;
@@ -55,7 +54,7 @@ const Home = () => (
         <HomeContentContainer>
             <MainTitle>TrueTrueFalse</MainTitle>
             <Link
-                href={generateRoomId(5)}
+                href="/create-room"
                 text="Create a Room"
                 size={LinkSizes.lg}
             />
