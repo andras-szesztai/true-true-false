@@ -32,5 +32,5 @@ export default async function handler(
     if (result && typeof result !== 'string') {
         return res.status(200).json({ data: result })
     }
-    return res.status(500).json({ error: result || 'Something went wrong' })
+    return res.status(500).json({ error: 'Something went wrong' })
 }

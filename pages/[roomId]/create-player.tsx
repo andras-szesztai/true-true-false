@@ -1,5 +1,9 @@
+import { useRouter } from 'next/router'
+
 const CreatePlayer = () => {
-    console.log(process.env.DATABASE_URL)
+    const router = useRouter()
+    console.log(router.query)
+
     return <div>Create Player</div>
 }
 
