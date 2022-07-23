@@ -23,6 +23,7 @@ const JoinRoom = () => {
         <JoinRoomContainer>
             <OrText>or</OrText>
             <Input
+                value={roomId}
                 maxLength={5}
                 placeholder="Enter Room ID"
                 onChange={(e) => {

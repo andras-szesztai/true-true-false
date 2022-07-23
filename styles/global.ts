@@ -61,6 +61,8 @@ export const globalStyles = css`
     }
 
     #__next {
+        position: relative;
         height: 100%;
+        display: grid;
     }
 `
