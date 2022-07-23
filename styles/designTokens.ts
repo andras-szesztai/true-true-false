@@ -24,6 +24,9 @@ export const designTokens = {
         accentTwo: '#EE7A50',
         accentThree: '#F9DAA8',
     },
+    shadows: {
+        focus: `0 0 0 4px rgba(0, 0, 0, .25)`,
+    },
     fontSize: {
         base: '1rem',
         md: '1.5rem',
