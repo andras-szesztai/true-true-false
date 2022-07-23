@@ -23,7 +23,7 @@ export default async function handler(
             })
             if (!room) {
                 res.status(404).json({
-                    error: 'Could not find room by provided ID',
+                    error: 'Could Not Find Room By Provided ID',
                 })
             } else {
                 return res.status(200).json({ players: room.players })
@@ -31,7 +31,7 @@ export default async function handler(
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({
-                    error: 'Sorry, something went wrong',
+                    error: 'Sorry, Something Went Wrong',
                 })
             }
         }

@@ -1,11 +1,38 @@
 import { useRouter } from 'next/router'
+import { useAsync } from 'react-use'
+
+import { GameContainer } from 'components/atoms/containers/GameContainer'
+import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
+import { Link, LinkSizes } from 'components/atoms/Link'
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { RoomIdResponse } from 'types/apiResponses'
 
 const PlayerGamePage = () => {
     const {
         query: { roomId, playerId },
     } = useRouter()
 
-    // Check if room exists - (also add it at create-player page) - if no room, offer to create one with button
+    // Make it a component? Also add it at create-player page
+    const { value: roomData, loading: roomDataLoading } = useAsync(async () => {
+        const response = await fetch(`/api/room/${roomId}`)
+        const result: RoomIdResponse = await response.json()
+        return result
+    }, [roomId])
+
+    if (!roomDataLoading && roomData && 'error' in roomData) {
+        return (
+            <GameContainer>
+                <HomeContentContainer>
+                    <ScreenMessage text={roomData.error} />
+                    <Link
+                        href="/create-room"
+                        text="Create a Room"
+                        size={LinkSizes.lg}
+                    />
+                </HomeContentContainer>
+            </GameContainer>
+        )
+    }
 
     // Check if room is in lobby stage, if not push into game page 'lobby | fill-in | game | end'
 

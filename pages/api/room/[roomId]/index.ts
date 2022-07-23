@@ -12,18 +12,22 @@ export default async function handler(
                 where: {
                     slug: query.roomId,
                 },
+                select: {
+                    slug: true,
+                    id: true,
+                },
             })
             if (!room) {
                 res.status(404).json({
-                    error: 'Could not find room by provided ID',
+                    error: 'Could Not Find Room By Provided ID',
                 })
             } else {
-                return res.status(200).json({ id: room.slug })
+                return res.status(200).json({ slug: room.slug, id: room.id })
             }
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({
-                    error: 'Sorry, something went wrong',
+                    error: 'Sorry, Something Went Wrong',
                 })
             }
         }

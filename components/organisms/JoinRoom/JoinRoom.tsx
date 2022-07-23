@@ -18,7 +18,7 @@ const JoinRoom = () => {
         }
     }, [roomId])
     const showError = value && 'error' in value ? value.error : ''
-    const showLoading = !(value && 'id' in value)
+    const disableLink = !(value && 'id' in value)
     return (
         <JoinRoomContainer>
             <OrText>or</OrText>
@@ -36,7 +36,7 @@ const JoinRoom = () => {
                 text="Join"
                 size={LinkSizes.md}
                 noBorderTop
-                isDisabled={showLoading}
+                isDisabled={disableLink}
                 isLoading={!!roomId.length && loading}
             />
         </JoinRoomContainer>
