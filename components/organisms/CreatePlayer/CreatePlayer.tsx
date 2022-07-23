@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useClickAway, useLocalStorage, useToggle } from 'react-use'
+import { useClickAway, useKey, useLocalStorage, useToggle } from 'react-use'
 import useSWR from 'swr'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
@@ -31,6 +31,9 @@ const CreatePlayer = ({ roomId }: Props) => {
     const [emoji, setEmoji] = useState<string>(storedEmoji || getRandomEmoji())
 
     const [emojiSelectorIsOpen, setEmojiSelectorIsOpen] = useToggle(false)
+    useKey('Escape', () => {
+        setEmojiSelectorIsOpen(false)
+    })
     const ref = useRef<HTMLDivElement>(null)
     useClickAway(ref, () => {
         if (emojiSelectorIsOpen) {
