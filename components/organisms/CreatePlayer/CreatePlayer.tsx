@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useClickAway, useToggle } from 'react-use'
+import { useClickAway, useLocalStorage, useToggle } from 'react-use'
 import useSWR from 'swr'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
@@ -25,8 +25,10 @@ const Picker = dynamic(
 )
 
 const CreatePlayer = ({ roomId }: Props) => {
-    const [name, setName] = useState('')
-    const [emoji, setEmoji] = useState<string>(getRandomEmoji())
+    const [storedName, setStoredName] = useLocalStorage('name', '')
+    const [storedEmoji, setStoredEmoji] = useLocalStorage('emoji', '')
+    const [name, setName] = useState(storedName || '')
+    const [emoji, setEmoji] = useState<string>(storedEmoji || getRandomEmoji())
 
     const [emojiSelectorIsOpen, setEmojiSelectorIsOpen] = useToggle(false)
     const ref = useRef<HTMLDivElement>(null)
@@ -63,6 +65,8 @@ const CreatePlayer = ({ roomId }: Props) => {
             const result: { id: string } | { error: string } =
                 await response.json()
             if ('id' in result) {
+                setStoredName(name)
+                setStoredEmoji(emoji)
                 router.push(`/${roomId}/${result.id}`)
             } else {
                 throw new Error(result.error)

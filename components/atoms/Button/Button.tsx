@@ -1,6 +1,7 @@
 import SquareLoader from 'react-spinners/SquareLoader'
 
 import { designTokens } from 'styles/designTokens'
+
 import { Props } from './types'
 import { LoadingContainer, StyledButton } from './styles'
 
