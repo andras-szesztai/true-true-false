@@ -36,7 +36,7 @@ const JoinRoom = () => {
                 size={LinkSizes.md}
                 noBorderTop
                 isDisabled={showLoading}
-                isLoading={loading}
+                isLoading={!!roomId.length && loading}
             />
         </JoinRoomContainer>
     )
