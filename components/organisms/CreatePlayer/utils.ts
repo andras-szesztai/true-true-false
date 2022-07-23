@@ -1,5 +1,7 @@
-import { DEFAULT_EMOJIS } from 'constants/defaultEmojis'
 import { random } from 'lodash'
+
+import { DEFAULT_EMOJIS } from 'constants/defaultEmojis'
+
 import { PlayersDataResponse } from './types'
 
 export const getErrorMessage = (
