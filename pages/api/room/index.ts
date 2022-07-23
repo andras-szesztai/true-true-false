@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { generateRoomId } from 'utils/roomId'
 import { prisma } from 'utils/prisma'
 

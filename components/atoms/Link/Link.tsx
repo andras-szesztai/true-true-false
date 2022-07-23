@@ -2,6 +2,7 @@ import NextLink from 'next/link'
 import SquareLoader from 'react-spinners/SquareLoader'
 
 import { designTokens } from 'styles/designTokens'
+
 import { Props } from './types'
 import { LoadingContainer, StyledLink } from './styles'
 
