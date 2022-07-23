@@ -13,10 +13,8 @@ const homeContainerStylesMapping = {
 } as const
 
 const HomeContentContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    justify-items: center;
 
     gap: ${homeContainerStylesMapping.gap.base}px;
 

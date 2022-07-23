@@ -30,6 +30,7 @@ export const StyledInput = styled.input`
     text-align: center;
     line-height: 1;
     background-color: ${color.background};
+    border-radius: 0;
     border: ${strokeWidth.md}px solid ${color.black};
     z-index: 1;
 
