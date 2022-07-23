@@ -6,7 +6,7 @@ const PlayerGamePage = () => {
     } = useRouter()
     return (
         <div>
-            {roomId} & {playerId}
+            Lobby: {roomId} & {playerId}
         </div>
     )
 }

@@ -70,7 +70,7 @@ const CreatePlayer = ({ roomId }: Props) => {
             if ('id' in result) {
                 setStoredName(name)
                 setStoredEmoji(emoji)
-                router.push(`/${roomId}/${result.id}`)
+                router.push(`/${roomId}/lobby/${result.id}`)
             } else {
                 throw new Error(result.error)
             }
