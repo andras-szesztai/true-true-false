@@ -106,11 +106,3 @@ export const InputError = styled.span`
         font-size: ${inputErrorStylesMapping.fontSize[breakPoints.lg]};
     }
 `
-
-export const CharCounter = styled.span`
-    font-size: ${fontSize.base};
-    position: absolute;
-    right: ${space.xxs}px;
-    bottom: ${space['3xs']}px;
-    color: #ee7a50;
-`

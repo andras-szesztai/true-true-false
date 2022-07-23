@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAsync, usePrevious } from 'react-use'
 
 import { Link, LinkSizes } from 'components/atoms/Link'
-import { Input } from 'components/atoms/Input'
+import { Input } from 'components/molecules/Input'
 import { RoomIdResponse } from 'types/apiResponses'
 
 import { JoinRoomContainer, OrText } from './styles'

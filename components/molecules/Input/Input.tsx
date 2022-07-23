@@ -1,4 +1,5 @@
-import { ChartCounter } from '../CharCounter'
+import { ChartCounter } from 'components/atoms/CharCounter'
+
 import { InputContainer, InputError, StyledInput } from './styles'
 import { Props } from './types'
 

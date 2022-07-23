@@ -1,5 +1,6 @@
-import { Input } from 'components/atoms/Input'
 import { useState } from 'react'
+
+import { Input } from 'components/molecules/Input'
 
 import { CreatePlayerContainer } from './styles'
 
