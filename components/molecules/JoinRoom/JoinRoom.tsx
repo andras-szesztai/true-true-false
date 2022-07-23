@@ -5,7 +5,7 @@ import { Link, LinkSizes } from 'components/atoms/Link'
 import { Input } from 'components/atoms/Input'
 import { RoomIdResponse } from 'types/apiResponses'
 
-import { JoinRoomContainer } from './styles'
+import { JoinRoomContainer, OrText } from './styles'
 
 const JoinRoom = () => {
     const [roomId, setRoomId] = useState('')
@@ -21,6 +21,7 @@ const JoinRoom = () => {
     const showLoading = !(value && 'id' in value)
     return (
         <JoinRoomContainer>
+            <OrText>or</OrText>
             <Input
                 maxLength={5}
                 placeholder="Enter Room ID"

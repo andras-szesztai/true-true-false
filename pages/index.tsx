@@ -5,7 +5,6 @@ import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/molecules/JoinRoom'
 
 // TODO
-// - Add focus styling to link & input
 // - Mobile styling
 
 const Home = () => (

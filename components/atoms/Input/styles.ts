@@ -12,6 +12,7 @@ export const StyledInput = styled.input`
     background-color: ${color.background};
     border: ${strokeWidth.md}px solid ${color.black};
     z-index: 1;
+    width: 468px;
 
     ::placeholder {
         color: ${color.black};

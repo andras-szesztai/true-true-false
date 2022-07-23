@@ -74,6 +74,12 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
         css`
             cursor: not-allowed;
             background: ${color.accentThree};
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+                z-index: 0;
+            }
         `}
     ${({ isLoading }) =>
         isLoading &&
