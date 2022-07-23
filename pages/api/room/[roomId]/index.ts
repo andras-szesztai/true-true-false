@@ -22,7 +22,7 @@ export default async function handler(
             }
         } catch (err) {
             if (err instanceof Error) {
-                return res.status(404).json({
+                return res.status(500).json({
                     error: 'Sorry, something went wrong',
                 })
             }

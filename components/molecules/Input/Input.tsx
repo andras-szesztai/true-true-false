@@ -18,8 +18,8 @@ const Input = ({
             onChange={onChange}
             value={value}
         />
-        {error && <InputError>{error}</InputError>}
         <ChartCounter value={maxLength - value.length} />
+        {error && <InputError>{error}</InputError>}
     </InputContainer>
 )
 
