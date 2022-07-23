@@ -21,7 +21,7 @@ export const globalStyles = css`
 
     html,
     body {
-        height: 100%;
+        height: 100vh;
         background-color: ${designTokens.color.background};
     }
 

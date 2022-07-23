@@ -2,17 +2,36 @@ import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
 
-const { shadows, color, fontSize, space, strokeWidth } = designTokens
+const { shadows, color, fontSize, space, strokeWidth, breakPoints } =
+    designTokens
+
+const inputStylesMapping = {
+    padding: {
+        base: `${space.base}px ${space.lg}px`,
+        [breakPoints.sm]: `${space.base}px ${space.xl}px`,
+        [breakPoints.md]: `${space.md}px ${space.xxl}px`,
+        [breakPoints.lg]: `${space.md}px ${space.xxl}px`,
+    },
+    width: {
+        base: '236px',
+        [breakPoints.sm]: '268px',
+        [breakPoints.md]: '356px',
+        [breakPoints.lg]: '468px',
+    },
+    fontSize: {
+        base: fontSize.md,
+        [breakPoints.sm]: fontSize.md,
+        [breakPoints.md]: fontSize.lg,
+        [breakPoints.lg]: fontSize.xl,
+    },
+} as const
 
 export const StyledInput = styled.input`
     text-align: center;
     line-height: 1;
-    padding: ${space.md}px ${space.xxl}px;
-    font-size: ${fontSize.xl};
     background-color: ${color.background};
     border: ${strokeWidth.md}px solid ${color.black};
     z-index: 1;
-    width: 468px;
 
     ::placeholder {
         color: ${color.black};
@@ -22,6 +41,28 @@ export const StyledInput = styled.input`
         outline: none;
         box-shadow: ${shadows.focus};
         z-index: 0;
+    }
+
+    padding: ${inputStylesMapping.padding.base};
+    width: ${inputStylesMapping.width.base};
+    font-size: ${inputStylesMapping.fontSize.base};
+
+    @media only screen and (min-width: ${breakPoints.sm}px) {
+        padding: ${inputStylesMapping.padding[breakPoints.sm]};
+        width: ${inputStylesMapping.width[breakPoints.sm]};
+        font-size: ${inputStylesMapping.fontSize[breakPoints.sm]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        padding: ${inputStylesMapping.padding[breakPoints.md]};
+        width: ${inputStylesMapping.width[breakPoints.md]};
+        font-size: ${inputStylesMapping.fontSize[breakPoints.md]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.lg}px) {
+        padding: ${inputStylesMapping.padding[breakPoints.lg]};
+        width: ${inputStylesMapping.width[breakPoints.lg]};
+        font-size: ${inputStylesMapping.fontSize[breakPoints.lg]};
     }
 `
 
@@ -35,10 +76,11 @@ export const InputError = styled.span`
     bottom: 0px;
     left: 0px;
     background: ${color.accentTwo};
-    font-size: ${fontSize.base};
     width: 100%;
-    height: ${space.md};
     text-align: center;
     border: ${strokeWidth.md}px solid ${color.black};
     border-top: none;
+
+    height: ${space.md};
+    font-size: ${fontSize.base};
 `

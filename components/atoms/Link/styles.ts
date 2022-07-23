@@ -28,15 +28,15 @@ const linkStylesMapping = {
     },
     fontSize: {
         base: {
-            [LinkSizes.md]: fontSize.md,
+            [LinkSizes.md]: fontSize.base,
             [LinkSizes.lg]: fontSize.md,
         },
         [breakPoints.sm]: {
-            [LinkSizes.md]: fontSize.md,
+            [LinkSizes.md]: fontSize.base,
             [LinkSizes.lg]: fontSize.md,
         },
         [breakPoints.md]: {
-            [LinkSizes.md]: fontSize.lg,
+            [LinkSizes.md]: fontSize.md,
             [LinkSizes.lg]: fontSize.lg,
         },
         [breakPoints.lg]: {

@@ -3,11 +3,11 @@ import { designTokens } from 'styles/designTokens'
 
 const { fontSize, breakPoints } = designTokens
 
-const MainTitleStylesMapping = {
+const mainTitleStylesMapping = {
     fontSize: {
         base: fontSize.lg,
         [breakPoints.sm]: fontSize.xl,
-        [breakPoints.md]: fontSize.xl,
+        [breakPoints.md]: fontSize.xxl,
         [breakPoints.lg]: fontSize.xxl,
     },
 } as const
@@ -15,18 +15,18 @@ const MainTitleStylesMapping = {
 const MainTitle = styled.h1`
     text-align: center;
 
-    font-size: ${MainTitleStylesMapping.fontSize.base};
+    font-size: ${mainTitleStylesMapping.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        font-size: ${MainTitleStylesMapping.fontSize[breakPoints.sm]};
+        font-size: ${mainTitleStylesMapping.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${MainTitleStylesMapping.fontSize[breakPoints.md]};
+        font-size: ${mainTitleStylesMapping.fontSize[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${MainTitleStylesMapping.fontSize[breakPoints.lg]};
+        font-size: ${mainTitleStylesMapping.fontSize[breakPoints.lg]};
     }
 `
 
