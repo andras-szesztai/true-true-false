@@ -5,7 +5,7 @@ import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
-// - Mobile styling
+// - Thumbnail for sharing url
 
 const Home = () => (
     <HomePageContainer>
