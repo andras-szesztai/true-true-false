@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { designTokens } from 'styles/designTokens'
 
-const { strokeWidth, color, fontSize, space } = designTokens
+const { strokeWidth, color, fontSize, space, shadows } = designTokens
 
 export const CreatePlayerContainer = styled.div`
     display: flex;
@@ -26,6 +26,13 @@ export const EmojiSelectorButton = styled.button`
     position: relative;
     font-size: ${fontSize.xl};
     padding: ${space.base}px ${space.lg}px;
+    z-index: 2;
+
+    &:focus {
+        outline: none;
+        box-shadow: ${shadows.focus};
+        z-index: 0;
+    }
 `
 
 export const EmojiSelectorContainer = styled.div`

@@ -1,13 +1,11 @@
 import { useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { useClickAway, useToggle } from 'react-use'
 import useSWR from 'swr'
-import { Player } from '@prisma/client'
-import random from 'lodash/random'
 
+import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
-import { Link, LinkSizes } from 'components/atoms/Link'
-import { DEFAULT_EMOJIS } from 'constants/defaultEmojis'
 
 import {
     ButtonContainer,
@@ -16,7 +14,8 @@ import {
     EmojiSelectorContainer,
     InputContainer,
 } from './styles'
-import { Props } from './types'
+import { PlayersDataResponse, Props } from './types'
+import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
 
 const Picker = dynamic(
     () => {
@@ -25,13 +24,9 @@ const Picker = dynamic(
     { ssr: false }
 )
 
-const randomEmoji = DEFAULT_EMOJIS[random(0, DEFAULT_EMOJIS.length - 1)]
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
 const CreatePlayer = ({ roomId }: Props) => {
-    const [playerName, setPlayerName] = useState('')
-    const [emoji, setEmoji] = useState<string>(randomEmoji)
+    const [name, setName] = useState('')
+    const [emoji, setEmoji] = useState<string>(getRandomEmoji())
 
     const [emojiSelectorIsOpen, setEmojiSelectorIsOpen] = useToggle(false)
     const ref = useRef<HTMLDivElement>(null)
@@ -41,18 +36,43 @@ const CreatePlayer = ({ roomId }: Props) => {
         }
     })
 
-    const { data } = useSWR<
-        { players: Pick<Player, 'name'>[] } | { error: string }
-    >(`/api/room/${roomId}/players`, fetcher)
+    const { data: playersData } = useSWR<PlayersDataResponse>(
+        `/api/room/${roomId}/players`,
+        playersFetcher
+    )
+    const errorMessage = getErrorMessage(name, emoji, playersData)
 
-    const getErrorMessage = () => {
-        if (data) {
-            if ('error' in data) {
-                return data.error
+    const router = useRouter()
+    const [isLoading, setIsLoading] = useToggle(false)
+    const [createPlayerError, setCreatePlayerError] = useState('')
+    const handleCreatePlayer = async () => {
+        try {
+            setIsLoading()
+            const response = await fetch(`/api/room/${roomId}/player`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    emoji,
+                    name,
+                    roomId,
+                }),
+            })
+            const result: { id: string } | { error: string } =
+                await response.json()
+            if ('id' in result) {
+                router.push(`/${roomId}/${result.id}`)
+            } else {
+                throw new Error(result.error)
             }
-            return data?.players.some((d) => d.name === playerName)
-                ? 'Sorry, Name & Emoji Combination Is Already Taken'
-                : ''
+        } catch (err) {
+            if (err instanceof Error) {
+                setCreatePlayerError(err.message)
+            }
+        } finally {
+            setIsLoading()
         }
     }
 
@@ -77,19 +97,19 @@ const CreatePlayer = ({ roomId }: Props) => {
                     maxLength={10}
                     placeholder="Player's Name"
                     onChange={(e) => {
-                        setPlayerName(e.target.value)
+                        setName(e.target.value)
                     }}
-                    value={playerName}
-                    error={getErrorMessage()}
+                    value={name}
+                    error={errorMessage || createPlayerError}
                 />
             </InputContainer>
-            <Link
-                href={`${roomId}/create-player`}
-                text="Join"
-                size={LinkSizes.md}
+            <Button
+                text="Enter Lobby"
+                onClick={handleCreatePlayer}
+                size={ButtonSizes.md}
                 noBorderTop
-                // isDisabled={showLoading}
-                // isLoading={!!roomId.length && loading}
+                isDisabled={!name.length || !!errorMessage || isLoading}
+                isLoading={isLoading}
             />
         </CreatePlayerContainer>
     )

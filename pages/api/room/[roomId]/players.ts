@@ -16,6 +16,7 @@ export default async function handler(
                     players: {
                         select: {
                             name: true,
+                            emoji: true,
                         },
                     },
                 },
