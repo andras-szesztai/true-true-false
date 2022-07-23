@@ -22,11 +22,13 @@ const CreateRoom = () => {
     }, [value, router])
 
     if (loading)
-        return <ScreenMessage text="One second, we are creating your room..." />
+        return (
+            <ScreenMessage text="🧹🧽 One second, we are preparing your room..." />
+        )
 
     if (error || (value && 'error' in value))
         return (
-            <ScreenMessage text="Sorry, something went wring while creating your room. Please try again!" />
+            <ScreenMessage text="💔 Sorry, something went wring while creating your room. Please try again!" />
         )
 }
 
