@@ -54,6 +54,7 @@ export const globalStyles = css`
     h5,
     h6 {
         overflow-wrap: break-word;
+        font-weight: 400;
     }
 
     &::selection {
@@ -61,6 +62,8 @@ export const globalStyles = css`
     }
 
     #__next {
+        position: relative;
         height: 100%;
+        display: grid;
     }
 `

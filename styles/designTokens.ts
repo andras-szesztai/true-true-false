@@ -1,5 +1,6 @@
 export const designTokens = {
     space: {
+        '3xs': 2,
         xxs: 4,
         xs: 8,
         sm: 12,

@@ -1,7 +1,8 @@
-import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useAsync } from 'react-use'
+
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomIdResponse } from 'types/apiResponses'
 
 const CreateRoom = () => {

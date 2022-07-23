@@ -2,7 +2,7 @@ import { HomeContentContainer } from 'components/atoms/containers/HomeContentCon
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
-import { JoinRoom } from 'components/molecules/JoinRoom'
+import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
 // - Mobile styling

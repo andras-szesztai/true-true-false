@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
 
-import { LinkSizes, Props, StyleProps } from './types'
+import { ButtonSizes, Props, StyleProps } from './types'
 
 const { color, space, fontSize, strokeWidth, shadows, breakPoints } =
     designTokens
@@ -11,43 +11,43 @@ const { color, space, fontSize, strokeWidth, shadows, breakPoints } =
 const linkStylesMapping = {
     padding: {
         base: {
-            [LinkSizes.md]: `${space.sm}px ${space.md}px;`,
-            [LinkSizes.lg]: `${space.base}px ${space.lg}px;`,
+            [ButtonSizes.md]: `${space.sm}px ${space.md}px;`,
+            [ButtonSizes.lg]: `${space.base}px ${space.lg}px;`,
         },
         [breakPoints.sm]: {
-            [LinkSizes.md]: `${space.sm}px ${space.md}px;`,
-            [LinkSizes.lg]: `${space.base}px ${space.xl}px;`,
+            [ButtonSizes.md]: `${space.sm}px ${space.md}px;`,
+            [ButtonSizes.lg]: `${space.base}px ${space.xl}px;`,
         },
         [breakPoints.md]: {
-            [LinkSizes.md]: `${space.base}px ${space.lg}px;`,
-            [LinkSizes.lg]: `${space.md}px ${space.xxl}px;`,
+            [ButtonSizes.md]: `${space.base}px ${space.lg}px;`,
+            [ButtonSizes.lg]: `${space.md}px ${space.xxl}px;`,
         },
         [breakPoints.lg]: {
-            [LinkSizes.md]: `${space.base}px ${space.lg}px;`,
-            [LinkSizes.lg]: `${space.md}px ${space.xxl}px;`,
+            [ButtonSizes.md]: `${space.base}px ${space.lg}px;`,
+            [ButtonSizes.lg]: `${space.md}px ${space.xxl}px;`,
         },
     },
     fontSize: {
         base: {
-            [LinkSizes.md]: fontSize.base,
-            [LinkSizes.lg]: fontSize.md,
+            [ButtonSizes.md]: fontSize.base,
+            [ButtonSizes.lg]: fontSize.md,
         },
         [breakPoints.sm]: {
-            [LinkSizes.md]: fontSize.base,
-            [LinkSizes.lg]: fontSize.md,
+            [ButtonSizes.md]: fontSize.base,
+            [ButtonSizes.lg]: fontSize.md,
         },
         [breakPoints.md]: {
-            [LinkSizes.md]: fontSize.md,
-            [LinkSizes.lg]: fontSize.lg,
+            [ButtonSizes.md]: fontSize.md,
+            [ButtonSizes.lg]: fontSize.lg,
         },
         [breakPoints.lg]: {
-            [LinkSizes.md]: fontSize.lg,
-            [LinkSizes.lg]: fontSize.xl,
+            [ButtonSizes.md]: fontSize.lg,
+            [ButtonSizes.lg]: fontSize.xl,
         },
     },
 } as const
 
-export const StyledLink = styled.a<Pick<Props, StyleProps>>`
+export const StyledButton = styled.button<Pick<Props, StyleProps>>`
     position: relative;
     cursor: pointer;
     text-align: center;

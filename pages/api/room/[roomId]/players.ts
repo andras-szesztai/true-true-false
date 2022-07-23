@@ -5,12 +5,20 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { method, query } = req
-    if (method === 'GET' && query.roomId && typeof query.roomId === 'string') {
+    const { query } = req
+    if (query.roomId && typeof query.roomId === 'string') {
         try {
             const room = await prisma.room.findUnique({
                 where: {
                     slug: query.roomId,
+                },
+                select: {
+                    players: {
+                        select: {
+                            name: true,
+                            emoji: true,
+                        },
+                    },
                 },
             })
             if (!room) {
@@ -18,11 +26,11 @@ export default async function handler(
                     error: 'Could not find room by provided ID',
                 })
             } else {
-                return res.status(200).json({ id: room.slug })
+                return res.status(200).json({ players: room.players })
             }
         } catch (err) {
             if (err instanceof Error) {
-                return res.status(404).json({
+                return res.status(500).json({
                     error: 'Sorry, something went wrong',
                 })
             }
