@@ -28,6 +28,8 @@ export const designTokens = {
         focus: `0 0 0 4px rgba(0, 0, 0, .25)`,
     },
     fontSize: {
+        xs: '0.5rem',
+        sm: '0.75rem',
         base: '1rem',
         md: '1.5rem',
         lg: '2rem',

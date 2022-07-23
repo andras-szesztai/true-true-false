@@ -26,7 +26,7 @@ const Link = ({
                 <SquareLoader
                     color={designTokens.color.black}
                     loading={isLoading}
-                    size={32}
+                    size={24}
                 />
             </LoadingContainer>
         </StyledLink>

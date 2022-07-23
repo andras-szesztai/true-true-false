@@ -12,8 +12,8 @@ export const JoinRoomContainer = styled.div`
 const orTextStylesMapping = {
     fontSize: {
         base: fontSize.base,
-        [breakPoints.sm]: fontSize.md,
-        [breakPoints.md]: fontSize.lg,
+        [breakPoints.sm]: fontSize.base,
+        [breakPoints.md]: fontSize.md,
         [breakPoints.lg]: fontSize.lg,
     },
 } as const

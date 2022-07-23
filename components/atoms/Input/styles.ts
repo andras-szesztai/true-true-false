@@ -71,6 +71,15 @@ export const InputContainer = styled.div`
     z-index: 1;
 `
 
+const inputErrorStylesMapping = {
+    fontSize: {
+        base: fontSize.sm,
+        [breakPoints.sm]: fontSize.sm,
+        [breakPoints.md]: fontSize.base,
+        [breakPoints.lg]: fontSize.base,
+    },
+} as const
+
 export const InputError = styled.span`
     position: absolute;
     bottom: 0px;
@@ -81,6 +90,18 @@ export const InputError = styled.span`
     border: ${strokeWidth.md}px solid ${color.black};
     border-top: none;
 
-    height: ${space.md};
     font-size: ${fontSize.base};
+    font-size: ${inputErrorStylesMapping.fontSize.base};
+
+    @media only screen and (min-width: ${breakPoints.sm}px) {
+        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.sm]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.md]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.lg}px) {
+        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.lg]};
+    }
 `
