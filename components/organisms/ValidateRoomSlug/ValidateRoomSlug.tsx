@@ -9,6 +9,7 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 
 import { designTokens } from 'styles/designTokens'
 import useSWR from 'swr'
+import { GENERAL_ERROR } from 'constants/messages'
 
 const { color, space } = designTokens
 
@@ -33,13 +34,9 @@ const ValidateRoomSlug: FC<{
                 </HomeContentContainer>
             )
         }
-        if ('slug' in roomData) {
-            return children(roomData)
-        }
+        if ('slug' in roomData) return children(roomData)
     }
-    if (error) {
-        return <ScreenMessage text="Sorry, Something Went Wrong" />
-    }
+    if (error) return <ScreenMessage text={GENERAL_ERROR} />
     return <SquareLoader color={color.black} loading size={space.lg} />
 }
 

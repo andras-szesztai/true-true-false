@@ -19,19 +19,14 @@ const ValidatePlayerSlug: FC<{
         `/api/room/${roomSlug}/player/${playerSlug}`,
         (url: string) => fetch(url).then((res) => res.json())
     )
-
     const router = useRouter()
     useEffect(() => {
         if (playerData && 'error' in playerData) {
             router.push(`/${roomSlug}/create-player`)
         }
     })
-    if (playerData && 'slug' in playerData) {
-        return children(playerData)
-    }
-    if (error) {
-        return <ScreenMessage text={GENERAL_ERROR} />
-    }
+    if (playerData && 'slug' in playerData) return children(playerData)
+    if (error) return <ScreenMessage text={GENERAL_ERROR} />
     return <SquareLoader color={color.black} loading size={space.lg} />
 }
 

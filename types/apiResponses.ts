@@ -24,8 +24,8 @@ export type GetRoomResponse = GetRoomResponseSuccess | ErrorResponse
 export type GetPlayersResponseSuccess = Pick<
     Player,
     keyof typeof GET_PLAYERS_REQUEST_FIELDS
->
-export type GetPlayersResponse = GetPlayersResponseSuccess[] | ErrorResponse
+>[]
+export type GetPlayersResponse = GetPlayersResponseSuccess | ErrorResponse
 
 export type PostPlayerResponseSuccess = Pick<
     Player,
