@@ -1,15 +1,19 @@
 import React, { FC, ReactElement } from 'react'
 import { useAsync } from 'react-use'
-import { GetRoomResponse } from 'types/apiResponses'
-import { Room } from '@prisma/client'
+import { GetRoomResponse, GetRoomResponseSuccess } from 'types/apiResponses'
+import { SquareLoader } from 'react-spinners'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 
+import { designTokens } from 'styles/designTokens'
+
+const { color, space } = designTokens
+
 const ValidateRoomSlug: FC<{
     roomSlug: string | string[]
-    children(data: Pick<Room, 'slug' | 'id'>): ReactElement
+    children(data: GetRoomResponseSuccess): ReactElement
 }> = ({ roomSlug, children }) => {
     const { value: roomData, loading: roomDataLoading } = useAsync(async () => {
         const response = await fetch(`/api/room/${roomSlug}`)
@@ -32,7 +36,7 @@ const ValidateRoomSlug: FC<{
     if (roomData && 'slug' in roomData) {
         return children(roomData)
     }
-    return null
+    return <SquareLoader color={color.black} loading size={space.lg} />
 }
 
 export default ValidateRoomSlug

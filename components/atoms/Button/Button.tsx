@@ -5,6 +5,8 @@ import { designTokens } from 'styles/designTokens'
 import { Props } from './types'
 import { LoadingContainer, StyledButton } from './styles'
 
+const { color, space } = designTokens
+
 const Button = ({
     onClick,
     text,
@@ -23,9 +25,9 @@ const Button = ({
         {text}
         <LoadingContainer>
             <SquareLoader
-                color={designTokens.color.black}
                 loading={isLoading}
-                size={24}
+                color={color.black}
+                size={space.md}
             />
         </LoadingContainer>
     </StyledButton>

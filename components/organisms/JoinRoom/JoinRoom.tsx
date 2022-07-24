@@ -32,7 +32,7 @@ const JoinRoom = () => {
                 error={showError}
             />
             <Link
-                href={`${roomSlug}/create-player`}
+                href={`/${roomSlug}/create-player`}
                 text="Join"
                 size={LinkSizes.md}
                 noBorderTop
