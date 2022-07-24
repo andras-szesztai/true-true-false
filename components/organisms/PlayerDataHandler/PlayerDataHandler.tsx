@@ -2,12 +2,13 @@ import { FC, ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
-import { useLifecycles } from 'react-use'
+import { useMount } from 'react-use'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
+import { handleConnection } from './utils'
 
 const { color, space } = designTokens
 
@@ -26,19 +27,9 @@ const PlayerDataHandler: FC<{
             router.push(`/${roomSlug}/create-player`)
         }
     })
-    useLifecycles(
-        () => {
-            fetch(`/api/room/${roomSlug}/player/${playerSlug}/connect`)
-        },
-        () => {
-            fetch(`/api/room/${roomSlug}/player/${playerSlug}/disconnect`)
-        }
-    )
-    if (process.browser) {
-        window.onbeforeunload = () => {
-            fetch(`/api/room/${roomSlug}/player/${playerSlug}/disconnect`)
-        }
-    }
+    useMount(() => {
+        handleConnection(roomSlug, playerSlug)
+    })
     if (playerData && 'slug' in playerData) return children(playerData)
     if (error) return <ScreenMessage text={GENERAL_ERROR} />
     return <SquareLoader color={color.black} loading size={space.lg} />
