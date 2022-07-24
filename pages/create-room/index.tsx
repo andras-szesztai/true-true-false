@@ -24,12 +24,12 @@ const CreateRoom = () => {
 
     if (loading)
         return (
-            <ScreenMessage text="🧹🧽 One second, we are preparing your room..." />
+            <ScreenMessage text="🧹🧽 One Second, We Are Preparing Your Room..." />
         )
 
     if (error || (value && 'error' in value))
         return (
-            <ScreenMessage text="💔 Sorry, something went wring while creating your room. Please try again!" />
+            <ScreenMessage text="💔 Sorry, Something Went Wrong While Creating Your Room. Please Try Again!" />
         )
 }
 

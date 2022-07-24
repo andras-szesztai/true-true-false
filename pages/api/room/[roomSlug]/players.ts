@@ -1,3 +1,4 @@
+import { GET_PLAYERS_REQUEST_FIELDS } from 'constants/requests'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from 'utils/prisma'
 
@@ -14,10 +15,7 @@ export default async function handler(
                 },
                 select: {
                     players: {
-                        select: {
-                            name: true,
-                            emoji: true,
-                        },
+                        select: GET_PLAYERS_REQUEST_FIELDS,
                     },
                 },
             })
@@ -26,7 +24,7 @@ export default async function handler(
                     error: 'Could Not Find Room By Provided ID',
                 })
             } else {
-                return res.status(200).json({ players: room.players })
+                return res.status(200).json(room.players)
             }
         } catch (err) {
             if (err instanceof Error) {

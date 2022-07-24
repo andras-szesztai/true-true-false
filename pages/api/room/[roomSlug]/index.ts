@@ -1,25 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+
+import { GET_ROOM_REQUEST_FIELDS } from 'constants/requests'
 import { prisma } from 'utils/prisma'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { method, query } = req
-    if (
-        method === 'GET' &&
-        query.roomSlug &&
-        typeof query.roomSlug === 'string'
-    ) {
+    const { query } = req
+
+    if (query.roomSlug && typeof query.roomSlug === 'string') {
         try {
             const room = await prisma.room.findUnique({
                 where: {
                     slug: query.roomSlug,
                 },
-                select: {
-                    slug: true,
-                    id: true,
-                },
+                select: GET_ROOM_REQUEST_FIELDS,
             })
             if (!room) {
                 res.status(404).json({

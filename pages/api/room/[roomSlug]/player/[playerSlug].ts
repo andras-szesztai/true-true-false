@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { GET_PLAYER_REQUEST_FIELD } from 'constants/requests'
 import { prisma } from 'utils/prisma'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { method, query } = req
-
+    const { query } = req
     if (
-        method === 'GET' &&
         query.roomSlug &&
         typeof query.roomSlug === 'string' &&
         query.playerSlug &&
@@ -21,32 +20,25 @@ export default async function handler(
                     slug: query.roomSlug,
                 },
                 select: {
-                    id: true,
+                    players: {
+                        select: GET_PLAYER_REQUEST_FIELD,
+                    },
                 },
             })
             if (!room) {
-                res.status(404).json({
+                return res.status(404).json({
                     error: 'Could Not Find Room By Provided Room Slug',
                 })
             } else {
-                const player = await prisma.player.findFirst({
-                    where: {
-                        roomId: room.id,
-                        slug: query.playerSlug,
-                    },
-                    select: {
-                        id: true,
-                        slug: true,
-                    },
-                })
-                if (!player) {
-                    res.status(404).json({
+                const currPlayer = room.players.find(
+                    (d) => d.slug === query.playerSlug
+                )
+                if (!currPlayer) {
+                    return res.status(404).json({
                         error: 'Could Not Find Player By Provided Player Slug',
                     })
                 } else {
-                    return res
-                        .status(200)
-                        .json({ slug: player.slug, id: player.id })
+                    return res.status(200).json(currPlayer)
                 }
             }
         } catch (err) {

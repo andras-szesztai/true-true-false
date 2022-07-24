@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { RoomStage } from '@prisma/client'
 
 import { generateSlug } from 'utils/slug'
 import { prisma } from 'utils/prisma'
-import { RoomStage } from '@prisma/client'
+import { POST_ROOM_REQUEST_FIELDS } from 'constants/requests'
 
 const DUPLICATE_ERROR = 'Unique constraint failed on the fields: (`slug`)'
 
@@ -14,6 +15,7 @@ const createRoom = async () => {
                 slug,
                 stage: RoomStage.LOBBY,
             },
+            select: POST_ROOM_REQUEST_FIELDS,
         })
         return room
     } catch (err) {

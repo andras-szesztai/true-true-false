@@ -7,7 +7,7 @@ import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
-import { CreatePlayerResponse } from 'types/apiResponses'
+import { GetPlayersResponse, PostPlayerResponse } from 'types/apiResponses'
 
 import {
     ButtonContainer,
@@ -16,7 +16,7 @@ import {
     EmojiSelectorContainer,
     InputContainer,
 } from './styles'
-import { PlayersDataResponse, Props } from './types'
+import { Props } from './types'
 import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
 
 const Picker = dynamic(
@@ -43,7 +43,7 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
         }
     })
 
-    const { data: playersData } = useSWR<PlayersDataResponse>(
+    const { data: playersData } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
         playersFetcher
     )
@@ -68,11 +68,11 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                     role: isAdmin ? Role.ADMIN : Role.USER,
                 }),
             })
-            const result: CreatePlayerResponse = await response.json()
+            const result: PostPlayerResponse = await response.json()
             if ('slug' in result) {
                 setStoredName(name)
                 setStoredEmoji(emoji)
-                router.push(`/${roomSlug}/lobby/${result.slug}`)
+                router.push(`/${roomSlug}/game/${result.slug}`)
             } else {
                 throw new Error(result.error)
             }

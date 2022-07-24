@@ -1,19 +1,18 @@
 import { random } from 'lodash'
 
 import { DEFAULT_EMOJIS } from 'constants/defaultEmojis'
-
-import { PlayersDataResponse } from './types'
+import { GetPlayersResponse } from 'types/apiResponses'
 
 export const getErrorMessage = (
     playerName: string,
     emoji: string,
-    playersData?: PlayersDataResponse
+    playersData?: GetPlayersResponse
 ) => {
     if (playersData) {
         if ('error' in playersData) {
             return playersData.error
         }
-        return playersData?.players.some(
+        return playersData?.some(
             (d) => d.name === playerName && d.emoji === emoji
         )
             ? 'Sorry, Name & Emoji Combination Is Already Taken'
