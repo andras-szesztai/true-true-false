@@ -16,7 +16,7 @@ export default async function handler(
                     slug: query.playerSlug,
                 },
                 data: {
-                    isActive: true,
+                    isActive: query.status === 'connect',
                 },
                 select: GET_PLAYER_REQUEST_FIELD,
             })
