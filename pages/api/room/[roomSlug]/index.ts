@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { GET_ROOM_REQUEST_FIELDS } from 'constants/requests'
 import { prisma } from 'utils/prisma'
+import { GET_ROOM_REQUEST_FIELDS } from 'constants/requests'
+import { GENERAL_ERROR } from 'constants/messages'
 
 export default async function handler(
     req: NextApiRequest,
@@ -27,7 +28,7 @@ export default async function handler(
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({
-                    error: 'Sorry, Something Went Wrong',
+                    error: GENERAL_ERROR,
                 })
             }
         }

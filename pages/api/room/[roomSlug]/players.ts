@@ -1,6 +1,8 @@
-import { GET_PLAYERS_REQUEST_FIELDS } from 'constants/requests'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { prisma } from 'utils/prisma'
+import { GENERAL_ERROR } from 'constants/messages'
+import { GET_PLAYERS_REQUEST_FIELDS } from 'constants/requests'
 
 export default async function handler(
     req: NextApiRequest,
@@ -29,7 +31,7 @@ export default async function handler(
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({
-                    error: 'Sorry, Something Went Wrong',
+                    error: GENERAL_ERROR,
                 })
             }
         }
