@@ -6,11 +6,15 @@ export default async function handler(
     res: NextApiResponse
 ) {
     const { method, query } = req
-    if (method === 'GET' && query.roomId && typeof query.roomId === 'string') {
+    if (
+        method === 'GET' &&
+        query.roomSlug &&
+        typeof query.roomSlug === 'string'
+    ) {
         try {
             const room = await prisma.room.findUnique({
                 where: {
-                    slug: query.roomId,
+                    slug: query.roomSlug,
                 },
                 select: {
                     slug: true,

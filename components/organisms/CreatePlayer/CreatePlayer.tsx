@@ -7,6 +7,7 @@ import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
+import { CreatePlayerResponse } from 'types/apiResponses'
 
 import {
     ButtonContainer,
@@ -25,7 +26,7 @@ const Picker = dynamic(
     { ssr: false }
 )
 
-const CreatePlayer = ({ roomId, isAdmin }: Props) => {
+const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
     const [storedName, setStoredName] = useLocalStorage('name', '')
     const [storedEmoji, setStoredEmoji] = useLocalStorage('emoji', '')
     const [name, setName] = useState(storedName || '')
@@ -43,7 +44,7 @@ const CreatePlayer = ({ roomId, isAdmin }: Props) => {
     })
 
     const { data: playersData } = useSWR<PlayersDataResponse>(
-        `/api/room/${roomId}/players`,
+        `/api/room/${roomSlug}/players`,
         playersFetcher
     )
     const errorMessage = getErrorMessage(name, emoji, playersData)
@@ -54,7 +55,7 @@ const CreatePlayer = ({ roomId, isAdmin }: Props) => {
     const handleCreatePlayer = async () => {
         try {
             setIsLoading()
-            const response = await fetch(`/api/room/${roomId}/player`, {
+            const response = await fetch(`/api/room/${roomSlug}/player`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -63,16 +64,15 @@ const CreatePlayer = ({ roomId, isAdmin }: Props) => {
                 body: JSON.stringify({
                     emoji,
                     name,
-                    roomId,
+                    roomSlug,
                     role: isAdmin ? Role.ADMIN : Role.USER,
                 }),
             })
-            const result: { id: string } | { error: string } =
-                await response.json()
-            if ('id' in result) {
+            const result: CreatePlayerResponse = await response.json()
+            if ('slug' in result) {
                 setStoredName(name)
                 setStoredEmoji(emoji)
-                router.push(`/${roomId}/lobby/${result.id}`)
+                router.push(`/${roomSlug}/lobby/${result.slug}`)
             } else {
                 throw new Error(result.error)
             }

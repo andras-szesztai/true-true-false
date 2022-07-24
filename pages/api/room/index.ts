@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { generateSlug } from 'utils/roomId'
+import { generateSlug } from 'utils/slug'
 import { prisma } from 'utils/prisma'
 import { RoomStage } from '@prisma/client'
 
@@ -19,7 +19,7 @@ const createRoom = async () => {
     } catch (err) {
         if (err instanceof Error) {
             if (err.message.includes(DUPLICATE_ERROR)) {
-                createRoom() // Regenerate slug
+                createRoom()
             } else {
                 return err.message
             }

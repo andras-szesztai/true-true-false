@@ -2,11 +2,11 @@ import { useRouter } from 'next/router'
 
 const PlayerGamePage = () => {
     const {
-        query: { roomId, playerId },
+        query: { roomSlug, playerSlug },
     } = useRouter()
     return (
         <div>
-            Game: {roomId} & {playerId}
+            Game: {roomSlug} & {playerSlug}
         </div>
     )
 }

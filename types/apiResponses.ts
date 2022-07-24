@@ -1,3 +1,8 @@
-import { Room } from '@prisma/client'
+import { Player, Room } from '@prisma/client'
 
-export type RoomIdResponse = Pick<Room, 'slug' | 'id'> | { error: string }
+export type GetRoomResponse = Pick<Room, 'slug' | 'id'> | { error: string }
+export type PostRoomResponse = Pick<Room, 'slug'> | { error: string }
+
+export type CreatePlayerResponse =
+    | Pick<Player, 'id' | 'slug'>
+    | { error: string }

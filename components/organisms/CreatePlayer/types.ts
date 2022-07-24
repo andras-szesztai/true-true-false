@@ -1,7 +1,7 @@
 import { Player } from '@prisma/client'
 
 export interface Props {
-    roomId: string
+    roomSlug: string
     isAdmin: boolean
 }
 

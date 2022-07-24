@@ -5,20 +5,19 @@ import { GameContainer } from 'components/atoms/containers/GameContainer'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { RoomIdResponse } from 'types/apiResponses'
+import { GetRoomResponse } from 'types/apiResponses'
 
 const PlayerGamePage = () => {
     const {
-        query: { roomId, playerId },
+        query: { roomSlug, playerSlug },
     } = useRouter()
 
-    // Use roomSlug instead of RoomId
     // Make it a component? Also add it at create-player page
     const { value: roomData, loading: roomDataLoading } = useAsync(async () => {
-        const response = await fetch(`/api/room/${roomId}`)
-        const result: RoomIdResponse = await response.json()
+        const response = await fetch(`/api/room/${roomSlug}`)
+        const result: GetRoomResponse = await response.json()
         return result
-    }, [roomId])
+    }, [roomSlug])
 
     if (!roomDataLoading && roomData && 'error' in roomData) {
         return (
@@ -47,7 +46,7 @@ const PlayerGamePage = () => {
 
     return (
         <div>
-            Lobby: {roomId} & {playerId}
+            Lobby: {roomSlug} & {playerSlug}
         </div>
     )
 }

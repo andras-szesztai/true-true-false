@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { prisma } from 'utils/prisma'
-import { generateSlug } from 'utils/roomId'
+import { generateSlug } from 'utils/slug'
 
 export default async function handler(
     req: NextApiRequest,
@@ -13,7 +13,7 @@ export default async function handler(
         try {
             const room = await prisma.room.findUnique({
                 where: {
-                    slug: body.roomId,
+                    slug: body.roomSlug,
                 },
                 select: {
                     id: true,
@@ -32,6 +32,7 @@ export default async function handler(
                     },
                     select: {
                         id: true,
+                        slug: true,
                     },
                 })
                 res.status(200).json({

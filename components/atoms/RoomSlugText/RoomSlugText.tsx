@@ -1,6 +1,6 @@
 import { Container, Text } from './styles'
 
-const RoomIdText = () => {
+const RoomSlugText = () => {
     return (
         <Container>
             <Text>Room</Text>
@@ -9,4 +9,4 @@ const RoomIdText = () => {
     )
 }
 
-export default RoomIdText
+export default RoomSlugText

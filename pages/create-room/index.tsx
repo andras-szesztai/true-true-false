@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useAsync } from 'react-use'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { RoomIdResponse } from 'types/apiResponses'
+import { PostRoomResponse } from 'types/apiResponses'
 
 const CreateRoom = () => {
     const router = useRouter()
@@ -12,7 +12,7 @@ const CreateRoom = () => {
         const response = await fetch('/api/room', {
             method: 'POST',
         })
-        const result: RoomIdResponse = await response.json()
+        const result: PostRoomResponse = await response.json()
         return result
     }, [])
 
