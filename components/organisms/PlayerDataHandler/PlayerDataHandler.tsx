@@ -2,11 +2,12 @@ import { FC, ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
+import { useUnmount } from 'react-use'
 
 import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
-import { designTokens } from 'styles/designTokens'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { GENERAL_ERROR } from 'constants/messages'
+import { designTokens } from 'styles/designTokens'
 
 const { color, space } = designTokens
 
@@ -24,6 +25,9 @@ const PlayerDataHandler: FC<{
         if (playerData && 'error' in playerData) {
             router.push(`/${roomSlug}/create-player`)
         }
+    })
+    useUnmount(() => {
+        fetch('/api/room/y6tmF')
     })
     if (playerData && 'slug' in playerData) return children(playerData)
     if (error) return <ScreenMessage text={GENERAL_ERROR} />

@@ -4,6 +4,7 @@ import { RoomStage } from '@prisma/client'
 import { generateSlug } from 'utils/slug'
 import { prisma } from 'utils/prisma'
 import { POST_ROOM_REQUEST_FIELDS } from 'constants/requests'
+import { GENERAL_ERROR } from 'constants/messages'
 
 const DUPLICATE_ERROR = 'Unique constraint failed on the fields: (`slug`)'
 
@@ -37,5 +38,5 @@ export default async function handler(
     if (result && typeof result !== 'string') {
         return res.status(200).json(result)
     }
-    return res.status(500).json({ error: 'Something went wrong' })
+    return res.status(500).json({ error: GENERAL_ERROR })
 }
