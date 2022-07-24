@@ -31,7 +31,6 @@ model Player {
   score     Int
   room      Room     @relation(fields: [roomId], references: [id])
   roomId    Int
-  heartbeat Int
 }
 
 enum Role {

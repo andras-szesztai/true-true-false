@@ -22,7 +22,6 @@ const createPlayer = async (roomId: number, body: any) => {
                 score: 0,
                 isActive: true,
                 role: body.role,
-                heartbeat: 0,
             },
             select: POST_PLAYER_REQUEST_FIELD,
         })
