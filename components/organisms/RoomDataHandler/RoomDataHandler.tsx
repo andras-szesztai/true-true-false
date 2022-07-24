@@ -16,7 +16,7 @@ const RoomDataHandler: FC<{
     children(data: GetRoomResponseSuccess): ReactElement
 }> = ({ roomSlug, children }) => {
     const { data: roomData, error } = useSWR<GetRoomResponse>(
-        `/api/room/${roomSlug}`,
+        roomSlug ? `/api/room/${roomSlug}` : null,
         (url: string) => fetch(url).then((res) => res.json())
     )
     if (roomData) {
