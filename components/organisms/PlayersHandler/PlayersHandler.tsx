@@ -2,13 +2,13 @@ import { FC, ReactElement } from 'react'
 import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
 
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { GENERAL_ERROR } from 'constants/messages'
 import {
     GetPlayersResponse,
     GetPlayersResponseSuccess,
 } from 'types/apiResponses'
 import { designTokens } from 'styles/designTokens'
-import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { GENERAL_ERROR } from 'constants/messages'
 
 const { color, space } = designTokens
 

@@ -1,19 +1,17 @@
 import React, { FC, ReactElement } from 'react'
-import { useAsync } from 'react-use'
 import { GetRoomResponse, GetRoomResponseSuccess } from 'types/apiResponses'
 import { SquareLoader } from 'react-spinners'
+import useSWR from 'swr'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
-
-import { designTokens } from 'styles/designTokens'
-import useSWR from 'swr'
 import { GENERAL_ERROR } from 'constants/messages'
+import { designTokens } from 'styles/designTokens'
 
 const { color, space } = designTokens
 
-const ValidateRoomSlug: FC<{
+const RoomDataHandler: FC<{
     roomSlug: string | string[]
     children(data: GetRoomResponseSuccess): ReactElement
 }> = ({ roomSlug, children }) => {
@@ -40,4 +38,4 @@ const ValidateRoomSlug: FC<{
     return <SquareLoader color={color.black} loading size={space.lg} />
 }
 
-export default ValidateRoomSlug
+export default RoomDataHandler

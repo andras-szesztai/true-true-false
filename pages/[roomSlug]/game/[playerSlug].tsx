@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
+import { RoomStage } from '@prisma/client'
 
 import { GameContainer } from 'components/atoms/containers/GameContainer'
-import { ValidateRoomSlug } from 'components/organisms/ValidateRoomSlug'
-import { ValidatePlayerSlug } from 'components/organisms/ValidatePlayerSlug'
-import { RoomStage } from '@prisma/client'
-import PlayersDataHandler from 'components/organisms/PlayersHandler/PlayersHandler'
-import { GENERAL_ERROR } from 'constants/messages'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
+import PlayersDataHandler from 'components/organisms/PlayersHandler/PlayersHandler'
+import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
+import { GENERAL_ERROR } from 'constants/messages'
 
 const PlayerGamePage = () => {
     const {
@@ -18,15 +18,15 @@ const PlayerGamePage = () => {
     // If room creator gets disconnected, make next one in line room admin
     return (
         <GameContainer>
-            <ValidateRoomSlug roomSlug={roomSlug!}>
+            <RoomDataHandler roomSlug={roomSlug!}>
                 {(roomData) => (
-                    <ValidatePlayerSlug
+                    <PlayerDataHandler
                         roomSlug={roomData.slug}
                         playerSlug={playerSlug!}
                     >
-                        {(playerData) => (
+                        {() => (
                             <PlayersDataHandler roomSlug={roomSlug!}>
-                                {(players) => {
+                                {() => {
                                     switch (roomData.stage) {
                                         case RoomStage.LOBBY:
                                             return <div>Lobby</div>
@@ -46,9 +46,9 @@ const PlayerGamePage = () => {
                                 }}
                             </PlayersDataHandler>
                         )}
-                    </ValidatePlayerSlug>
+                    </PlayerDataHandler>
                 )}
-            </ValidateRoomSlug>
+            </RoomDataHandler>
         </GameContainer>
     )
 }

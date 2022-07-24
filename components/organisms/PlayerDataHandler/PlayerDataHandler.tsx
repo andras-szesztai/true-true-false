@@ -10,7 +10,7 @@ import { GENERAL_ERROR } from 'constants/messages'
 
 const { color, space } = designTokens
 
-const ValidatePlayerSlug: FC<{
+const PlayerDataHandler: FC<{
     roomSlug: string | string[]
     playerSlug: string | string[]
     children(data: GetPlayerResponseSuccess): ReactElement
@@ -30,4 +30,4 @@ const ValidatePlayerSlug: FC<{
     return <SquareLoader color={color.black} loading size={space.lg} />
 }
 
-export default ValidatePlayerSlug
+export default PlayerDataHandler
