@@ -22,7 +22,7 @@ export default async function handler(
                     error: 'Could Not Find Room By Provided ID',
                 })
             } else {
-                return res.status(200).json({ slug: room.slug, id: room.id })
+                return res.status(200).json(room)
             }
         } catch (err) {
             if (err instanceof Error) {

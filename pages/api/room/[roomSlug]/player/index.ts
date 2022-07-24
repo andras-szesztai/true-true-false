@@ -31,9 +31,7 @@ export default async function handler(
                 },
                 select: POST_PLAYER_REQUEST_FIELD,
             })
-            res.status(200).json({
-                id: player.id,
-            })
+            res.status(200).json(player)
         } else {
             res.status(500).json({
                 error: 'Could Not Find Room By Provided ID',

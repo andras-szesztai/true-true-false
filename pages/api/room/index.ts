@@ -35,7 +35,7 @@ export default async function handler(
 ) {
     const result = await createRoom()
     if (result && typeof result !== 'string') {
-        return res.status(200).json({ slug: result.slug })
+        return res.status(200).json(result)
     }
     return res.status(500).json({ error: 'Something went wrong' })
 }
