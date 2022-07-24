@@ -30,18 +30,16 @@ export default async function handler(
                 return res.status(404).json({
                     error: 'Could Not Find Room By Provided Room Slug',
                 })
-            } else {
-                const currPlayer = room.players.find(
-                    (d) => d.slug === query.playerSlug
-                )
-                if (!currPlayer) {
-                    return res.status(404).json({
-                        error: 'Could Not Find Player By Provided Player Slug',
-                    })
-                } else {
-                    return res.status(200).json(currPlayer)
-                }
             }
+            const currPlayer = room.players.find(
+                (d) => d.slug === query.playerSlug
+            )
+            if (!currPlayer) {
+                return res.status(404).json({
+                    error: 'Could Not Find Player By Provided Player Slug',
+                })
+            }
+            return res.status(200).json(currPlayer)
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({
