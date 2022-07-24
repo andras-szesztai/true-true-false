@@ -15,9 +15,12 @@ export default async function handler(
                 where: {
                     slug: query.roomSlug,
                 },
-                select: {
+                include: {
                     players: {
                         select: GET_PLAYERS_REQUEST_FIELDS,
+                        orderBy: {
+                            createdAt: 'asc',
+                        },
                     },
                 },
             })

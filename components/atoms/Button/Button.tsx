@@ -12,7 +12,7 @@ const Button = ({
     text,
     size,
     noBorderTop,
-    isDisabled,
+    isDisabled = false,
     isLoading = false,
 }: Props) => (
     <StyledButton
@@ -21,6 +21,7 @@ const Button = ({
         noBorderTop={noBorderTop}
         isDisabled={isDisabled}
         isLoading={isLoading}
+        disabled={isDisabled}
     >
         {text}
         <LoadingContainer>

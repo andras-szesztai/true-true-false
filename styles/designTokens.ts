@@ -20,6 +20,7 @@ export const designTokens = {
     },
     color: {
         black: '#000000',
+        gray: '#A3A3A3',
         background: '#FDF2E4',
         accentOne: '#F6C15C',
         accentTwo: '#EE7A50',

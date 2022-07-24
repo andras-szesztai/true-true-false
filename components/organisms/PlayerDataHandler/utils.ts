@@ -12,11 +12,4 @@ export const handleConnection = (
     window.addEventListener('offline', () =>
         fetch(`/api/room/${roomSlug}/player/${playerSlug}/disconnect`)
     )
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            fetch(`/api/room/${roomSlug}/player/${playerSlug}/connect`)
-        } else {
-            fetch(`/api/room/${roomSlug}/player/${playerSlug}/disconnect`)
-        }
-    })
 }

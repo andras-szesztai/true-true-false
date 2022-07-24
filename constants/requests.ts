@@ -11,6 +11,8 @@ export const GET_ROOM_REQUEST_FIELDS = {
 export const GET_PLAYERS_REQUEST_FIELDS = {
     name: true,
     emoji: true,
+    isActive: true,
+    id: true,
 }
 
 export const POST_PLAYER_REQUEST_FIELD = {
@@ -21,4 +23,5 @@ export const POST_PLAYER_REQUEST_FIELD = {
 export const GET_PLAYER_REQUEST_FIELD = {
     id: true,
     slug: true,
+    role: true,
 }
