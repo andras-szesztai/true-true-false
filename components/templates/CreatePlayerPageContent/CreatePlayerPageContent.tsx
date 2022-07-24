@@ -15,7 +15,7 @@ const CreatePlayerPageContent = ({ isAdmin }: Props) => {
             <RoomDataHandler roomSlug={roomSlug!}>
                 {(roomData) => (
                     <>
-                        <RoomSlugText />
+                        <RoomSlugText slug={roomData.slug} />
                         <CreatePlayer
                             roomSlug={roomData.slug}
                             isAdmin={isAdmin}

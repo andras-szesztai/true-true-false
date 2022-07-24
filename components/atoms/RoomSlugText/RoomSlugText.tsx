@@ -1,10 +1,11 @@
+import { GetRoomResponseSuccess } from 'types/apiResponses'
 import { Container, Text } from './styles'
 
-const RoomSlugText = () => {
+const RoomSlugText = ({ slug }: Pick<GetRoomResponseSuccess, 'slug'>) => {
     return (
         <Container>
             <Text>Room</Text>
-            <Text>vl43T</Text>
+            <Text>{slug}</Text>
         </Container>
     )
 }

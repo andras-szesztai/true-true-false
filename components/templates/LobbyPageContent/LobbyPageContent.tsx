@@ -1,10 +1,12 @@
+import { RoomSlugText } from 'components/atoms/RoomSlugText'
 import { Props } from './types'
 
-const LobbyPageContent = ({ player, players }: Props) => {
+const LobbyPageContent = ({ room, player, players }: Props) => {
     return (
-        <div>
+        <>
+            <RoomSlugText slug={room.slug} />
             {players.length} & {player.id}
-        </div>
+        </>
     )
 }
 

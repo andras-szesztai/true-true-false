@@ -32,6 +32,7 @@ const PlayerGamePage = () => {
                                         case RoomStage.LOBBY:
                                             return (
                                                 <LobbyPageContent
+                                                    room={roomData}
                                                     player={playerData}
                                                     players={playersData}
                                                 />
