@@ -11,20 +11,36 @@ datasource db {
 }
 
 model Room {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  slug      String   @unique
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  slug      String    @unique
   players   Player[]
+  stage     RoomStage
 }
 
 model Player {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  slug      String
+  role      Role
+  isActive  Boolean
   name      String
   emoji     String
   score     Int
   room      Room     @relation(fields: [roomId], references: [id])
   roomId    Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum RoomStage {
+  LOBBY
+  PREPARATION
+  GAME
+  END
 }

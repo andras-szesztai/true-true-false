@@ -17,8 +17,8 @@ const CreateRoom = () => {
     }, [])
 
     useEffect(() => {
-        if (value && 'id' in value) {
-            router.push(`/${value.id}/create-player`)
+        if (value && 'slug' in value) {
+            router.push(`/${value.slug}/create-player/admin`)
         }
     }, [value, router])
 

@@ -1,6 +1,6 @@
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-export const generateRoomId = () => {
+export const generateSlug = () => {
     let result = ''
     const charactersLength = CHARS.length
     for (let i = 0; i < 5; i += 1) {

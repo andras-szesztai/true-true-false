@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { prisma } from 'utils/prisma'
+import { generateSlug } from 'utils/roomId'
 
 export default async function handler(
     req: NextApiRequest,
@@ -8,17 +9,6 @@ export default async function handler(
 ) {
     const { body, method } = req
 
-    // if (method === 'GET') {
-    //     const player = await prisma.player.findUnique({
-    //         where: {
-    //             roomId: {
-    //                 where: {
-    //                     slug: query.roomId,
-    //                 },
-    //             },
-    //         },
-    //     })
-    // }
     if (method === 'POST') {
         try {
             const room = await prisma.room.findUnique({
@@ -32,10 +22,13 @@ export default async function handler(
             if (room) {
                 const player = await prisma.player.create({
                     data: {
-                        score: 0,
                         name: body.name,
                         emoji: body.emoji,
                         roomId: room.id,
+                        slug: generateSlug(),
+                        score: 0,
+                        isActive: true,
+                        role: body.role,
                     },
                     select: {
                         id: true,

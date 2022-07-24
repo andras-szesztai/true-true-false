@@ -12,6 +12,7 @@ const PlayerGamePage = () => {
         query: { roomId, playerId },
     } = useRouter()
 
+    // Use roomSlug instead of RoomId
     // Make it a component? Also add it at create-player page
     const { value: roomData, loading: roomDataLoading } = useAsync(async () => {
         const response = await fetch(`/api/room/${roomId}`)

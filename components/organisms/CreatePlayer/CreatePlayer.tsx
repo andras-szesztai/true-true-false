@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useClickAway, useKey, useLocalStorage, useToggle } from 'react-use'
 import useSWR from 'swr'
+import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
@@ -24,7 +25,7 @@ const Picker = dynamic(
     { ssr: false }
 )
 
-const CreatePlayer = ({ roomId }: Props) => {
+const CreatePlayer = ({ roomId, isAdmin }: Props) => {
     const [storedName, setStoredName] = useLocalStorage('name', '')
     const [storedEmoji, setStoredEmoji] = useLocalStorage('emoji', '')
     const [name, setName] = useState(storedName || '')
@@ -63,6 +64,7 @@ const CreatePlayer = ({ roomId }: Props) => {
                     emoji,
                     name,
                     roomId,
+                    role: isAdmin ? Role.ADMIN : Role.USER,
                 }),
             })
             const result: { id: string } | { error: string } =

@@ -1,23 +1,22 @@
-import { useRouter } from 'next/router'
-
 import { GameContainer } from 'components/atoms/containers/GameContainer'
 import { RoomIdText } from 'components/atoms/RoomIdText'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { CreatePlayer } from 'components/organisms/CreatePlayer'
+import { useRouter } from 'next/router'
+import { Props } from './types'
 
-// TODO
-// - Style to responsive
-
-const CreatePlayerPage = () => {
+// TODO add room ID check hook
+const CreatePlayerPageContent = ({ isAdmin }: Props) => {
     const {
         query: { roomId },
     } = useRouter()
+
     return (
         <GameContainer>
             {typeof roomId === 'string' ? (
                 <>
                     <RoomIdText />
-                    <CreatePlayer roomId={roomId} />
+                    <CreatePlayer roomId={roomId} isAdmin={isAdmin} />
                 </>
             ) : (
                 <ScreenMessage text="Please provide a valid Room ID" />
@@ -26,4 +25,4 @@ const CreatePlayerPage = () => {
     )
 }
 
-export default CreatePlayerPage
+export default CreatePlayerPageContent
