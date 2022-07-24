@@ -6,6 +6,7 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import PlayersDataHandler from 'components/organisms/PlayersHandler/PlayersHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
+import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
 
 const PlayerGamePage = () => {
@@ -24,12 +25,17 @@ const PlayerGamePage = () => {
                         roomSlug={roomData.slug}
                         playerSlug={playerSlug!}
                     >
-                        {() => (
+                        {(playerData) => (
                             <PlayersDataHandler roomSlug={roomSlug!}>
-                                {() => {
+                                {(playersData) => {
                                     switch (roomData.stage) {
                                         case RoomStage.LOBBY:
-                                            return <div>Lobby</div>
+                                            return (
+                                                <LobbyPageContent
+                                                    player={playerData}
+                                                    players={playersData}
+                                                />
+                                            )
                                         case RoomStage.PREPARATION:
                                             return <div>Preparation</div>
                                         case RoomStage.GAME:
