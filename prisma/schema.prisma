@@ -23,7 +23,7 @@ model Player {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  slug      String
+  slug      String   @unique
   role      Role
   isActive  Boolean
   name      String
@@ -31,6 +31,7 @@ model Player {
   score     Int
   room      Room     @relation(fields: [roomId], references: [id])
   roomId    Int
+  heartbeat Int
 }
 
 enum Role {

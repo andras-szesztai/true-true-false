@@ -1,47 +1,73 @@
-import { POST_PLAYER_REQUEST_FIELD } from 'constants/requests'
+import { GENERAL_ERROR } from 'constants/messages'
+import {
+    GET_ROOM_REQUEST_FIELDS,
+    POST_PLAYER_REQUEST_FIELD,
+} from 'constants/requests'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { prisma } from 'utils/prisma'
 import { generateSlug } from 'utils/slug'
 
+const DUPLICATE_ERROR = 'Unique constraint failed on the fields: (`slug`)'
+
+const createPlayer = async (roomId: number, body: any) => {
+    const slug = generateSlug()
+    try {
+        const player = await prisma.player.create({
+            data: {
+                roomId,
+                name: body.name,
+                emoji: body.emoji,
+                slug,
+                score: 0,
+                isActive: true,
+                role: body.role,
+                heartbeat: 0,
+            },
+            select: POST_PLAYER_REQUEST_FIELD,
+        })
+        return player
+    } catch (err) {
+        if (err instanceof Error) {
+            if (err.message.includes(DUPLICATE_ERROR)) {
+                createPlayer(roomId, body)
+            } else {
+                return err.message
+            }
+        }
+    }
+}
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { body } = req
-    try {
-        const room = await prisma.room.findUnique({
-            where: {
-                slug: body.roomSlug,
-            },
-            select: {
-                id: true,
-            },
-        })
-        if (room) {
-            const player = await prisma.player.create({
-                data: {
-                    name: body.name,
-                    emoji: body.emoji,
-                    roomId: room.id,
-                    slug: generateSlug(),
-                    score: 0,
-                    isActive: true,
-                    role: body.role,
+    const { body, query } = req
+    if (query.roomSlug && typeof query.roomSlug === 'string') {
+        try {
+            const room = await prisma.room.findUnique({
+                where: {
+                    slug: query.roomSlug,
                 },
-                select: POST_PLAYER_REQUEST_FIELD,
+                select: GET_ROOM_REQUEST_FIELDS,
             })
-            res.status(200).json(player)
-        } else {
-            res.status(500).json({
-                error: 'Could Not Find Room By Provided ID',
-            })
-        }
-    } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({
-                error: err.message,
-            })
+            if (!room) {
+                res.status(404).json({
+                    error: 'Could Not Find Room By Provided ID',
+                })
+            } else {
+                const result = await createPlayer(room.id, body)
+                if (result && typeof result !== 'string') {
+                    return res.status(200).json(result)
+                }
+                return res.status(500).json({ error: GENERAL_ERROR })
+            }
+        } catch (err) {
+            if (err instanceof Error) {
+                return res.status(500).json({
+                    error: GENERAL_ERROR,
+                })
+            }
         }
     }
 }

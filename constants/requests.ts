@@ -21,4 +21,5 @@ export const POST_PLAYER_REQUEST_FIELD = {
 export const GET_PLAYER_REQUEST_FIELD = {
     id: true,
     slug: true,
+    heartbeat: true,
 }
