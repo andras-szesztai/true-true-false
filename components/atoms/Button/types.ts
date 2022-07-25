@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 
 export enum ButtonSizes {
+    sm = 'sm',
     md = 'md',
     lg = 'lg',
 }
