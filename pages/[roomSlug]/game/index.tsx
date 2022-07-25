@@ -1,3 +1,3 @@
-const EmptyGamePage = () => <div>Hello</div>
+import { CreateAPlayerCatch } from 'components/templates/CreateAPlayerCatch'
 
-export default EmptyGamePage
+export default () => <CreateAPlayerCatch />

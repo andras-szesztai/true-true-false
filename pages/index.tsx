@@ -6,7 +6,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
 // - Thumbnail for sharing url
-// - Catch url /ZDIy0 & /ZDIy0/game
+// - Make all text consistent following https://capitalizemytitle.com/style/APA/
 
 const Home = () => (
     <HomePageContainer>
