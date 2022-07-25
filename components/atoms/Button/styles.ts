@@ -11,28 +11,34 @@ const { color, space, fontSize, strokeWidth, shadows, breakPoints } =
 const linkStylesMapping = {
     padding: {
         base: {
+            [ButtonSizes.sm]: `${space.xs}px ${space.sm}px;`,
             [ButtonSizes.md]: `${space.sm}px ${space.md}px;`,
             [ButtonSizes.lg]: `${space.base}px ${space.lg}px;`,
         },
         [breakPoints.sm]: {
+            [ButtonSizes.sm]: `${space.sm}px ${space.md}px;`,
             [ButtonSizes.md]: `${space.sm}px ${space.md}px;`,
             [ButtonSizes.lg]: `${space.base}px ${space.xl}px;`,
         },
         [breakPoints.md]: {
+            [ButtonSizes.sm]: `${space.sm}px ${space.md}px;`,
             [ButtonSizes.md]: `${space.base}px ${space.lg}px;`,
             [ButtonSizes.lg]: `${space.md}px ${space.xxl}px;`,
         },
     },
     fontSize: {
         base: {
+            [ButtonSizes.sm]: fontSize.base,
             [ButtonSizes.md]: fontSize.base,
             [ButtonSizes.lg]: fontSize.md,
         },
         [breakPoints.md]: {
+            [ButtonSizes.sm]: fontSize.base,
             [ButtonSizes.md]: fontSize.md,
             [ButtonSizes.lg]: fontSize.lg,
         },
         [breakPoints.lg]: {
+            [ButtonSizes.sm]: fontSize.md,
             [ButtonSizes.md]: fontSize.lg,
             [ButtonSizes.lg]: fontSize.xl,
         },

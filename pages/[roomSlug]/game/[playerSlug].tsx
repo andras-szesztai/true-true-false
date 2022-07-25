@@ -8,6 +8,7 @@ import { PlayersDataHandler } from 'components/organisms/PlayersDataHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
+import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 
 const PlayerGamePage = () => {
     const {
@@ -27,11 +28,16 @@ const PlayerGamePage = () => {
                                     switch (roomData.stage) {
                                         case RoomStage.LOBBY:
                                             return (
-                                                <LobbyPageContent
-                                                    room={roomData}
-                                                    player={playerData}
-                                                    players={playersData}
-                                                />
+                                                <>
+                                                    <LobbyPageContent
+                                                        room={roomData}
+                                                        player={playerData}
+                                                        players={playersData}
+                                                    />
+                                                    <BecomeAdminButton
+                                                        players={playersData}
+                                                    />
+                                                </>
                                             )
                                         case RoomStage.PREPARATION:
                                             return <div>Preparation</div>

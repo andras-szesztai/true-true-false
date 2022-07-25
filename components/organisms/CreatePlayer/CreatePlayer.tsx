@@ -9,6 +9,8 @@ import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
 import { GetPlayersResponse, PostPlayerResponse } from 'types/apiResponses'
 
+import { Props } from './types'
+import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
 import {
     ButtonContainer,
     CreatePlayerContainer,
@@ -16,8 +18,6 @@ import {
     EmojiSelectorContainer,
     InputContainer,
 } from './styles'
-import { Props } from './types'
-import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
 
 const Picker = dynamic(
     () => {
@@ -80,7 +80,6 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
             if (err instanceof Error) {
                 setCreatePlayerError(err.message)
             }
-        } finally {
             setIsLoading()
         }
     }
