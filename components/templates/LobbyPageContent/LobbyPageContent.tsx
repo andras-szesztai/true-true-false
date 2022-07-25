@@ -20,7 +20,7 @@ const LobbyPageContent = ({ room, player, players }: Props) => (
             )}
             <ScreenMessage text="Waiting For Others To Join..." />
         </ScreenMessagesContainer>
-        <PlayerTilesContainer />
+        <PlayerTilesContainer player={player} players={players} />
         <AdminButton
             role={player.role}
             isDisabled={players.length < 2}
