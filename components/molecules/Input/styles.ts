@@ -10,7 +10,6 @@ const inputStylesMapping = {
         base: `${space.base}px ${space.lg}px`,
         [breakPoints.sm]: `${space.base}px ${space.xl}px`,
         [breakPoints.md]: `${space.md}px ${space.xxl}px`,
-        [breakPoints.lg]: `${space.md}px ${space.xxl}px`,
     },
     width: {
         base: '236px',
@@ -20,11 +19,10 @@ const inputStylesMapping = {
     },
     fontSize: {
         base: fontSize.md,
-        [breakPoints.sm]: fontSize.md,
         [breakPoints.md]: fontSize.lg,
         [breakPoints.lg]: fontSize.xl,
     },
-} as const
+}
 
 export const StyledInput = styled.input`
     text-align: center;
@@ -51,7 +49,6 @@ export const StyledInput = styled.input`
     @media only screen and (min-width: ${breakPoints.sm}px) {
         padding: ${inputStylesMapping.padding[breakPoints.sm]};
         width: ${inputStylesMapping.width[breakPoints.sm]};
-        font-size: ${inputStylesMapping.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
@@ -61,7 +58,6 @@ export const StyledInput = styled.input`
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        padding: ${inputStylesMapping.padding[breakPoints.lg]};
         width: ${inputStylesMapping.width[breakPoints.lg]};
         font-size: ${inputStylesMapping.fontSize[breakPoints.lg]};
     }
@@ -79,7 +75,7 @@ const inputErrorStylesMapping = {
         [breakPoints.md]: fontSize.base,
         [breakPoints.lg]: fontSize.base,
     },
-} as const
+}
 
 export const InputError = styled.span`
     position: absolute;

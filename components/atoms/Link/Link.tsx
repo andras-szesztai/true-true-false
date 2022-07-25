@@ -6,6 +6,8 @@ import { designTokens } from 'styles/designTokens'
 import { Props } from './types'
 import { LoadingContainer, StyledLink } from './styles'
 
+const { color, space } = designTokens
+
 const Link = ({
     text,
     size,
@@ -25,9 +27,9 @@ const Link = ({
             {text}
             <LoadingContainer>
                 <SquareLoader
-                    color={designTokens.color.black}
                     loading={isLoading}
-                    size={24}
+                    color={color.black}
+                    size={space.md}
                 />
             </LoadingContainer>
         </StyledLink>

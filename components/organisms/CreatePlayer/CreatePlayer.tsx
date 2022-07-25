@@ -3,9 +3,11 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useClickAway, useKey, useLocalStorage, useToggle } from 'react-use'
 import useSWR from 'swr'
+import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
+import { GetPlayersResponse, PostPlayerResponse } from 'types/apiResponses'
 
 import {
     ButtonContainer,
@@ -14,7 +16,7 @@ import {
     EmojiSelectorContainer,
     InputContainer,
 } from './styles'
-import { PlayersDataResponse, Props } from './types'
+import { Props } from './types'
 import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
 
 const Picker = dynamic(
@@ -24,7 +26,7 @@ const Picker = dynamic(
     { ssr: false }
 )
 
-const CreatePlayer = ({ roomId }: Props) => {
+const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
     const [storedName, setStoredName] = useLocalStorage('name', '')
     const [storedEmoji, setStoredEmoji] = useLocalStorage('emoji', '')
     const [name, setName] = useState(storedName || '')
@@ -41,8 +43,8 @@ const CreatePlayer = ({ roomId }: Props) => {
         }
     })
 
-    const { data: playersData } = useSWR<PlayersDataResponse>(
-        `/api/room/${roomId}/players`,
+    const { data: playersData } = useSWR<GetPlayersResponse>(
+        `/api/room/${roomSlug}/players`,
         playersFetcher
     )
     const errorMessage = getErrorMessage(name, emoji, playersData)
@@ -53,7 +55,7 @@ const CreatePlayer = ({ roomId }: Props) => {
     const handleCreatePlayer = async () => {
         try {
             setIsLoading()
-            const response = await fetch(`/api/room/${roomId}/player`, {
+            const response = await fetch(`/api/room/${roomSlug}/player`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -62,15 +64,15 @@ const CreatePlayer = ({ roomId }: Props) => {
                 body: JSON.stringify({
                     emoji,
                     name,
-                    roomId,
+                    roomSlug,
+                    role: isAdmin ? Role.ADMIN : Role.USER,
                 }),
             })
-            const result: { id: string } | { error: string } =
-                await response.json()
-            if ('id' in result) {
+            const result: PostPlayerResponse = await response.json()
+            if ('slug' in result) {
                 setStoredName(name)
                 setStoredEmoji(emoji)
-                router.push(`/${roomId}/lobby/${result.id}`)
+                router.push(`/${roomSlug}/game/${result.slug}`)
             } else {
                 throw new Error(result.error)
             }

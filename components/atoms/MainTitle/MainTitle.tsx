@@ -8,9 +8,8 @@ const mainTitleStylesMapping = {
         base: fontSize.lg,
         [breakPoints.sm]: fontSize.xl,
         [breakPoints.md]: fontSize.xxl,
-        [breakPoints.lg]: fontSize.xxl,
     },
-} as const
+}
 
 const MainTitle = styled.h1`
     text-align: center;
@@ -23,10 +22,6 @@ const MainTitle = styled.h1`
 
     @media only screen and (min-width: ${breakPoints.md}px) {
         font-size: ${mainTitleStylesMapping.fontSize[breakPoints.md]};
-    }
-
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${mainTitleStylesMapping.fontSize[breakPoints.lg]};
     }
 `
 

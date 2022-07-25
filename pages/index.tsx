@@ -5,7 +5,9 @@ import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
-// - Mobile styling
+// - Thumbnail for sharing url
+// - Catch url /ZDIy0 & /ZDIy0/game
+// - IF no Admin is active, show "Become Admin" button for all (fixed position)
 
 const Home = () => (
     <HomePageContainer>

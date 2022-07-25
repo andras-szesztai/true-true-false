@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
 import { designTokens } from './designTokens'
 
+const { color, space } = designTokens
+
 export const globalStyles = css`
     :root {
         font-family: 'Share Tech Mono', monospace;
         font-weight: 400;
-        color: ${designTokens.color.black};
+        color: ${color.black};
         font-style: normal;
     }
 
@@ -22,7 +24,21 @@ export const globalStyles = css`
     html,
     body {
         height: 100vh;
-        background-color: ${designTokens.color.background};
+        background-color: ${color.background};
+
+        html {
+            scrollbar-color: ${color.black} ${color.background};
+        }
+        &::-webkit-scrollbar {
+            width: ${space.xs}px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: ${color.black};
+            border-radius: ${space.xs}px;
+        }
+        &::-webkit-scrollbar-track {
+            background: ${color.background};
+        }
     }
 
     body {
@@ -58,7 +74,7 @@ export const globalStyles = css`
     }
 
     &::selection {
-        background: ${designTokens.color.accentTwo};
+        background: ${color.accentTwo};
     }
 
     #__next {
