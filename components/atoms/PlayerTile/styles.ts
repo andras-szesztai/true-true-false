@@ -12,6 +12,8 @@ export const Container = styled.div`
 `
 
 export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop'>>`
+    display: flex;
+    align-items: center;
     border: ${strokeWidth.md}px solid ${color.black};
     border-right: none;
 

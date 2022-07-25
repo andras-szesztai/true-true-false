@@ -6,6 +6,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
 // - Thumbnail for sharing url
+// - Catch url /ZDIy0 & /ZDIy0/game
 
 const Home = () => (
     <HomePageContainer>
