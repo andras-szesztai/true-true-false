@@ -20,7 +20,8 @@ const PlayerDataHandler: FC<{
 }> = ({ roomSlug, children, playerSlug }) => {
     const { data: playerData, error } = useSWR<GetPlayerResponse>(
         `/api/room/${roomSlug}/player/${playerSlug}`,
-        (url: string) => fetch(url).then((res) => res.json())
+        (url: string) => fetch(url).then((res) => res.json()),
+        { refreshInterval: 3 }
     )
     const router = useRouter()
     useEffect(() => {

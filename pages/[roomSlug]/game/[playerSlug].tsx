@@ -36,6 +36,10 @@ const PlayerGamePage = () => {
                                                     />
                                                     <BecomeAdminButton
                                                         players={playersData}
+                                                        roomSlug={roomData.slug}
+                                                        playerSlug={
+                                                            playerData.slug
+                                                        }
                                                     />
                                                 </>
                                             )
