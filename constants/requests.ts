@@ -13,6 +13,7 @@ export const GET_PLAYERS_REQUEST_FIELDS = {
     emoji: true,
     isActive: true,
     id: true,
+    role: true,
 }
 
 export const POST_PLAYER_REQUEST_FIELD = {
