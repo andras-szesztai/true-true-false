@@ -18,7 +18,8 @@ const PlayersDataHandler: FC<{
 }> = ({ roomSlug, children }) => {
     const { data: playersData, error } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
-        (url: string) => fetch(url).then((res) => res.json())
+        (url: string) => fetch(url).then((res) => res.json()),
+        { refreshInterval: 5 }
     )
     if (playersData) {
         if ('error' in playersData) {
