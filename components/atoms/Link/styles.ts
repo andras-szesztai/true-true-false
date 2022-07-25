@@ -22,17 +22,9 @@ const linkStylesMapping = {
             [LinkSizes.md]: `${space.base}px ${space.lg}px;`,
             [LinkSizes.lg]: `${space.md}px ${space.xxl}px;`,
         },
-        [breakPoints.lg]: {
-            [LinkSizes.md]: `${space.base}px ${space.lg}px;`,
-            [LinkSizes.lg]: `${space.md}px ${space.xxl}px;`,
-        },
     },
     fontSize: {
         base: {
-            [LinkSizes.md]: fontSize.base,
-            [LinkSizes.lg]: fontSize.md,
-        },
-        [breakPoints.sm]: {
             [LinkSizes.md]: fontSize.base,
             [LinkSizes.lg]: fontSize.md,
         },
@@ -93,7 +85,6 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
         padding: ${linkStylesMapping.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
-            font-size: ${linkStylesMapping.fontSize[breakPoints.sm][size]};
             padding: ${linkStylesMapping.padding[breakPoints.sm][size]};
         }
 
@@ -104,7 +95,6 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
             font-size: ${linkStylesMapping.fontSize[breakPoints.lg][size]};
-            padding: ${linkStylesMapping.padding[breakPoints.lg][size]};
         }
     `}
 `

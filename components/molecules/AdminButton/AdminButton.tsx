@@ -44,7 +44,7 @@ const AdminButton = ({
             {role === Role.ADMIN && !success && (
                 <Button
                     text={text}
-                    size={ButtonSizes.md}
+                    size={ButtonSizes.lg}
                     isLoading={isLoading}
                     isDisabled={isDisabled || isLoading}
                     onClick={handleRoomUpdate}

@@ -25,7 +25,7 @@ const LobbyPageContent = ({ room, player, players }: Props) => (
             role={player.role}
             isDisabled={players.length < 2}
             slug={room.slug}
-            text="start"
+            text="Start"
             apiRoute="/update-stage"
             postBody={{ stage: RoomStage.PREPARATION }}
         />

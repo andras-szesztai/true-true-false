@@ -22,17 +22,9 @@ const linkStylesMapping = {
             [ButtonSizes.md]: `${space.base}px ${space.lg}px;`,
             [ButtonSizes.lg]: `${space.md}px ${space.xxl}px;`,
         },
-        [breakPoints.lg]: {
-            [ButtonSizes.md]: `${space.base}px ${space.lg}px;`,
-            [ButtonSizes.lg]: `${space.md}px ${space.xxl}px;`,
-        },
     },
     fontSize: {
         base: {
-            [ButtonSizes.md]: fontSize.base,
-            [ButtonSizes.lg]: fontSize.md,
-        },
-        [breakPoints.sm]: {
             [ButtonSizes.md]: fontSize.base,
             [ButtonSizes.lg]: fontSize.md,
         },
@@ -93,7 +85,6 @@ export const StyledButton = styled.button<Pick<Props, StyleProps>>`
         padding: ${linkStylesMapping.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
-            font-size: ${linkStylesMapping.fontSize[breakPoints.sm][size]};
             padding: ${linkStylesMapping.padding[breakPoints.sm][size]};
         }
 
@@ -104,7 +95,6 @@ export const StyledButton = styled.button<Pick<Props, StyleProps>>`
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
             font-size: ${linkStylesMapping.fontSize[breakPoints.lg][size]};
-            padding: ${linkStylesMapping.padding[breakPoints.lg][size]};
         }
     `}
 `

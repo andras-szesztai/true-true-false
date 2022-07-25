@@ -13,7 +13,6 @@ export const JoinRoomContainer = styled.div`
 const orTextStylesMapping = {
     fontSize: {
         base: fontSize.base,
-        [breakPoints.sm]: fontSize.base,
         [breakPoints.md]: fontSize.md,
         [breakPoints.lg]: fontSize.lg,
     },
@@ -23,10 +22,6 @@ export const OrText = styled.h2`
     margin-bottom: ${designTokens.space.xxs}px;
 
     font-size: ${orTextStylesMapping.fontSize.base};
-
-    @media only screen and (min-width: ${breakPoints.sm}px) {
-        font-size: ${orTextStylesMapping.fontSize[breakPoints.sm]};
-    }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
         font-size: ${orTextStylesMapping.fontSize[breakPoints.md]};
