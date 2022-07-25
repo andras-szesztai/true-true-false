@@ -13,7 +13,6 @@ const PlayerGamePage = () => {
     const {
         query: { roomSlug, playerSlug },
     } = useRouter()
-    // IF no Admin is active, show "Become Admin" button
     return (
         <GameContainer>
             <RoomDataHandler roomSlug={roomSlug!}>

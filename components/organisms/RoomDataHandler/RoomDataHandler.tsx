@@ -17,7 +17,8 @@ const RoomDataHandler: FC<{
 }> = ({ roomSlug, children }) => {
     const { data: roomData, error } = useSWR<GetRoomResponse>(
         roomSlug ? `/api/room/${roomSlug}` : null,
-        (url: string) => fetch(url).then((res) => res.json())
+        (url: string) => fetch(url).then((res) => res.json()),
+        { refreshInterval: 3 }
     )
     if (roomData) {
         if ('error' in roomData) {
