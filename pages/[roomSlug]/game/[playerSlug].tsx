@@ -13,10 +13,7 @@ const PlayerGamePage = () => {
     const {
         query: { roomSlug, playerSlug },
     } = useRouter()
-    // Fetch number of players, put current player on top, rest in order of created,
-    // add key to Player schema isActive to show disconnected, maybe websocket connection on create-player page or here?
-    // Show different UI for room admin (creator by default) and the rest
-    // If room creator gets disconnected, make next one in line room admin
+    // IF no Admin is active, show "Become Admin" button
     return (
         <GameContainer>
             <RoomDataHandler roomSlug={roomSlug!}>
