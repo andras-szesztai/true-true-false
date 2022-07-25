@@ -6,8 +6,8 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { AdminButton } from 'components/molecules/AdminButton'
 import { PlayerTilesContainer } from 'components/molecules/PlayerTilesContainer'
 
-import { ScreenMessagesContainer } from './styles'
 import { Props } from './types'
+import { ScreenMessagesContainer } from './styles'
 
 const LobbyPageContent = ({ room, player, players }: Props) => (
     <HomeContentContainer>

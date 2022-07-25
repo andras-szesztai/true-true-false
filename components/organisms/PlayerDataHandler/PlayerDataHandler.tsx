@@ -8,6 +8,7 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
+
 import { handleConnection } from './utils'
 
 const { color, space } = designTokens
