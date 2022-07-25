@@ -7,6 +7,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // TODO
 // - Thumbnail for sharing url
 // - Make all text consistent following https://capitalizemytitle.com/style/APA/
+// - Add custom 404
 
 const Home = () => (
     <HomePageContainer>
