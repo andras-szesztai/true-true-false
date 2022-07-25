@@ -10,7 +10,7 @@ const homeContainerStylesMapping = {
         [breakPoints.md]: space.xxl,
         [breakPoints.lg]: space.xxl,
     },
-} as const
+}
 
 const HomeContentContainer = styled.div`
     display: grid;

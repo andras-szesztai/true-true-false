@@ -45,7 +45,7 @@ const linkStylesMapping = {
             [ButtonSizes.lg]: fontSize.xl,
         },
     },
-} as const
+}
 
 export const StyledButton = styled.button<Pick<Props, StyleProps>>`
     position: relative;

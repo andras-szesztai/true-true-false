@@ -24,7 +24,7 @@ const inputStylesMapping = {
         [breakPoints.md]: fontSize.lg,
         [breakPoints.lg]: fontSize.xl,
     },
-} as const
+}
 
 export const StyledInput = styled.input`
     text-align: center;
@@ -79,7 +79,7 @@ const inputErrorStylesMapping = {
         [breakPoints.md]: fontSize.base,
         [breakPoints.lg]: fontSize.base,
     },
-} as const
+}
 
 export const InputError = styled.span`
     position: absolute;

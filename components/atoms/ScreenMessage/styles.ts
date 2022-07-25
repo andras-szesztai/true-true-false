@@ -18,7 +18,7 @@ const messageContainerStylesMapping = {
         [breakPoints.md]: '480px',
         [breakPoints.lg]: '800px',
     },
-} as const
+}
 
 export const MessageContainer = styled.div`
     text-align: center;
@@ -41,24 +41,14 @@ export const MessageContainer = styled.div`
 const messageStylesMapping = {
     fontSize: {
         base: fontSize.md,
-        [breakPoints.sm]: fontSize.md,
         [breakPoints.md]: fontSize.lg,
-        [breakPoints.lg]: fontSize.lg,
     },
-} as const
+}
 
 export const Message = styled.h1`
     font-size: ${messageStylesMapping.fontSize.base};
 
-    @media only screen and (min-width: ${breakPoints.sm}px) {
-        font-size: ${messageStylesMapping.fontSize[breakPoints.sm]};
-    }
-
     @media only screen and (min-width: ${breakPoints.md}px) {
         font-size: ${messageStylesMapping.fontSize[breakPoints.md]};
-    }
-
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${messageStylesMapping.fontSize[breakPoints.lg]};
     }
 `

@@ -10,7 +10,7 @@ const mainTitleStylesMapping = {
         [breakPoints.md]: fontSize.xxl,
         [breakPoints.lg]: fontSize.xxl,
     },
-} as const
+}
 
 const MainTitle = styled.h1`
     text-align: center;

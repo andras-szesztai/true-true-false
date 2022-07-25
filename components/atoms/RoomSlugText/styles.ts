@@ -11,7 +11,7 @@ const containerStylesMapping = {
         [breakPoints.md]: `${space.md}px`,
         [breakPoints.lg]: `${space.lg}px`,
     },
-} as const
+}
 
 export const Container = styled.div`
     position: absolute;
@@ -46,7 +46,7 @@ const textStylesMapping = {
         [breakPoints.md]: fontSize.lg,
         [breakPoints.lg]: fontSize.xl,
     },
-} as const
+}
 
 export const Text = styled.h1`
     text-align: right;

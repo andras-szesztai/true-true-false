@@ -17,7 +17,7 @@ const orTextStylesMapping = {
         [breakPoints.md]: fontSize.md,
         [breakPoints.lg]: fontSize.lg,
     },
-} as const
+}
 
 export const OrText = styled.h2`
     margin-bottom: ${designTokens.space.xxs}px;

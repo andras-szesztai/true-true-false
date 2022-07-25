@@ -32,7 +32,7 @@ const emojiSelectorButtonStylesMapping = {
         [breakPoints.md]: fontSize.lg,
         [breakPoints.lg]: fontSize.xl,
     },
-} as const
+}
 
 export const EmojiSelectorButton = styled.button`
     height: 100%;

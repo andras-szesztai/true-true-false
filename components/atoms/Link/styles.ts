@@ -45,7 +45,7 @@ const linkStylesMapping = {
             [LinkSizes.lg]: fontSize.xl,
         },
     },
-} as const
+}
 
 export const StyledLink = styled.a<Pick<Props, StyleProps>>`
     position: relative;
