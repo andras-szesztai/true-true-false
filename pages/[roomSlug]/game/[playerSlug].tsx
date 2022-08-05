@@ -6,9 +6,10 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import { PlayersDataHandler } from 'components/organisms/PlayersDataHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
-import { LobbyPageContent } from 'components/templates/LobbyPageContent'
-import { GENERAL_ERROR } from 'constants/messages'
 import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
+import { LobbyPageContent } from 'components/templates/LobbyPageContent'
+import { PreparationPageContent } from 'components/templates/PreparationPageContent'
+import { GENERAL_ERROR } from 'constants/messages'
 
 const PlayerGamePage = () => {
     const {
@@ -44,7 +45,18 @@ const PlayerGamePage = () => {
                                                 </>
                                             )
                                         case RoomStage.PREPARATION:
-                                            return <div>Preparation</div>
+                                            return (
+                                                <>
+                                                    <PreparationPageContent />
+                                                    <BecomeAdminButton
+                                                        players={playersData}
+                                                        roomSlug={roomData.slug}
+                                                        playerSlug={
+                                                            playerData.slug
+                                                        }
+                                                    />
+                                                </>
+                                            )
                                         case RoomStage.GAME:
                                             return <div>Game</div>
                                         case RoomStage.END:
