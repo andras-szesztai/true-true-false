@@ -4,31 +4,40 @@
 // 4. Waiting Text
 // 5. Admin should have "everyone is in" button
 // 6. PlayersBoard with loading animations when writing + submit + offline
+import { useState } from 'react'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
+import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 
+import { Props } from './types'
 import { TextArea, TextBoxesContainer } from './styles'
 
-const PreparationPageContent = () => {
+const PreparationPageContent = ({ room }: Props) => {
+    const [firstTrueStatement, setFirstTrueStatement] = useState('')
+    const [secondTrueStatement, setSecondTrueStatement] = useState('')
+    const [falseStatement, setFalseStatement] = useState('')
     return (
         <HomeContentContainer>
-            {/* <RoomSlugText slug={room.slug} /> */}
+            <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
             <TextBoxesContainer>
                 <TextArea
                     rows={3}
-                    placeholder="Enter True Statement"
+                    placeholder="True Statement"
                     maxLength={50}
+                    onChange={(e) => setFirstTrueStatement(e.target.value)}
                 />
                 <TextArea
                     rows={3}
                     noBorderTop
-                    placeholder="Enter True Statement"
+                    placeholder="True Statement"
+                    onChange={(e) => setSecondTrueStatement(e.target.value)}
                 />
                 <TextArea
                     rows={3}
                     noBorderTop
-                    placeholder="Enter False Statement"
+                    placeholder="False Statement"
+                    onChange={(e) => setFalseStatement(e.target.value)}
                 />
             </TextBoxesContainer>
             <Button
@@ -38,7 +47,11 @@ const PreparationPageContent = () => {
                     console.log('send statement')
                 }}
                 // isLoading={isLoading}
-                // isDisabled={isDisabled || isLoading}
+                isDisabled={
+                    !firstTrueStatement ||
+                    !secondTrueStatement ||
+                    !falseStatement
+                }
             />
         </HomeContentContainer>
     )

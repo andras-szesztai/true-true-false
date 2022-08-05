@@ -1,6 +1,8 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
+import { Props, RoomSlugSizes } from './types'
 
 const { space, fontSize, breakPoints } = designTokens
 
@@ -42,21 +44,33 @@ export const Container = styled.div`
 
 const textStylesMapping = {
     fontSize: {
-        base: fontSize.md,
-        [breakPoints.md]: fontSize.lg,
-        [breakPoints.lg]: fontSize.xl,
+        base: {
+            [RoomSlugSizes.md]: fontSize.base,
+            [RoomSlugSizes.lg]: fontSize.md,
+        },
+        [breakPoints.md]: {
+            [RoomSlugSizes.md]: fontSize.md,
+            [RoomSlugSizes.lg]: fontSize.lg,
+        },
+        [breakPoints.lg]: {
+            [RoomSlugSizes.md]: fontSize.lg,
+            [RoomSlugSizes.lg]: fontSize.xl,
+        },
     },
 }
 
-export const Text = styled.h1`
+export const Text = styled.h1<Pick<Props, 'size'>>`
     text-align: right;
-    font-size: ${textStylesMapping.fontSize.base};
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${textStylesMapping.fontSize[breakPoints.md]};
-    }
+    ${({ size }) => css`
+        font-size: ${textStylesMapping.fontSize.base[size]};
 
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${textStylesMapping.fontSize[breakPoints.lg]};
-    }
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            font-size: ${textStylesMapping.fontSize[breakPoints.md][size]};
+        }
+
+        @media only screen and (min-width: ${breakPoints.lg}px) {
+            font-size: ${textStylesMapping.fontSize[breakPoints.lg][size]};
+        }
+    `}
 `

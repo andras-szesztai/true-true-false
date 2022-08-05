@@ -47,7 +47,11 @@ const PlayerGamePage = () => {
                                         case RoomStage.PREPARATION:
                                             return (
                                                 <>
-                                                    <PreparationPageContent />
+                                                    <PreparationPageContent
+                                                        room={roomData}
+                                                        player={playerData}
+                                                        players={playersData}
+                                                    />
                                                     <BecomeAdminButton
                                                         players={playersData}
                                                         roomSlug={roomData.slug}
