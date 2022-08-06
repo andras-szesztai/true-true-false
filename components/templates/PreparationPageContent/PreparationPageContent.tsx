@@ -21,9 +21,7 @@ import { TextArea, TextAreaContainer, TextBoxesContainer } from './styles'
 
 const MAX_LENGTH = 50
 
-// Check other players' statements array
-
-const PreparationPageContent = ({ room, player }: Props) => {
+const PreparationPageContent = ({ room, player, players }: Props) => {
     const [firstTrueStatement, setFirstTrueStatement] = useState('')
     const [secondTrueStatement, setSecondTrueStatement] = useState('')
     const [falseStatement, setFalseStatement] = useState('')
@@ -48,18 +46,19 @@ const PreparationPageContent = ({ room, player }: Props) => {
         return result
     }, [firstTrueStatement, secondTrueStatement, falseStatement])
 
+    const isMinimumReady =
+        players.reduce((acc, curr) => acc + curr.statements.length, 0) >= 6
+
     return (
         <HomeContentContainer>
             <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
-
-            {state.value?.success ? (
+            {state.value?.success || !!player.statements.length ? (
                 <>
                     <ScreenMessage text="Waiting For Others To Submit Statements ⏳" />
                     <AdminButton
                         text="Start"
                         role={player.role}
-                        isDisabled={false}
-                        // isDisabled={players.length < 2}
+                        isDisabled={!isMinimumReady}
                         slug={room.slug}
                         apiRoute="/update-stage"
                         postBody={{ stage: RoomStage.GAME }}

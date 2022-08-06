@@ -1,4 +1,4 @@
-import { Player, Room } from '@prisma/client'
+import { Player, Room, Statement } from '@prisma/client'
 import {
     GET_PLAYERS_REQUEST_FIELDS,
     GET_PLAYER_REQUEST_FIELD,
@@ -22,9 +22,10 @@ export type GetRoomResponseSuccess = Pick<
 export type GetRoomResponse = GetRoomResponseSuccess | ErrorResponse
 
 export type GetPlayersResponseSuccess = Pick<
-    Player,
+    Player & { statements: Statement[] },
     keyof typeof GET_PLAYERS_REQUEST_FIELDS
 >[]
+
 export type GetPlayersResponse = GetPlayersResponseSuccess | ErrorResponse
 
 export type PostPlayerResponseSuccess = Pick<
@@ -34,7 +35,7 @@ export type PostPlayerResponseSuccess = Pick<
 export type PostPlayerResponse = PostPlayerResponseSuccess | ErrorResponse
 
 export type GetPlayerResponseSuccess = Pick<
-    Player,
+    Player & { statements: Statement[] },
     keyof typeof GET_PLAYER_REQUEST_FIELD
 >
 export type GetPlayerResponse = GetPlayerResponseSuccess | ErrorResponse
