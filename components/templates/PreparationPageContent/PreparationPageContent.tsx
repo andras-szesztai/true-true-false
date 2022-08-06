@@ -63,6 +63,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                 players={players}
                 size={PlayerTileSize.md}
                 isFixed={width > breakPoints.md}
+                fullWidth
             />
             {isReady ? (
                 <>

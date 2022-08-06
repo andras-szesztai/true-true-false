@@ -9,26 +9,27 @@ const { strokeWidth, color, space, fontSize, breakPoints } = designTokens
 
 export const Container = styled.div`
     display: flex;
+    align-self: stretch;
 `
 
 const emojiContainerStylesMapping = {
     fontSize: {
         base: {
-            [PlayerTileSize.md]: fontSize.base,
+            [PlayerTileSize.md]: fontSize.md,
             [PlayerTileSize.lg]: fontSize.md,
         },
         [breakPoints.md]: {
-            [PlayerTileSize.md]: fontSize.md,
+            [PlayerTileSize.md]: fontSize.lg,
             [PlayerTileSize.lg]: fontSize.lg,
         },
     },
     offLineSvgWidth: {
         base: {
-            [PlayerTileSize.md]: `${space.base}px`,
+            [PlayerTileSize.md]: `${space.md}px`,
             [PlayerTileSize.lg]: `${space.md}px`,
         },
         [breakPoints.md]: {
-            [PlayerTileSize.md]: `${space.md}px`,
+            [PlayerTileSize.md]: `${space.lg}px`,
             [PlayerTileSize.lg]: `${space.lg}px`,
         },
     },
@@ -57,6 +58,7 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
     align-items: center;
     border: ${strokeWidth.md}px solid ${color.black};
     border-right: none;
+    line-height: 1;
 
     ${({ noBorderTop }) =>
         noBorderTop &&
@@ -67,6 +69,7 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
     ${({ size }) => css`
         .offline-icon {
             width: ${emojiContainerStylesMapping.offLineSvgWidth.base[size]};
+            height: ${emojiContainerStylesMapping.offLineSvgWidth.base[size]};
         }
         font-size: ${emojiContainerStylesMapping.fontSize.base[size]};
         padding: ${emojiContainerStylesMapping.padding.base[size]};
@@ -80,6 +83,9 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
         @media only screen and (min-width: ${breakPoints.md}px) {
             .offline-icon {
                 width: ${emojiContainerStylesMapping.offLineSvgWidth[
+                    breakPoints.md
+                ][size]};
+                height: ${emojiContainerStylesMapping.offLineSvgWidth[
                     breakPoints.md
                 ][size]};
             }

@@ -10,4 +10,5 @@ export interface Props {
     size: PlayerTileSize
     isFixed?: boolean
     isLoading?: boolean
+    fullWidth?: boolean
 }

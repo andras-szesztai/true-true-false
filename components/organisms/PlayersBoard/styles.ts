@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { PlayerTileSize } from 'components/molecules/PlayerTile'
 
 import { designTokens } from 'styles/designTokens'
 
@@ -9,22 +10,31 @@ const { color, space, strokeWidth, breakPoints } = designTokens
 
 const containerStylesMapping = {
     padding: {
-        base: `${space.sm}px`,
-        [breakPoints.md]: `${space.base}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.xs}px`,
+            [PlayerTileSize.lg]: `${space.sm}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.sm}px`,
+            [PlayerTileSize.lg]: `${space.base}px`,
+        },
     },
     maxHeight: {
-        base: '45vh',
+        base: {
+            [PlayerTileSize.md]: '25vh',
+            [PlayerTileSize.lg]: '45vh',
+        },
         [breakPoints.md]: '50vh',
     },
     position: {
-        base: `${space.sm}px`,
-        [breakPoints.sm]: `${space.base}px`,
         [breakPoints.md]: `${space.md}px`,
         [breakPoints.lg]: `${space.lg}px`,
     },
 }
 
-export const Container = styled.div<Pick<Props, 'isFixed'>>`
+export const Container = styled.div<
+    Pick<Props, 'isFixed' | 'size' | 'fullWidth'>
+>`
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -42,26 +52,23 @@ export const Container = styled.div<Pick<Props, 'isFixed'>>`
         background: ${color.background};
     }
 
-    max-height: ${containerStylesMapping.maxHeight.base};
-    padding: ${containerStylesMapping.padding.base};
+    width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        max-height: ${containerStylesMapping.maxHeight[breakPoints.md]};
-        padding: ${containerStylesMapping.padding[breakPoints.md]};
-    }
+    ${({ size }) => css`
+        max-height: ${containerStylesMapping.maxHeight.base[size]};
+        padding: ${containerStylesMapping.padding.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            max-height: ${containerStylesMapping.maxHeight[breakPoints.md]};
+            padding: ${containerStylesMapping.padding[breakPoints.md][size]};
+        }
+    `}
 
     ${({ isFixed }) =>
         isFixed &&
         css`
             position: fixed;
-
-            left: ${containerStylesMapping.position.base};
-            top: ${containerStylesMapping.position.base};
-
-            @media only screen and (min-width: ${breakPoints.sm}px) {
-                left: ${containerStylesMapping.position[breakPoints.sm]};
-                top: ${containerStylesMapping.position[breakPoints.sm]};
-            }
+            width: auto;
 
             @media only screen and (min-width: ${breakPoints.md}px) {
                 flex-direction: column;
