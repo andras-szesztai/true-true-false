@@ -11,7 +11,7 @@ import { generateSlug } from 'utils/slug'
 const DUPLICATE_ERROR = 'Unique constraint failed on the fields: (`slug`)'
 
 const createPlayer = async (roomId: number, body: any) => {
-    const slug = generateSlug()
+    const slug = generateSlug(10)
     try {
         const player = await prisma.player.create({
             data: {

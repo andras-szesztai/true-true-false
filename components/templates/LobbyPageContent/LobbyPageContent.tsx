@@ -16,10 +16,10 @@ const LobbyPageContent = ({ room, player, players }: Props) => (
         <ScreenMessagesContainer>
             {players.length > 1 && (
                 <ScreenMessage
-                    text={`${players.length} Players In The Lobby`}
+                    text={`${players.length} Players in the Lobby`}
                 />
             )}
-            <ScreenMessage text="Waiting For Others To Join..." />
+            <ScreenMessage text="Waiting for Others to Join ⏳" />
         </ScreenMessagesContainer>
         <PlayersBoard
             player={player}

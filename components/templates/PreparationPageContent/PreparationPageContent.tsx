@@ -1,7 +1,6 @@
-// 6. PlayersBoard with loading animations when writing + submit + offline
+import { RoomStage } from '@prisma/client'
 import { useState } from 'react'
 import { useAsync, useAsyncFn, useWindowSize } from 'react-use'
-import { RoomStage } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -67,7 +66,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
             />
             {isReady ? (
                 <>
-                    <ScreenMessage text="Waiting For Others To Submit Statements ⏳" />
+                    <ScreenMessage text="Waiting for Others to Submit Statements ⏳" />
                     <AdminButton
                         text="Start"
                         role={player.role}

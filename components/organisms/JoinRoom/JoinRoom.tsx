@@ -21,7 +21,7 @@ const JoinRoom = () => {
     const disableLink = !(value && 'id' in value)
     return (
         <JoinRoomContainer>
-            <OrText>Or</OrText>
+            <OrText>or</OrText>
             <Input
                 value={roomSlug}
                 maxLength={5}
