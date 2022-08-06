@@ -36,6 +36,14 @@ export default async function handler(
                         error: 'Could Not Add Statements to Database',
                     })
                 }
+                await prisma.player.update({
+                    where: {
+                        slug: query.playerSlug,
+                    },
+                    data: {
+                        showLoading: false,
+                    },
+                })
                 return res.status(200).json({ success: true })
             } catch (err) {
                 if (err instanceof Error) {

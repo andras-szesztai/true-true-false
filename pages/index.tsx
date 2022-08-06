@@ -10,6 +10,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - Add custom 404
 // - Error if trying to access currently logged in user url
 // - Check if fetching players might be easier with relational fetch
+// - If someone joins in GAME stage, check if they have statements, if not, let them submit
 
 const Home = () => (
     <HomePageContainer>

@@ -6,7 +6,6 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import { PlayersDataHandler } from 'components/organisms/PlayersDataHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
-import { GamePlayersBoard } from 'components/organisms/GamePlayersBoard'
 import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
@@ -48,10 +47,6 @@ const PlayerGamePage = () => {
                                         case RoomStage.PREPARATION:
                                             return (
                                                 <>
-                                                    <GamePlayersBoard
-                                                        player={playerData}
-                                                        players={playersData}
-                                                    />
                                                     <PreparationPageContent
                                                         room={roomData}
                                                         player={playerData}

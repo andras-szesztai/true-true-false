@@ -1,16 +1,17 @@
-import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
+import { PlayerTile } from 'components/molecules/PlayerTile'
 
 import { Container } from './styles'
 import { Props } from './types'
 
-const LobbyPlayersBoard = ({ player, players }: Props) => {
+const PlayersBoard = ({ player, players, isFixed, size }: Props) => {
     return (
-        <Container>
+        <Container isFixed={isFixed}>
             <PlayerTile
                 name={player.name}
                 emoji={player.emoji}
                 isOffline={!player.isActive}
-                size={PlayerTileSize.lg}
+                size={size}
+                isLoading={player.showLoading}
             />
             {players
                 .filter((p) => p.id !== player.id)
@@ -21,11 +22,12 @@ const LobbyPlayersBoard = ({ player, players }: Props) => {
                         emoji={p.emoji}
                         noBorderTop
                         isOffline={!p.isActive}
-                        size={PlayerTileSize.lg}
+                        size={size}
+                        isLoading={p.showLoading}
                     />
                 ))}
         </Container>
     )
 }
 
-export default LobbyPlayersBoard
+export default PlayersBoard

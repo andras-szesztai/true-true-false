@@ -1,6 +1,6 @@
 // 6. PlayersBoard with loading animations when writing + submit + offline
 import { useState } from 'react'
-import { useAsyncFn } from 'react-use'
+import { useAsync, useAsyncFn, useWindowSize } from 'react-use'
 import { RoomStage } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
@@ -9,14 +9,20 @@ import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { ChartCounter } from 'components/atoms/CharCounter'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { AdminButton } from 'components/molecules/AdminButton'
+import { PlayerTileSize } from 'components/molecules/PlayerTile'
+import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { GENERAL_ERROR_TRY_AGAIN } from 'constants/messages'
+import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
 import { TextArea, TextAreaContainer, TextBoxesContainer } from './styles'
 
 const MAX_LENGTH = 50
 
+const { breakPoints } = designTokens
+
 const PreparationPageContent = ({ room, player, players }: Props) => {
+    const { width } = useWindowSize()
     const [firstTrueStatement, setFirstTrueStatement] = useState('')
     const [secondTrueStatement, setSecondTrueStatement] = useState('')
     const [falseStatement, setFalseStatement] = useState('')
@@ -41,19 +47,38 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
         return result
     }, [firstTrueStatement, secondTrueStatement, falseStatement])
 
-    const isMinimumReady =
-        players.reduce((acc, curr) => acc + curr.statements.length, 0) >= 6
+    const isReady = state.value?.success || !!player.statements.length
+    useAsync(async () => {
+        if (!player.showLoading && !isReady) {
+            await fetch(
+                `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
+            )
+        }
+    }, [player, isReady])
 
     return (
         <HomeContentContainer>
             <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
-            {state.value?.success || !!player.statements.length ? (
+            <PlayersBoard
+                player={player}
+                players={players}
+                size={PlayerTileSize.md}
+                isFixed={width > breakPoints.md}
+            />
+            {isReady ? (
                 <>
                     <ScreenMessage text="Waiting For Others To Submit Statements ⏳" />
                     <AdminButton
                         text="Start"
                         role={player.role}
-                        isDisabled={!isMinimumReady}
+                        isDisabled={
+                            !(
+                                players.reduce(
+                                    (acc, curr) => acc + curr.statements.length,
+                                    0
+                                ) >= 6
+                            )
+                        }
                         slug={room.slug}
                         apiRoute="/update-stage"
                         postBody={{ stage: RoomStage.GAME }}

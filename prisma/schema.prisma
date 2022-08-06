@@ -32,18 +32,19 @@ enum Role {
 }
 
 model Player {
-  id         Int         @id @default(autoincrement())
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  slug       String      @unique
-  role       Role
-  isActive   Boolean
-  name       String
-  emoji      String
-  score      Int
-  room       Room        @relation(fields: [roomId], references: [id])
-  roomId     Int
-  statements Statement[]
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  slug        String      @unique
+  role        Role
+  isActive    Boolean
+  showLoading Boolean     @default(false)
+  name        String
+  emoji       String
+  score       Int
+  room        Room        @relation(fields: [roomId], references: [id])
+  roomId      Int
+  statements  Statement[]
 }
 
 model Statement {

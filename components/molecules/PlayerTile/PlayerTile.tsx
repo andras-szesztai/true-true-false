@@ -28,7 +28,7 @@ const PlayerTile = ({
                 <SquareLoader
                     loading={isLoading}
                     color={color.black}
-                    size={width <= breakPoints.md ? space.base : space.md}
+                    size={width <= breakPoints.md ? space.md : space.lg}
                 />
             )
         }
