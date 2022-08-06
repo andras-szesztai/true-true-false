@@ -43,7 +43,7 @@ export const TextArea = styled.textarea<{ noBorderTop?: boolean }>`
         `}
 
     ::placeholder {
-        color: ${color.black};
+        color: ${color.placeholder};
     }
 
     &:focus {

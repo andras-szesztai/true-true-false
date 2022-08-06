@@ -45,7 +45,7 @@
     },
     "lint-staged": {
         "**/*.{tsx,ts}": [
-            "npm run lint",
+            "eslint  --cache --cache-location .next/cache/eslint/ --fix",
             "tsc-files --noEmit --pretty"
         ]
     }

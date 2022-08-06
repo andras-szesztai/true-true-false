@@ -55,30 +55,37 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
         }
     }, [player, isReady])
 
+    const isMobileSize = width <= breakPoints.md
+    const isMinimumReady =
+        players.reduce((acc, curr) => acc + +!curr.showLoading, 0) >= 2
+    const allReady = !players.some((d) => d.showLoading)
     return (
         <HomeContentContainer>
-            <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
+            <RoomSlugText
+                slug={room.slug}
+                size={RoomSlugSizes.md}
+                isFixed={!isMobileSize}
+            />
             <PlayersBoard
                 player={player}
                 players={players}
                 size={PlayerTileSize.md}
-                isFixed={width > breakPoints.md}
+                isFixed={!isMobileSize}
                 fullWidth
             />
             {isReady ? (
                 <>
-                    <ScreenMessage text="Waiting for Others to Submit Statements ⏳" />
+                    <ScreenMessage
+                        text={
+                            allReady
+                                ? 'Everyone is ready! 🚀'
+                                : 'Waiting for Others to Submit Statements ⏳'
+                        }
+                    />
                     <AdminButton
                         text="Start"
                         role={player.role}
-                        isDisabled={
-                            !(
-                                players.reduce(
-                                    (acc, curr) => acc + curr.statements.length,
-                                    0
-                                ) >= 6
-                            )
-                        }
+                        isDisabled={!isMinimumReady}
                         slug={room.slug}
                         apiRoute="/update-stage"
                         postBody={{ stage: RoomStage.GAME }}
@@ -91,7 +98,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                             <TextArea
                                 rows={3}
                                 maxLength={MAX_LENGTH}
-                                placeholder="1st True Statement"
+                                placeholder="True Statement"
                                 onChange={(e) =>
                                     setFirstTrueStatement(e.target.value)
                                 }
@@ -104,7 +111,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                             <TextArea
                                 rows={3}
                                 maxLength={MAX_LENGTH}
-                                placeholder="2nd True Statement"
+                                placeholder="True Statement"
                                 onChange={(e) =>
                                     setSecondTrueStatement(e.target.value)
                                 }

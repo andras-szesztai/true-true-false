@@ -16,29 +16,39 @@ const containerStylesMapping = {
     },
 }
 
-export const Container = styled.div`
-    position: absolute;
+export const Container = styled.div<Pick<Props, 'isFixed'>>`
     display: flex;
     gap: ${space.xs}px;
+    justify-content: center;
 
-    right: ${containerStylesMapping.position.base};
-    top: ${containerStylesMapping.position.base};
+    ${({ isFixed }) =>
+        isFixed &&
+        css`
+            position: absolute;
+            justify-content: flex-end;
 
-    @media only screen and (min-width: ${breakPoints.sm}px) {
-        right: ${containerStylesMapping.position[breakPoints.sm]};
-        top: ${containerStylesMapping.position[breakPoints.sm]};
-    }
+            right: ${containerStylesMapping.position.base};
+            top: ${containerStylesMapping.position.base};
+
+            @media only screen and (min-width: ${breakPoints.sm}px) {
+                right: ${containerStylesMapping.position[breakPoints.sm]};
+                top: ${containerStylesMapping.position[breakPoints.sm]};
+            }
+
+            @media only screen and (min-width: ${breakPoints.md}px) {
+                flex-direction: column;
+                right: ${containerStylesMapping.position[breakPoints.md]};
+                top: ${containerStylesMapping.position[breakPoints.md]};
+            }
+
+            @media only screen and (min-width: ${breakPoints.lg}px) {
+                right: ${containerStylesMapping.position[breakPoints.lg]};
+                top: ${containerStylesMapping.position[breakPoints.lg]};
+            }
+        `}
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        flex-direction: column;
         gap: 0;
-        right: ${containerStylesMapping.position[breakPoints.md]};
-        top: ${containerStylesMapping.position[breakPoints.md]};
-    }
-
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        right: ${containerStylesMapping.position[breakPoints.lg]};
-        top: ${containerStylesMapping.position[breakPoints.lg]};
     }
 `
 

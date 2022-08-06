@@ -33,7 +33,7 @@ export const StyledInput = styled.input`
     z-index: 1;
 
     ::placeholder {
-        color: ${color.black};
+        color: ${color.placeholder};
     }
 
     &:focus {
