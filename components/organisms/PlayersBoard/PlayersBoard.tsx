@@ -12,6 +12,7 @@ const PlayersBoard = ({ players, player }: Props) => {
                     emoji={player.emoji}
                     isOffline={!player.isActive}
                     size={PlayerTileSize.md}
+                    isLoading={!player.statements.length}
                 />
                 {players
                     .filter((p) => p.id !== player.id)
@@ -22,6 +23,7 @@ const PlayersBoard = ({ players, player }: Props) => {
                             emoji={p.emoji}
                             isOffline={!p.isActive}
                             size={PlayerTileSize.md}
+                            isLoading={!p.statements.length}
                             noBorderTop
                         />
                     ))}

@@ -12,4 +12,5 @@ export interface Props extends Pick<Player, 'name' | 'emoji'> {
     isOffline: boolean
     noBorderTop?: boolean
     size: PlayerTileSize
+    isLoading?: boolean
 }
