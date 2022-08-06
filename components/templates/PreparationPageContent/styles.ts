@@ -24,6 +24,11 @@ const textAreaStylesMapping = {
     },
 }
 
+export const TextAreaContainer = styled.div`
+    position: relative;
+    display: flex;
+`
+
 export const TextArea = styled.textarea<{ noBorderTop?: boolean }>`
     resize: none;
     background-color: ${color.background};
