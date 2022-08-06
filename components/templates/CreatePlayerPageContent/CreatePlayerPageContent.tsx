@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { GameContainer } from 'components/atoms/containers/GameContainer'
-import { RoomSlugText } from 'components/atoms/RoomSlugText'
+import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { CreatePlayer } from 'components/organisms/CreatePlayer'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 
@@ -16,7 +16,10 @@ const CreatePlayerPageContent = ({ isAdmin }: Props) => {
             <RoomDataHandler roomSlug={roomSlug!}>
                 {(roomData) => (
                     <>
-                        <RoomSlugText slug={roomData.slug} />
+                        <RoomSlugText
+                            size={RoomSlugSizes.lg}
+                            slug={roomData.slug}
+                        />
                         <CreatePlayer
                             roomSlug={roomData.slug}
                             isAdmin={isAdmin}
