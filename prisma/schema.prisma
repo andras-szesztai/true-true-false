@@ -10,6 +10,13 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+enum RoomStage {
+  LOBBY
+  PREPARATION
+  GAME
+  END
+}
+
 model Room {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
@@ -19,28 +26,31 @@ model Room {
   stage     RoomStage
 }
 
-model Player {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  slug      String   @unique
-  role      Role
-  isActive  Boolean
-  name      String
-  emoji     String
-  score     Int
-  room      Room     @relation(fields: [roomId], references: [id])
-  roomId    Int
-}
-
 enum Role {
   USER
   ADMIN
 }
 
-enum RoomStage {
-  LOBBY
-  PREPARATION
-  GAME
-  END
+model Player {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  slug        String      @unique
+  role        Role
+  isActive    Boolean
+  showLoading Boolean     @default(false)
+  name        String
+  emoji       String
+  score       Int
+  room        Room        @relation(fields: [roomId], references: [id])
+  roomId      Int
+  statements  Statement[]
+}
+
+model Statement {
+  id       Int     @id @default(autoincrement())
+  text     String
+  isTrue   Boolean
+  player   Player  @relation(fields: [playerId], references: [id])
+  playerId Int
 }

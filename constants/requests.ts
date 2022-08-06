@@ -14,6 +14,8 @@ export const GET_PLAYERS_REQUEST_FIELDS = {
     isActive: true,
     id: true,
     role: true,
+    statements: true,
+    showLoading: true,
 }
 
 export const POST_PLAYER_REQUEST_FIELD = {
@@ -28,4 +30,6 @@ export const GET_PLAYER_REQUEST_FIELD = {
     emoji: true,
     role: true,
     isActive: true,
+    statements: true,
+    showLoading: true,
 }

@@ -6,8 +6,8 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
 // - Thumbnail for sharing url
-// - Make all text consistent following https://capitalizemytitle.com/style/APA/
-// - Add custom 404
+// - Check if fetching players might be easier with relational fetch
+// - If someone joins in GAME stage, check if they have statements, if not, let them submit
 
 const Home = () => (
     <HomePageContainer>

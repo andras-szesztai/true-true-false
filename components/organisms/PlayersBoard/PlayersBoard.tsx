@@ -1,15 +1,17 @@
-import { PlayerTile } from 'components/atoms/PlayerTile'
+import { PlayerTile } from 'components/molecules/PlayerTile'
 
 import { Container } from './styles'
 import { Props } from './types'
 
-const PlayerTilesContainer = ({ player, players }: Props) => {
+const PlayersBoard = ({ player, players, isFixed, size, fullWidth }: Props) => {
     return (
-        <Container>
+        <Container isFixed={isFixed} size={size} fullWidth={fullWidth}>
             <PlayerTile
                 name={player.name}
                 emoji={player.emoji}
                 isOffline={!player.isActive}
+                size={size}
+                isLoading={player.showLoading}
             />
             {players
                 .filter((p) => p.id !== player.id)
@@ -20,10 +22,12 @@ const PlayerTilesContainer = ({ player, players }: Props) => {
                         emoji={p.emoji}
                         noBorderTop
                         isOffline={!p.isActive}
+                        size={size}
+                        isLoading={p.showLoading}
                     />
                 ))}
         </Container>
     )
 }
 
-export default PlayerTilesContainer
+export default PlayersBoard
