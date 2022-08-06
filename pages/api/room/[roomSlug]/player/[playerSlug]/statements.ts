@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-
-import { GENERAL_ERROR } from 'constants/messages'
-import { prisma } from 'utils/prisma'
 import { Statement } from '@prisma/client'
+
+import { prisma } from 'utils/prisma'
+import { GENERAL_ERROR } from 'constants/messages'
 
 export default async function handler(
     req: NextApiRequest,

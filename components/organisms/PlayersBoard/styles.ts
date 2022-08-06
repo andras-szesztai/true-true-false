@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
+
 import { Props } from './types'
 
 const { color, space, strokeWidth, breakPoints } = designTokens
