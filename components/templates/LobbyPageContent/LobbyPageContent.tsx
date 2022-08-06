@@ -4,7 +4,7 @@ import { HomeContentContainer } from 'components/atoms/containers/HomeContentCon
 import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { AdminButton } from 'components/molecules/AdminButton'
-import { PlayerTilesContainer } from 'components/molecules/PlayerTilesContainer'
+import { LobbyPlayersBoard } from 'components/organisms/LobbyPlayersBoard'
 
 import { Props } from './types'
 import { ScreenMessagesContainer } from './styles'
@@ -20,7 +20,7 @@ const LobbyPageContent = ({ room, player, players }: Props) => (
             )}
             <ScreenMessage text="Waiting For Others To Join..." />
         </ScreenMessagesContainer>
-        <PlayerTilesContainer player={player} players={players} />
+        <LobbyPlayersBoard player={player} players={players} />
         <AdminButton
             role={player.role}
             isDisabled={players.length < 2}

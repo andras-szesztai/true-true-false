@@ -6,11 +6,11 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import { PlayersDataHandler } from 'components/organisms/PlayersDataHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
+import { GamePlayersBoard } from 'components/organisms/GamePlayersBoard'
 import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
-import { PlayersBoard } from 'components/organisms/PlayersBoard'
 
 const PlayerGamePage = () => {
     const {
@@ -48,7 +48,7 @@ const PlayerGamePage = () => {
                                         case RoomStage.PREPARATION:
                                             return (
                                                 <>
-                                                    <PlayersBoard
+                                                    <GamePlayersBoard
                                                         player={playerData}
                                                         players={playersData}
                                                     />

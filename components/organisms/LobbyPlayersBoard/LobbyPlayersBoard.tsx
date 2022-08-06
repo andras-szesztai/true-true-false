@@ -1,9 +1,9 @@
-import { PlayerTile, PlayerTileSize } from 'components/atoms/PlayerTile'
+import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
 
 import { Container } from './styles'
 import { Props } from './types'
 
-const PlayerTilesContainer = ({ player, players }: Props) => {
+const LobbyPlayersBoard = ({ player, players }: Props) => {
     return (
         <Container>
             <PlayerTile
@@ -28,4 +28,4 @@ const PlayerTilesContainer = ({ player, players }: Props) => {
     )
 }
 
-export default PlayerTilesContainer
+export default LobbyPlayersBoard

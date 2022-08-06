@@ -2,7 +2,7 @@ import { SquareLoader } from 'react-spinners'
 import { useWindowSize } from 'react-use'
 import { designTokens } from 'styles/designTokens'
 
-import { OfflineIcon } from '../icons/OfflineIcon'
+import { OfflineIcon } from 'components/atoms/icons/OfflineIcon'
 
 import { Container, EmojiContainer, NameContainer } from './styles'
 import { Props } from './types'
@@ -34,6 +34,7 @@ const PlayerTile = ({
         }
         return emoji
     }
+
     return (
         <Container>
             <EmojiContainer noBorderTop={noBorderTop} size={size}>
