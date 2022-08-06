@@ -20,7 +20,6 @@ export const Container = styled.div`
     display: flex;
     gap: ${space.xs}px;
 
-    flex-direction: row;
     right: ${containerStylesMapping.position.base};
     top: ${containerStylesMapping.position.base};
 

@@ -1,4 +1,4 @@
-import { PlayerTile } from 'components/atoms/PlayerTile'
+import { PlayerTile, PlayerTileSize } from 'components/atoms/PlayerTile'
 
 import { Container } from './styles'
 import { Props } from './types'
@@ -10,6 +10,7 @@ const PlayerTilesContainer = ({ player, players }: Props) => {
                 name={player.name}
                 emoji={player.emoji}
                 isOffline={!player.isActive}
+                size={PlayerTileSize.lg}
             />
             {players
                 .filter((p) => p.id !== player.id)
@@ -20,6 +21,7 @@ const PlayerTilesContainer = ({ player, players }: Props) => {
                         emoji={p.emoji}
                         noBorderTop
                         isOffline={!p.isActive}
+                        size={PlayerTileSize.lg}
                     />
                 ))}
         </Container>

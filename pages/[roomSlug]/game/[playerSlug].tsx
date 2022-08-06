@@ -10,6 +10,7 @@ import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
+import { PlayersBoard } from 'components/organisms/PlayersBoard'
 
 const PlayerGamePage = () => {
     const {
@@ -47,6 +48,10 @@ const PlayerGamePage = () => {
                                         case RoomStage.PREPARATION:
                                             return (
                                                 <>
+                                                    <PlayersBoard
+                                                        player={playerData}
+                                                        players={playersData}
+                                                    />
                                                     <PreparationPageContent
                                                         room={roomData}
                                                         player={playerData}

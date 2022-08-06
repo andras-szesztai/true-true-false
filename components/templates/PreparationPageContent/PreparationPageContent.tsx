@@ -1,8 +1,3 @@
-// 1. Add 3 TextBoxes in column flexbox
-// 2. Label them according (last one is false)
-// 3. Submit button
-// 4. Waiting Text
-// 5. Admin should have "everyone is in" button
 // 6. PlayersBoard with loading animations when writing + submit + offline
 import { useState } from 'react'
 import { useAsyncFn } from 'react-use'

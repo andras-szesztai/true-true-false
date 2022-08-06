@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
 
-import { Props, StyleProps } from './types'
+import { PlayerTileSize, Props, StyleProps } from './types'
 
 const { strokeWidth, color, space, fontSize, breakPoints } = designTokens
 
@@ -13,23 +13,46 @@ export const Container = styled.div`
 
 const emojiContainerStylesMapping = {
     fontSize: {
-        base: fontSize.md,
-        [breakPoints.md]: fontSize.lg,
+        base: {
+            [PlayerTileSize.md]: fontSize.base,
+            [PlayerTileSize.lg]: fontSize.md,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: fontSize.md,
+            [PlayerTileSize.lg]: fontSize.lg,
+        },
     },
     offLineSvgWidth: {
-        base: `${space.md}px`,
-        [breakPoints.sm]: `${space.md}px`,
-        [breakPoints.md]: `${space.lg}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.base}px`,
+            [PlayerTileSize.lg]: `${space.md}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.md}px`,
+            [PlayerTileSize.lg]: `${space.lg}px`,
+        },
     },
     padding: {
-        base: `${space.sm}px ${space.sm}px`,
-        [breakPoints.sm]: `${space.sm}px ${space.base}px`,
-        [breakPoints.md]: `${space.base}px ${space.base}px`,
-        [breakPoints.lg]: `${space.base}px ${space.md}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.xs}px ${space.xs}px`,
+            [PlayerTileSize.lg]: `${space.sm}px ${space.sm}px`,
+        },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: `${space.sm}px ${space.xs}px`,
+            [PlayerTileSize.lg]: `${space.sm}px ${space.base}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.sm}px ${space.sm}px`,
+            [PlayerTileSize.lg]: `${space.base}px ${space.base}px`,
+        },
+        [breakPoints.lg]: {
+            [PlayerTileSize.md]: `${space.sm}px ${space.base}px`,
+            [PlayerTileSize.lg]: `${space.base}px ${space.md}px`,
+        },
     },
 }
 
-export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop'>>`
+export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
     display: flex;
     align-items: center;
     border: ${strokeWidth.md}px solid ${color.black};
@@ -41,52 +64,77 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop'>>`
             border-top: none;
         `}
 
-    .offline-icon {
-        width: ${emojiContainerStylesMapping.offLineSvgWidth.base};
-    }
-    font-size: ${emojiContainerStylesMapping.fontSize.base};
-    padding: ${emojiContainerStylesMapping.padding.base};
-
-    @media only screen and (min-width: ${breakPoints.sm}px) {
+    ${({ size }) => css`
         .offline-icon {
-            width: ${emojiContainerStylesMapping.offLineSvgWidth[
-                breakPoints.sm
+            width: ${emojiContainerStylesMapping.offLineSvgWidth.base[size]};
+        }
+        font-size: ${emojiContainerStylesMapping.fontSize.base[size]};
+        padding: ${emojiContainerStylesMapping.padding.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            padding: ${emojiContainerStylesMapping.padding[breakPoints.sm][
+                size
             ]};
         }
-        padding: ${emojiContainerStylesMapping.padding[breakPoints.sm]};
-    }
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        .offline-icon {
-            width: ${emojiContainerStylesMapping.offLineSvgWidth[
-                breakPoints.md
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            .offline-icon {
+                width: ${emojiContainerStylesMapping.offLineSvgWidth[
+                    breakPoints.md
+                ][size]};
+            }
+            font-size: ${emojiContainerStylesMapping.fontSize[breakPoints.md][
+                size
+            ]};
+            padding: ${emojiContainerStylesMapping.padding[breakPoints.md][
+                size
             ]};
         }
-        font-size: ${emojiContainerStylesMapping.fontSize[breakPoints.md]};
-        padding: ${emojiContainerStylesMapping.padding[breakPoints.md]};
-    }
 
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        padding: ${emojiContainerStylesMapping.padding[breakPoints.lg]};
-    }
+        @media only screen and (min-width: ${breakPoints.lg}px) {
+            padding: ${emojiContainerStylesMapping.padding[breakPoints.lg][
+                size
+            ]};
+        }
+    `}
 `
 
 const nameContainerStylesMapping = {
     fontSize: {
-        base: fontSize.md,
-        [breakPoints.md]: fontSize.lg,
+        base: {
+            [PlayerTileSize.md]: fontSize.base,
+            [PlayerTileSize.lg]: fontSize.md,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: fontSize.md,
+            [PlayerTileSize.lg]: fontSize.lg,
+        },
     },
     padding: {
-        base: `${space.sm}px ${space.base}px`,
-        [breakPoints.sm]: `${space.sm}px ${space.lg}px`,
-        [breakPoints.md]: `${space.base}px ${space.xl}px`,
-        [breakPoints.lg]: `${space.base}px ${space.xxl}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.xs}px ${space.base}px`,
+            [PlayerTileSize.lg]: `${space.sm}px ${space.base}px`,
+        },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: `${space.xs}px ${space.md}px`,
+            [PlayerTileSize.lg]: `${space.sm}px ${space.lg}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.sm}px ${space.md}px`,
+            [PlayerTileSize.lg]: `${space.base}px ${space.xl}px`,
+        },
+        [breakPoints.lg]: {
+            [PlayerTileSize.md]: `${space.sm}px ${space.lg}px`,
+            [PlayerTileSize.lg]: `${space.base}px ${space.xxl}px`,
+        },
     },
 }
 
 export const NameContainer = styled.div<Pick<Props, StyleProps>>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: ${strokeWidth.md}px solid ${color.black};
-    text-align: center;
     flex: 1;
 
     ${({ isOffline }) =>
@@ -104,19 +152,29 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
             border-top: none;
         `}
 
-    font-size: ${nameContainerStylesMapping.fontSize.base};
-    padding: ${nameContainerStylesMapping.padding.base};
+        ${({ size }) => css`
+        font-size: ${nameContainerStylesMapping.fontSize.base[size]};
+        padding: ${nameContainerStylesMapping.padding.base[size]};
 
-    @media only screen and (min-width: ${breakPoints.sm}px) {
-        padding: ${nameContainerStylesMapping.padding[breakPoints.sm]};
-    }
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            padding: ${nameContainerStylesMapping.padding[breakPoints.sm][
+                size
+            ]};
+        }
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${nameContainerStylesMapping.fontSize[breakPoints.md]};
-        padding: ${nameContainerStylesMapping.padding[breakPoints.md]};
-    }
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            font-size: ${nameContainerStylesMapping.fontSize[breakPoints.md][
+                size
+            ]};
+            padding: ${nameContainerStylesMapping.padding[breakPoints.md][
+                size
+            ]};
+        }
 
-    @media only screen and (min-width: ${breakPoints.lg}px) {
-        padding: ${nameContainerStylesMapping.padding[breakPoints.lg]};
-    }
+        @media only screen and (min-width: ${breakPoints.lg}px) {
+            padding: ${nameContainerStylesMapping.padding[breakPoints.lg][
+                size
+            ]};
+        }
+    `}
 `

@@ -9,6 +9,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - Make all text consistent following https://capitalizemytitle.com/style/APA/
 // - Add custom 404
 // - Error if trying to access currently logged in user url
+// - Check if fetching players might be easier with relational fetch
 
 const Home = () => (
     <HomePageContainer>
