@@ -10,4 +10,7 @@ export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
         apiRoute?: string
         postBody?: Record<string, string>
         onClick?: () => void
+        isLoading?: boolean
+        isSuccess?: boolean
+        error?: string
     }

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { useAsyncFn } from 'react-use'
+import { SquareLoader } from 'react-spinners'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { StatementContainer } from 'components/atoms/containers/StatementContainer'
 import { GENERAL_ERROR } from 'constants/messages'
+import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
-import {
-    ErrorText,
-    StatementContainer,
-    StatementLabel,
-    TextBoxRadio,
-} from './styles'
+import { ErrorText, StatementLabel, TextBoxRadio } from './styles'
+
+const { color, space } = designTokens
 
 const StatementSelectionBoard = ({
     statements,
@@ -32,7 +32,8 @@ const StatementSelectionBoard = ({
         return result
     }, [selectedId])
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading)
+        return <SquareLoader color={color.black} loading size={space.lg} />
 
     if (!statements || error)
         return <ScreenMessage text={error?.message || GENERAL_ERROR} />

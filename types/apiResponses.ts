@@ -50,11 +50,11 @@ export type GetStatementForQuestionResponse =
     | GetStatementForQuestionResponseSuccess
     | ErrorResponse
 
-export type GetRevealAnswerSResponseuccess = {
+export type GetRevealAnswerResponseSuccess = {
     falseStatement: { id: number }
     guesses: { id: number; selectedAnswerId: number }[]
 }
 
 export type GetRevealAnswerResponse =
-    | GetRevealAnswerSResponseuccess
+    | GetRevealAnswerResponseSuccess
     | ErrorResponse

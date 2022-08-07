@@ -1,11 +1,25 @@
-import React from 'react'
+import { SquareLoader } from 'react-spinners'
 
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { GENERAL_ERROR } from 'constants/messages'
+
+import { designTokens } from 'styles/designTokens'
+
+import { StatementContainer } from 'components/atoms/containers/StatementContainer'
 import { Props } from './types'
 
-const StatementSelectionBoard = ({ statements, revealAnswer }: Props) => {
-    console.log({ revealAnswer, statements })
+const { color, space } = designTokens
 
-    // const [selectedId, setSelectedId] = useState<number | null>(null)
+const StatementRevealBoard = ({
+    statements,
+    revealAnswer,
+    isLoading,
+    error,
+}: Props) => {
+    // const [stage, setStage] = useState<STAGES>(STAGES.IDLE)
+
+    if (isLoading)
+        return <SquareLoader color={color.black} loading size={space.lg} />
 
     // const [submitState, submitSelectedStatement] = useAsyncFn(async () => {
     //     const response = await fetch(
@@ -15,25 +29,23 @@ const StatementSelectionBoard = ({ statements, revealAnswer }: Props) => {
     //     return result
     // }, [selectedId])
 
-    // if (isLoading) return <div>Loading...</div>
+    if (!statements || error || !revealAnswer)
+        return <ScreenMessage text={error?.message || GENERAL_ERROR} />
 
-    // if (!statements || error)
-    //     return <ScreenMessage text={error?.message || GENERAL_ERROR} />
+    if ('error' in revealAnswer)
+        return <ScreenMessage text={revealAnswer.error} />
 
-    // if ('error' in statements) return <ScreenMessage text={statements.error} />
+    if ('error' in statements) return <ScreenMessage text={statements.error} />
 
-    // if ((submitState.value && 'success' in submitState.value) || isPlayerReady)
-    //     return (
-    //         <ScreenMessage
-    //             text={
-    //                 isAllReady
-    //                     ? 'Everyone is ready! 🚀'
-    //                     : 'Waiting for Others to Select ⏳'
-    //             }
-    //         />
-    //     )
-
-    return <div>RevealBoard</div>
+    return (
+        <div>
+            {statements.map((s, i) => (
+                <StatementContainer noBorderTop={!!i} key={s.id}>
+                    {s.text}
+                </StatementContainer>
+            ))}
+        </div>
+    )
 }
 
-export default StatementSelectionBoard
+export default StatementRevealBoard

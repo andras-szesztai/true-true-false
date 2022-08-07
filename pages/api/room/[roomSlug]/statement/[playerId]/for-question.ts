@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { RoundStage } from '@prisma/client'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
@@ -29,11 +28,6 @@ export default async function handler(
             if (!room) {
                 return res.status(404).json({
                     error: 'Could Not Find Room By Provided ID',
-                })
-            }
-            if (room.roundStage !== RoundStage.QUESTIONING) {
-                return res.status(401).json({
-                    error: 'Sorry, Room Stage is Incorrect',
                 })
             }
             const statements = await prisma.statement.findMany({

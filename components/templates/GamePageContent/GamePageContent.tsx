@@ -19,12 +19,12 @@ import { Props } from './types'
 const { breakPoints } = designTokens
 
 // TODO
-// 3. Store how many questions are left in the room (managed by admin with - button) visible to everyone
-// 5. Admin clicks reveal + add emojis on each statements as votes
-// 6. Reveal which one was false (admin reveals - fetch isTrue statements for currentPlayerId)
-// 7. Everyone gets or loses points (check submitted answers)
-// 8. Player gets flag as 'done'
-// 9. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
+// 1. Store how many questions are left in the room (managed by admin with - button) visible to everyone
+// 2. Admin clicks reveal + add emojis on each statements as votes
+// 3. Reveal which one was false (admin reveals - fetch isTrue statements for currentPlayerId)
+// 4. Everyone gets or loses points (check submitted answers)
+// 5. Player gets flag as 'done'
+// 6. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
     const { width } = useWindowSize()
@@ -43,12 +43,11 @@ const GamePageContent = ({ room, player, players }: Props) => {
             return {
                 text: 'Reveal',
                 onClick: getRevealAnswer,
-            }
-        }
-        if (room.roundStage === RoundStage.QUESS_REVEAL) {
-            return {
-                text: room.isLastRound ? 'See Final Scores' : 'Update Scores',
-                apiRoute: '/start-round', // TODO Update
+                isLoading: revealAnswerState.loading,
+                isSuccess:
+                    revealAnswerState.value &&
+                    'success' in revealAnswerState.value,
+                error: revealAnswerState.error?.message,
             }
         }
         if (room.roundStage === RoundStage.SCORING) {
@@ -58,10 +57,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
     }
 
     const currStatements = useAsync(async () => {
-        if (
-            room.selectedPlayerId &&
-            room.roundStage === RoundStage.QUESTIONING
-        ) {
+        if (room.selectedPlayerId) {
             const response = await fetch(
                 `/api/room/${room.slug}/statement/${room.selectedPlayerId}/for-question`
             )
@@ -97,17 +93,19 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 <StatementRevealBoard
                     statements={currStatements.value}
                     revealAnswer={revealAnswerState.value}
+                    isLoading={revealAnswerState.loading}
+                    error={revealAnswerState.error}
                 />
             )}
-            {(room.roundStage === RoundStage.IDLE ||
-                player.selectedAnswerId) && (
-                <AdminButton
-                    {...getButtonProps()}
-                    role={player.role}
-                    isDisabled={false}
-                    slug={room.slug}
-                />
-            )}
+            {(room.roundStage === RoundStage.IDLE || player.selectedAnswerId) &&
+                room.roundStage !== RoundStage.QUESS_REVEAL && (
+                    <AdminButton
+                        {...getButtonProps()}
+                        role={player.role}
+                        isDisabled={false}
+                        slug={room.slug}
+                    />
+                )}
         </HomeContentContainer>
     )
 }

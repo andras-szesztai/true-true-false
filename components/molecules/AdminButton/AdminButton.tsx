@@ -14,6 +14,9 @@ const AdminButton = ({
     apiRoute,
     postBody,
     text,
+    isLoading: parentIsLoading,
+    isSuccess: parentIsSuccess,
+    error: parentError,
     onClick = () => {},
 }: AdminButtonProps) => {
     const [isLoading, setIsLoading] = useToggle(false)
@@ -42,17 +45,21 @@ const AdminButton = ({
     }
     return (
         <>
-            {error && <ScreenMessage text={error} />}
+            {(error || parentError) && (
+                <ScreenMessage text={error || parentError!} />
+            )}
             {role === Role.ADMIN && !success && (
                 <Button
                     text={text}
                     size={ButtonSizes.md}
-                    isLoading={isLoading}
-                    isDisabled={isDisabled || isLoading}
+                    isLoading={isLoading || parentIsLoading}
+                    isDisabled={isDisabled || isLoading || parentIsLoading}
                     onClick={apiRoute ? handleRoomUpdate : onClick}
                 />
             )}
-            {success && <ScreenMessage text="Just One More Second..." />}
+            {(success || parentIsSuccess) && (
+                <ScreenMessage text="Just One More Second..." />
+            )}
         </>
     )
 }
