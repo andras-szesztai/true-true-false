@@ -19,7 +19,6 @@ const createPlayer = async (roomId: number, body: any) => {
                 name: body.name,
                 emoji: body.emoji,
                 slug,
-                score: 0,
                 isActive: true,
                 role: body.role,
             },

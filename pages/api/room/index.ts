@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { RoomStage } from '@prisma/client'
 
 import { generateSlug } from 'utils/slug'
 import { prisma } from 'utils/prisma'
@@ -14,7 +13,6 @@ const createRoom = async () => {
         const room = await prisma.room.create({
             data: {
                 slug,
-                stage: RoomStage.LOBBY,
             },
             select: POST_ROOM_REQUEST_FIELDS,
         })

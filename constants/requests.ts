@@ -8,6 +8,8 @@ export const GET_ROOM_REQUEST_FIELDS = {
     slug: true,
     id: true,
     stage: true,
+    selectedPlayerId: true,
+    roundStage: true,
 }
 
 // TODO review player & players request

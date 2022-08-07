@@ -11,8 +11,7 @@ import { Props } from './types'
 const { breakPoints } = designTokens
 
 // TODO
-// 1. Add players board with score bars
-// 2. Auto start wth first random player (room currentPlayerId?) & set everyone to showLoading/empty selectedAnswer (if was)
+// 2. Auto start with first random player (room currentPlayerId?) & set everyone to showLoading/empty selectedAnswer (if was)
 // 3. Store how many questions are left in the room (managed by admin with - button) visible to everyone
 // 4. SelectedAnswer for each player stored when submit answer & showLoading set to false
 // 5. Admin clicks reveal + add emojis on each statements as votes
@@ -25,6 +24,12 @@ const GamePageContent = ({ room, player, players }: Props) => {
     const { width } = useWindowSize()
     const isMobileSize = width <= breakPoints.md
 
+    // const [startNewRoundState, startNewRound] = useAsyncFn(async () => {
+    //     // const response = await fetch(url);
+    //     // const result = await response.text();
+    //     // return result
+    //   }, []);
+
     return (
         <HomeContentContainer>
             <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
@@ -36,6 +41,14 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 fullWidth
                 displayScore
             />
+            {/* <AdminButton
+                        text="Next round"
+                        role={player.role}
+                        isDisabled={false}
+                        slug={room.slug}
+                        apiRoute="/update-stage"
+                        postBody={{ stage: RoomStage.GAME }}
+                    /> */}
         </HomeContentContainer>
     )
 }
