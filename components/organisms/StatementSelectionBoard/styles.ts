@@ -40,3 +40,11 @@ export const TextBoxRadio = styled.input`
     opacity: 0;
     position: absolute;
 `
+
+// TODO make it atom?
+export const ErrorText = styled.p`
+    margin-bottom: ${space.xxs}px;
+    text-align: right;
+
+    font-size: ${fontSize.base};
+`

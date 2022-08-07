@@ -31,7 +31,7 @@ export default async function handler(
                     },
                     data: {
                         showLoading: true,
-                        selectedAnswer: null,
+                        selectedAnswerId: null,
                     },
                 })
                 const players = await prisma.player.findMany({
@@ -40,7 +40,7 @@ export default async function handler(
                     },
                     select: {
                         id: true,
-                        done: true,
+                        isDone: true,
                         statements: true,
                     },
                 })
@@ -50,18 +50,19 @@ export default async function handler(
                     })
                 } else {
                     const remainingPlayers = players
-                        .filter((d) => !d.done && !!d.statements.length)
+                        .filter((d) => !d.isDone && !!d.statements.length)
                         .map((d) => d.id)
                     await prisma.room.update({
                         where: {
                             id: room.id,
                         },
                         data: {
-                            roundStage: RoundStage.IDLE,
+                            roundStage: RoundStage.QUESTIONING,
                             selectedPlayerId:
                                 remainingPlayers[
                                     random(0, remainingPlayers.length - 1)
                                 ],
+                            isLastRound: remainingPlayers.length === 1,
                         },
                     })
                     return res.status(200).json({ success: true })

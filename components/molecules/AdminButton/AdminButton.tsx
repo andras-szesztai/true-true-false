@@ -14,10 +14,12 @@ const AdminButton = ({
     apiRoute,
     postBody,
     text,
+    onClick = () => {},
 }: AdminButtonProps) => {
     const [isLoading, setIsLoading] = useToggle(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useToggle(false)
+    // TODO sync fetch fns
     const handleRoomUpdate = async () => {
         try {
             setIsLoading()
@@ -44,10 +46,10 @@ const AdminButton = ({
             {role === Role.ADMIN && !success && (
                 <Button
                     text={text}
-                    size={ButtonSizes.lg}
+                    size={ButtonSizes.md}
                     isLoading={isLoading}
                     isDisabled={isDisabled || isLoading}
-                    onClick={handleRoomUpdate}
+                    onClick={apiRoute ? handleRoomUpdate : onClick}
                 />
             )}
             {success && <ScreenMessage text="Just One More Second..." />}

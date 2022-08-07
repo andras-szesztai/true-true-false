@@ -1,14 +1,36 @@
 import React, { useState } from 'react'
+import { useAsyncFn } from 'react-use'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { GENERAL_ERROR } from 'constants/messages'
 
 import { Props } from './types'
-import { StatementContainer, StatementLabel, TextBoxRadio } from './styles'
+import {
+    ErrorText,
+    StatementContainer,
+    StatementLabel,
+    TextBoxRadio,
+} from './styles'
 
-const StatementSelectionBoard = ({ statements, isLoading, error }: Props) => {
+const StatementSelectionBoard = ({
+    statements,
+    isLoading,
+    error,
+    roomSlug,
+    playerSlug,
+    isPlayerReady,
+    isAllReady,
+}: Props) => {
     const [selectedId, setSelectedId] = useState<number | null>(null)
+
+    const [submitState, submitSelectedStatement] = useAsyncFn(async () => {
+        const response = await fetch(
+            `/api/room/${roomSlug}/player/${playerSlug}/select-statement/${selectedId}`
+        )
+        const result = await response.json()
+        return result
+    }, [selectedId])
 
     if (isLoading) return <div>Loading...</div>
 
@@ -16,6 +38,17 @@ const StatementSelectionBoard = ({ statements, isLoading, error }: Props) => {
         return <ScreenMessage text={error?.message || GENERAL_ERROR} />
 
     if ('error' in statements) return <ScreenMessage text={statements.error} />
+
+    if ((submitState.value && 'success' in submitState.value) || isPlayerReady)
+        return (
+            <ScreenMessage
+                text={
+                    isAllReady
+                        ? 'Everyone is ready! 🚀'
+                        : 'Waiting for Others to Select ⏳'
+                }
+            />
+        )
 
     return (
         <>
@@ -38,12 +71,14 @@ const StatementSelectionBoard = ({ statements, isLoading, error }: Props) => {
                     </StatementContainer>
                 ))}
             </div>
+            {'error' in submitState ||
+                (submitState.error && <ErrorText>Please Try Again!</ErrorText>)}
             <Button
                 text="Submit"
-                onClick={() => {}}
+                onClick={submitSelectedStatement}
                 size={ButtonSizes.md}
                 isDisabled={!selectedId}
-                // isLoading={isLoading}
+                isLoading={submitState.loading}
             />
         </>
     )

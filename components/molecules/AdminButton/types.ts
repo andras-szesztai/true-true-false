@@ -3,12 +3,11 @@ import {
     GetRoomResponseSuccess,
 } from 'types/apiResponses'
 
-type ApiRoutes = '/update-stage' | '/start-round'
-
 export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
     Pick<GetRoomResponseSuccess, 'slug'> & {
         isDisabled: boolean
         text: string
-        apiRoute: ApiRoutes
+        apiRoute?: string
         postBody?: Record<string, string>
+        onClick?: () => void
     }

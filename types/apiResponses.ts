@@ -49,3 +49,12 @@ export type GetStatementForQuestionResponseSuccess = Pick<
 export type GetStatementForQuestionResponse =
     | GetStatementForQuestionResponseSuccess
     | ErrorResponse
+
+export type GetRevealAnswerSResponseuccess = {
+    falseStatement: { id: number }
+    guesses: { id: number; selectedAnswerId: number }[]
+}
+
+export type GetRevealAnswerResponse =
+    | GetRevealAnswerSResponseuccess
+    | ErrorResponse

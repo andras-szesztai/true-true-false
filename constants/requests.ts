@@ -10,6 +10,7 @@ export const GET_ROOM_REQUEST_FIELDS = {
     stage: true,
     selectedPlayerId: true,
     roundStage: true,
+    isLastRound: true,
 }
 
 // TODO review player & players request
@@ -38,6 +39,7 @@ export const GET_PLAYER_REQUEST_FIELD = {
     statements: true,
     showLoading: true,
     score: true,
+    selectedAnswerId: true,
 }
 
 export const GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD = {

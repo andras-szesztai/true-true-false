@@ -33,6 +33,7 @@ model Room {
   stage            RoomStage  @default(LOBBY)
   selectedPlayerId Int?
   roundStage       RoundStage @default(IDLE)
+  isLastRound      Boolean    @default(false)
 }
 
 enum Role {
@@ -41,21 +42,21 @@ enum Role {
 }
 
 model Player {
-  id             Int         @id @default(autoincrement())
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-  slug           String      @unique
-  role           Role
-  isActive       Boolean
-  showLoading    Boolean     @default(false)
-  name           String
-  emoji          String
-  score          Int         @default(0)
-  room           Room        @relation(fields: [roomId], references: [id])
-  roomId         Int
-  statements     Statement[]
-  selectedAnswer Int?
-  done           Boolean     @default(false)
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  slug             String      @unique
+  role             Role
+  isActive         Boolean
+  showLoading      Boolean     @default(false)
+  name             String
+  emoji            String
+  score            Int         @default(0)
+  room             Room        @relation(fields: [roomId], references: [id])
+  roomId           Int
+  statements       Statement[]
+  selectedAnswerId Int?
+  isDone           Boolean     @default(false)
 }
 
 model Statement {
