@@ -57,7 +57,8 @@ export default async function handler(
                             id: room.id,
                         },
                         data: {
-                            roundStage: RoundStage.QUESTIONING,
+                            questionsLeft: 10,
+                            roundStage: RoundStage.QUESTION,
                             selectedPlayerId:
                                 remainingPlayers[
                                     random(0, remainingPlayers.length - 1)

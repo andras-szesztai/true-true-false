@@ -19,8 +19,11 @@ enum RoomStage {
 
 enum RoundStage {
   IDLE
-  QUESTIONING
-  QUESS_REVEAL
+  QUESTION
+  QUESTION_END
+  GUESS_REVEAL
+  FALSE_REVEAL
+  SCORE_REVEAL
   SCORING
 }
 
@@ -34,6 +37,7 @@ model Room {
   selectedPlayerId Int?
   roundStage       RoundStage @default(IDLE)
   isLastRound      Boolean    @default(false)
+  questionsLeft    Int        @default(10)
 }
 
 enum Role {

@@ -30,7 +30,11 @@ export default async function handler(
                     error: 'Could Not Find Room By Provided ID',
                 })
             }
-            if (room.roundStage !== RoundStage.QUESTIONING) {
+            if (
+                room.roundStage === RoundStage.QUESTION ||
+                room.roundStage === RoundStage.QUESTION_END ||
+                room.roundStage === RoundStage.IDLE
+            ) {
                 return res.status(401).json({
                     error: 'Sorry, Room Stage is Incorrect',
                 })
@@ -68,7 +72,7 @@ export default async function handler(
                     id: room.id,
                 },
                 data: {
-                    roundStage: RoundStage.QUESS_REVEAL,
+                    roundStage: RoundStage.GUESS_REVEAL,
                 },
             })
             return res

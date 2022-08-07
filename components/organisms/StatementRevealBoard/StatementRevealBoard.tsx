@@ -1,11 +1,11 @@
 import { SquareLoader } from 'react-spinners'
-
-import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { GENERAL_ERROR } from 'constants/messages'
-
-import { designTokens } from 'styles/designTokens'
+import { RoundStage } from '@prisma/client'
 
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { GENERAL_ERROR } from 'constants/messages'
+import { designTokens } from 'styles/designTokens'
+
 import { Props } from './types'
 
 const { color, space } = designTokens
@@ -15,8 +15,17 @@ const StatementRevealBoard = ({
     revealAnswer,
     isLoading,
     error,
+    roundStage,
 }: Props) => {
     // const [stage, setStage] = useState<STAGES>(STAGES.IDLE)
+    if (
+        roundStage !== RoundStage.QUESTION_END &&
+        roundStage !== RoundStage.GUESS_REVEAL &&
+        roundStage !== RoundStage.FALSE_REVEAL &&
+        roundStage !== RoundStage.SCORE_REVEAL &&
+        roundStage !== RoundStage.SCORING
+    )
+        return null
 
     if (isLoading)
         return <SquareLoader color={color.black} loading size={space.lg} />
@@ -40,7 +49,10 @@ const StatementRevealBoard = ({
     return (
         <div>
             {statements.map((s, i) => (
-                <StatementContainer noBorderTop={!!i} key={s.id}>
+                <StatementContainer
+                    noBorderTop={roundStage === RoundStage.QUESTION_END && !!i}
+                    key={s.id}
+                >
                     {s.text}
                 </StatementContainer>
             ))}
