@@ -8,13 +8,14 @@ import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { ChartCounter } from 'components/atoms/CharCounter'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { AdminButton } from 'components/molecules/AdminButton'
+import { TextArea } from 'components/atoms/TextArea'
 import { PlayerTileSize } from 'components/molecules/PlayerTile'
 import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { GENERAL_ERROR_TRY_AGAIN } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
-import { TextArea, TextAreaContainer, TextBoxesContainer } from './styles'
+import { TextAreaContainer, TextBoxesContainer } from './styles'
 
 const MAX_LENGTH = 50
 

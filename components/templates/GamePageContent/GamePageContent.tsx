@@ -1,17 +1,22 @@
-import { useWindowSize } from 'react-use'
+import { RoundStage } from '@prisma/client'
+import { useAsync, useWindowSize } from 'react-use'
+import { isNull } from 'lodash'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { PlayerTileSize } from 'components/molecules/PlayerTile'
+import { AdminButton } from 'components/molecules/AdminButton'
 import { PlayersBoard } from 'components/organisms/PlayersBoard'
+import { GetStatementForQuestionResponse } from 'types/apiResponses'
 import { designTokens } from 'styles/designTokens'
 
+import { StatementSelectionBoard } from 'components/organisms/StatementSelectionBoard'
 import { Props } from './types'
 
 const { breakPoints } = designTokens
 
 // TODO
-// 2. Auto start with first random player (room currentPlayerId?) & set everyone to showLoading/empty selectedAnswer (if was)
+// Get statements from selectedPlayerId and show on the screen
 // 3. Store how many questions are left in the room (managed by admin with - button) visible to everyone
 // 4. SelectedAnswer for each player stored when submit answer & showLoading set to false
 // 5. Admin clicks reveal + add emojis on each statements as votes
@@ -24,11 +29,29 @@ const GamePageContent = ({ room, player, players }: Props) => {
     const { width } = useWindowSize()
     const isMobileSize = width <= breakPoints.md
 
-    // const [startNewRoundState, startNewRound] = useAsyncFn(async () => {
-    //     // const response = await fetch(url);
-    //     // const result = await response.text();
-    //     // return result
-    //   }, []);
+    const shouldAdminButtonShow = () => {
+        if (room.roundStage === RoundStage.SCORING) return true
+    }
+
+    const getAdminButtonText = () => {
+        if (
+            room.roundStage === RoundStage.SCORING &&
+            isNull(room.selectedPlayerId)
+        )
+            return 'Start First Round'
+        return 'Default'
+    }
+
+    const currStatements = useAsync(async () => {
+        if (room.selectedPlayerId) {
+            const response = await fetch(
+                `/api/room/${room.slug}/statement/${room.selectedPlayerId}/for-question`
+            )
+            const result: GetStatementForQuestionResponse =
+                await response.json()
+            return result
+        }
+    }, [room.selectedPlayerId])
 
     return (
         <HomeContentContainer>
@@ -41,14 +64,20 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 fullWidth
                 displayScore
             />
-            {/* <AdminButton
-                        text="Next round"
-                        role={player.role}
-                        isDisabled={false}
-                        slug={room.slug}
-                        apiRoute="/update-stage"
-                        postBody={{ stage: RoomStage.GAME }}
-                    /> */}
+            {shouldAdminButtonShow() && (
+                <AdminButton
+                    text={getAdminButtonText()}
+                    role={player.role}
+                    isDisabled={false}
+                    slug={room.slug}
+                    apiRoute="/start-round"
+                />
+            )}
+            <StatementSelectionBoard
+                statements={currStatements.value}
+                isLoading={currStatements.loading}
+                error={currStatements.error}
+            />
         </HomeContentContainer>
     )
 }

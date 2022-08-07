@@ -1,10 +1,10 @@
+import { isUndefined } from 'lodash'
 import { SquareLoader } from 'react-spinners'
 import { useWindowSize } from 'react-use'
-import { designTokens } from 'styles/designTokens'
 
 import { OfflineIcon } from 'components/atoms/icons/OfflineIcon'
+import { designTokens } from 'styles/designTokens'
 
-import { isUndefined } from 'lodash'
 import {
     Container,
     EmojiContainer,
@@ -26,7 +26,7 @@ const PlayerTile = ({
     size,
     isLoading,
     score,
-    maxScore = 0,
+    maxScore,
 }: Props) => {
     const { width } = useWindowSize()
 

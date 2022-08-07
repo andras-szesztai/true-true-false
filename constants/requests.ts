@@ -39,3 +39,8 @@ export const GET_PLAYER_REQUEST_FIELD = {
     showLoading: true,
     score: true,
 }
+
+export const GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD = {
+    id: true,
+    text: true,
+}
