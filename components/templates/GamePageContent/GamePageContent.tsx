@@ -1,4 +1,4 @@
-import { RoundStage } from '@prisma/client'
+import { RoomStage, RoundStage } from '@prisma/client'
 import { useAsync, useWindowSize } from 'react-use'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -36,19 +36,46 @@ const GamePageContent = ({ room, player, players }: Props) => {
             return {
                 text: 'End Questions Round',
                 apiRoute: '/update-round-stage',
-                body: { roundStage: RoundStage.QUESTION_END },
+                postBody: { stage: RoundStage.QUESTION_END },
             }
         }
         if (room.roundStage === RoundStage.QUESTION_END) {
+            // TODO fix bug here
             return {
                 text: 'Reveal Guesses',
                 apiRoute: '/update-round-stage',
-                body: { roundStage: RoundStage.GUESS_REVEAL },
+                postBody: { stage: RoundStage.GUESS_REVEAL },
             }
         }
-
+        if (room.roundStage === RoundStage.GUESS_REVEAL) {
+            return {
+                text: 'Reveal False',
+                apiRoute: '/update-round-stage',
+                postBody: { stage: RoundStage.FALSE_REVEAL },
+            }
+        }
+        if (room.roundStage === RoundStage.FALSE_REVEAL) {
+            return {
+                text: 'Calculate Scores',
+                apiRoute: '/update-round-stage',
+                postBody: { stage: RoundStage.SCORE_REVEAL },
+            }
+        }
+        if (room.roundStage === RoundStage.SCORE_REVEAL) {
+            return {
+                text: 'Update Scores',
+                apiRoute: '/update-round-stage',
+                postBody: { stage: RoundStage.SCORING },
+            }
+        }
         if (room.roundStage === RoundStage.SCORING) {
-            return { text: 'Next Round', apiRoute: '/start-round' }
+            return room.isLastRound
+                ? {
+                      text: 'End Game',
+                      apiRoute: '/update-room-stage',
+                      postBody: { stage: RoomStage.END },
+                  }
+                : { text: 'Next Round', apiRoute: '/start-round' }
         }
         return { text: 'Start First Round', apiRoute: '/start-round' }
     }

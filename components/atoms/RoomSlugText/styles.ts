@@ -24,7 +24,7 @@ export const Container = styled.div<Pick<Props, 'isFixed'>>`
     ${({ isFixed }) =>
         isFixed &&
         css`
-            position: absolute;
+            position: fixed;
             justify-content: flex-end;
 
             right: ${containerStylesMapping.position.base};

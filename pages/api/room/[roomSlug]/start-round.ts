@@ -52,6 +52,8 @@ export default async function handler(
                     const remainingPlayers = players
                         .filter((d) => !d.isDone && !!d.statements.length)
                         .map((d) => d.id)
+                    const nextSelectedPlayerId =
+                        remainingPlayers[random(0, remainingPlayers.length - 1)]
                     await prisma.room.update({
                         where: {
                             id: room.id,
@@ -59,11 +61,16 @@ export default async function handler(
                         data: {
                             questionsLeft: 10,
                             roundStage: RoundStage.QUESTION,
-                            selectedPlayerId:
-                                remainingPlayers[
-                                    random(0, remainingPlayers.length - 1)
-                                ],
+                            selectedPlayerId: nextSelectedPlayerId,
                             isLastRound: remainingPlayers.length === 1,
+                        },
+                    })
+                    await prisma.player.update({
+                        where: {
+                            id: nextSelectedPlayerId,
+                        },
+                        data: {
+                            isDone: true,
                         },
                     })
                     return res.status(200).json({ success: true })

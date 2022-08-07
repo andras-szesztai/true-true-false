@@ -15,7 +15,7 @@ export default async function handler(
                     slug: query.roomSlug,
                 },
                 data: {
-                    roundStage: body.roundStage,
+                    roundStage: body.stage,
                 },
                 select: {
                     id: true,

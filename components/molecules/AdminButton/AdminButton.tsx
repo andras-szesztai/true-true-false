@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Role } from '@prisma/client'
-import { useToggle } from 'react-use'
+import { usePrevious, useToggle } from 'react-use'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 
+import { isEqual } from 'lodash'
 import { AdminButtonProps } from './types'
 
 const AdminButton = ({
@@ -18,6 +19,28 @@ const AdminButton = ({
     const [isLoading, setIsLoading] = useToggle(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useToggle(false)
+
+    const prevApiRout = usePrevious(apiRoute)
+    const prevPostBody = usePrevious(postBody)
+    useEffect(() => {
+        if (apiRoute !== prevApiRout || !isEqual(postBody, prevPostBody)) {
+            if (success) {
+                setSuccess(false)
+            }
+            if (error) {
+                setError('')
+            }
+        }
+    }, [
+        apiRoute,
+        success,
+        error,
+        prevApiRout,
+        setSuccess,
+        setError,
+        postBody,
+        prevPostBody,
+    ])
     // TODO sync fetch fns
     const handleRoomUpdate = async () => {
         try {

@@ -9,7 +9,7 @@ const stylesMapping = {
     width: {
         base: '240px',
         [breakPoints.sm]: '320px',
-        [breakPoints.md]: '360px',
+        [breakPoints.md]: '440px',
     },
     padding: {
         base: `${space.base}px`,
@@ -29,6 +29,7 @@ const StatementContainer = styled.div<{
 }>`
     position: relative;
     display: flex;
+    line-height: 1;
     flex-direction: column;
     background-color: ${color.background};
     border: ${strokeWidth.md}px solid ${color.black};

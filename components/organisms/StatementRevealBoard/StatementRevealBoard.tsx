@@ -42,7 +42,14 @@ const StatementRevealBoard = ({
     return (
         <div>
             {statements.map((s, i) => (
-                <StatementContainer noBorderTop={!!i} key={s.id}>
+                <StatementContainer
+                    noBorderTop={!!i}
+                    key={s.id}
+                    isSelected={
+                        roundStage === RoundStage.FALSE_REVEAL &&
+                        s.id === revealAnswer.falseStatement.id
+                    }
+                >
                     <p>{s.text}</p>
                     <GuessEmojiContainer>
                         {roundStage !== RoundStage.QUESTION_END &&

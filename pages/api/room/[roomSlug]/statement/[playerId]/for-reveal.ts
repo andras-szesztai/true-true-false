@@ -32,7 +32,6 @@ export default async function handler(
             }
             if (
                 room.roundStage === RoundStage.QUESTION ||
-                room.roundStage === RoundStage.QUESTION_END ||
                 room.roundStage === RoundStage.IDLE
             ) {
                 return res.status(401).json({
@@ -67,14 +66,6 @@ export default async function handler(
                     error: 'Could Not Find Guesses By Provided Room ID',
                 })
             }
-            await prisma.room.update({
-                where: {
-                    id: room.id,
-                },
-                data: {
-                    roundStage: RoundStage.GUESS_REVEAL,
-                },
-            })
             return res
                 .status(200)
                 .json({ falseStatement: falseStatement[0], guesses })
