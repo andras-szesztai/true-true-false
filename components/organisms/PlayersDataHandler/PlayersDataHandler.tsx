@@ -8,6 +8,7 @@ import {
     GetPlayersResponse,
     GetPlayersResponseSuccess,
 } from 'types/apiResponses'
+import { REFRESH_INTERVAL } from 'constants/requests'
 import { designTokens } from 'styles/designTokens'
 
 const { color, space } = designTokens
@@ -19,7 +20,7 @@ const PlayersDataHandler: FC<{
     const { data: playersData, error } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
         (url: string) => fetch(url).then((res) => res.json()),
-        { refreshInterval: 5 }
+        { refreshInterval: REFRESH_INTERVAL }
     )
     if (playersData) {
         if ('error' in playersData) {

@@ -9,6 +9,7 @@ import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
+import { REFRESH_INTERVAL } from 'constants/requests'
 import { handleConnection } from './utils'
 
 const { color, space } = designTokens
@@ -21,7 +22,7 @@ const PlayerDataHandler: FC<{
     const { data: playerData, error } = useSWR<GetPlayerResponse>(
         `/api/room/${roomSlug}/player/${playerSlug}`,
         (url: string) => fetch(url).then((res) => res.json()),
-        { refreshInterval: 3 }
+        { refreshInterval: REFRESH_INTERVAL }
     )
     const router = useRouter()
     useEffect(() => {

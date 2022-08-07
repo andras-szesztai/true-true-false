@@ -5,9 +5,10 @@ import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
-// - Thumbnail for sharing url
+// - Thumbnail for sharing url social media or chat
 // - Check if fetching players might be easier with relational fetch
 // - If someone joins in GAME stage, check if they have statements, if not, let them submit
+// - Add margin or padding bottom to screens for mobile scrolling
 
 const Home = () => (
     <HomePageContainer>

@@ -24,6 +24,10 @@ const containerStylesMapping = {
             [PlayerTileSize.md]: '25vh',
             [PlayerTileSize.lg]: '45vh',
         },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: '35vh',
+            [PlayerTileSize.lg]: '45vh',
+        },
         [breakPoints.md]: '50vh',
     },
     position: {
@@ -57,6 +61,12 @@ export const Container = styled.div<
     ${({ size }) => css`
         max-height: ${containerStylesMapping.maxHeight.base[size]};
         padding: ${containerStylesMapping.padding.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            max-height: ${containerStylesMapping.maxHeight[breakPoints.sm][
+                size
+            ]};
+        }
 
         @media only screen and (min-width: ${breakPoints.md}px) {
             max-height: ${containerStylesMapping.maxHeight[breakPoints.md]};

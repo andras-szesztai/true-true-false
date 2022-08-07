@@ -13,4 +13,6 @@ export interface Props extends Pick<Player, 'name' | 'emoji'> {
     noBorderTop?: boolean
     size: PlayerTileSize
     isLoading?: boolean
+    score?: number
+    maxScore?: number
 }

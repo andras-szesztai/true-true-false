@@ -1,3 +1,5 @@
+export const REFRESH_INTERVAL = 5
+
 export const POST_ROOM_REQUEST_FIELDS = {
     slug: true,
 }
@@ -8,14 +10,15 @@ export const GET_ROOM_REQUEST_FIELDS = {
     stage: true,
 }
 
+// TODO review player & players request
 export const GET_PLAYERS_REQUEST_FIELDS = {
     name: true,
     emoji: true,
     isActive: true,
     id: true,
     role: true,
-    statements: true,
     showLoading: true,
+    score: true,
 }
 
 export const POST_PLAYER_REQUEST_FIELD = {
@@ -32,4 +35,5 @@ export const GET_PLAYER_REQUEST_FIELD = {
     isActive: true,
     statements: true,
     showLoading: true,
+    score: true,
 }

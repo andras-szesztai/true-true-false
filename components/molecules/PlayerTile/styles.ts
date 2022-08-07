@@ -15,21 +15,21 @@ export const Container = styled.div`
 const emojiContainerStylesMapping = {
     fontSize: {
         base: {
-            [PlayerTileSize.md]: fontSize.md,
+            [PlayerTileSize.md]: fontSize.base,
             [PlayerTileSize.lg]: fontSize.md,
         },
         [breakPoints.md]: {
-            [PlayerTileSize.md]: fontSize.lg,
+            [PlayerTileSize.md]: fontSize.md,
             [PlayerTileSize.lg]: fontSize.lg,
         },
     },
     offLineSvgWidth: {
         base: {
-            [PlayerTileSize.md]: `${space.md}px`,
+            [PlayerTileSize.md]: `${space.base}px`,
             [PlayerTileSize.lg]: `${space.md}px`,
         },
         [breakPoints.md]: {
-            [PlayerTileSize.md]: `${space.lg}px`,
+            [PlayerTileSize.md]: `${space.md}px`,
             [PlayerTileSize.lg]: `${space.lg}px`,
         },
     },
@@ -183,4 +183,69 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
             ]};
         }
     `}
+`
+
+const scoreContainerStylesMapping = {
+    width: {
+        base: `${space.xl}px`,
+        [breakPoints.sm]: `${space.xxl}px`,
+        [breakPoints.md]: `${space['3xl']}px`,
+    },
+    paddingRight: {
+        base: `${space.base}px`,
+        [breakPoints.md]: `${space.md}px`,
+    },
+}
+
+export const ScoreContainer = styled.div`
+    align-self: stretch;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    width: ${scoreContainerStylesMapping.width.base};
+    padding-right: ${scoreContainerStylesMapping.paddingRight.base};
+
+    @media only screen and (min-width: ${breakPoints.sm}px) {
+        width: ${scoreContainerStylesMapping.width[breakPoints.sm]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        width: ${scoreContainerStylesMapping.width[breakPoints.md]};
+        padding-right: ${scoreContainerStylesMapping.paddingRight[
+            breakPoints.md
+        ]};
+    }
+`
+
+export const ScoreBar = styled.span<{ width: number }>`
+    width: ${({ width }) => width * 100}%;
+    height: 50%;
+    background: ${color.black};
+`
+
+export const StarContainer = styled.span`
+    position: absolute;
+    left: ${space.xxs}px;
+    top: 50%;
+    transform: translateY(-50%);
+`
+
+const scoreNumberContainerStylesMapping = {
+    fontSize: {
+        base: fontSize.sm,
+        [breakPoints.md]: fontSize.base,
+    },
+}
+
+export const ScoreNumberContainer = styled.span`
+    position: absolute;
+    right: 0px;
+    font-size: ${scoreNumberContainerStylesMapping.fontSize.base};
+
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        font-size: ${scoreNumberContainerStylesMapping.fontSize[
+            breakPoints.md
+        ]};
+    }
 `

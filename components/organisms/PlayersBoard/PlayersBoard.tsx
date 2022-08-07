@@ -1,9 +1,18 @@
 import { PlayerTile } from 'components/molecules/PlayerTile'
+import { maxBy } from 'lodash'
 
 import { Container } from './styles'
 import { Props } from './types'
 
-const PlayersBoard = ({ player, players, isFixed, size, fullWidth }: Props) => {
+const PlayersBoard = ({
+    player,
+    players,
+    isFixed,
+    size,
+    fullWidth,
+    displayScore,
+}: Props) => {
+    const maxScore = maxBy(players, 'score')?.score
     return (
         <Container isFixed={isFixed} size={size} fullWidth={fullWidth}>
             <PlayerTile
@@ -12,6 +21,8 @@ const PlayersBoard = ({ player, players, isFixed, size, fullWidth }: Props) => {
                 isOffline={!player.isActive}
                 size={size}
                 isLoading={player.showLoading}
+                score={displayScore ? player.score : undefined}
+                maxScore={maxScore}
             />
             {players
                 .filter((p) => p.id !== player.id)
@@ -24,6 +35,8 @@ const PlayersBoard = ({ player, players, isFixed, size, fullWidth }: Props) => {
                         isOffline={!p.isActive}
                         size={size}
                         isLoading={p.showLoading}
+                        score={displayScore ? p.score : undefined}
+                        maxScore={maxScore}
                     />
                 ))}
         </Container>

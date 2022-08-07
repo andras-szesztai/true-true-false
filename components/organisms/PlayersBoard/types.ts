@@ -11,4 +11,5 @@ export interface Props {
     isFixed?: boolean
     isLoading?: boolean
     fullWidth?: boolean
+    displayScore?: boolean
 }
