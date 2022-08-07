@@ -29,6 +29,7 @@ const StatementContainer = styled.div<{
 }>`
     position: relative;
     display: flex;
+    flex-direction: column;
     background-color: ${color.background};
     border: ${strokeWidth.md}px solid ${color.black};
 

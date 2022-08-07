@@ -7,6 +7,7 @@ import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
+import { GuessEmojiContainer } from './styles'
 
 const { color, space } = designTokens
 
@@ -16,8 +17,8 @@ const StatementRevealBoard = ({
     isLoading,
     error,
     roundStage,
+    players,
 }: Props) => {
-    // const [stage, setStage] = useState<STAGES>(STAGES.IDLE)
     if (
         roundStage !== RoundStage.QUESTION_END &&
         roundStage !== RoundStage.GUESS_REVEAL &&
@@ -30,14 +31,6 @@ const StatementRevealBoard = ({
     if (isLoading)
         return <SquareLoader color={color.black} loading size={space.lg} />
 
-    // const [submitState, submitSelectedStatement] = useAsyncFn(async () => {
-    //     const response = await fetch(
-    //         `/api/room/${roomSlug}/player/${playerSlug}/select-statement/${selectedId}`
-    //     )
-    //     const result = await response.json()
-    //     return result
-    // }, [selectedId])
-
     if (!statements || error || !revealAnswer)
         return <ScreenMessage text={error?.message || GENERAL_ERROR} />
 
@@ -49,11 +42,21 @@ const StatementRevealBoard = ({
     return (
         <div>
             {statements.map((s, i) => (
-                <StatementContainer
-                    noBorderTop={roundStage === RoundStage.QUESTION_END && !!i}
-                    key={s.id}
-                >
-                    {s.text}
+                <StatementContainer noBorderTop={!!i} key={s.id}>
+                    <p>{s.text}</p>
+                    <GuessEmojiContainer>
+                        {roundStage !== RoundStage.QUESTION_END &&
+                            revealAnswer.guesses
+                                .filter((g) => g.selectedAnswerId === s.id)
+                                .map((g) => (
+                                    <span>
+                                        {
+                                            players.find((p) => p.id === g.id)
+                                                ?.emoji
+                                        }
+                                    </span>
+                                ))}
+                    </GuessEmojiContainer>
                 </StatementContainer>
             ))}
         </div>
