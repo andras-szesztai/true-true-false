@@ -19,7 +19,8 @@ import { Props } from './types'
 const { breakPoints } = designTokens
 
 // TODO
-// 0. Unable guessing if own statement
+// 0. Show selected Player on top of statements
+// 0.5. Unable guessing if own statement
 // 1. Store how many questions are left in the room (managed by admin with - button) visible to everyone
 // 2. Admin clicks GUESS_REVEAL + add emojis on each statements as votes
 // 3. Reveal which one was false (admin reveals - fetch isTrue statements for currentPlayerId)
@@ -40,7 +41,6 @@ const GamePageContent = ({ room, player, players }: Props) => {
             }
         }
         if (room.roundStage === RoundStage.QUESTION_END) {
-            // TODO fix bug here
             return {
                 text: 'Reveal Guesses',
                 apiRoute: '/update-round-stage',

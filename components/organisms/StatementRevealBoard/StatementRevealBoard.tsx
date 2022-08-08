@@ -6,8 +6,10 @@ import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
+import { useEffect, useState } from 'react'
 import { Props } from './types'
 import { GuessEmojiContainer } from './styles'
+import { getSelectedPlayerScore } from './utils'
 
 const { color, space } = designTokens
 
@@ -19,6 +21,24 @@ const StatementRevealBoard = ({
     roundStage,
     players,
 }: Props) => {
+    const [points, setPoints] = useState<{
+        selectedPlayer: number
+        correctlyGuessed: number
+        falselyGuessed: number
+    } | null>(null)
+
+    useEffect(() => {
+        if (revealAnswer && 'guesses' in revealAnswer && !points) {
+            setPoints({
+                selectedPlayer: getSelectedPlayerScore(
+                    revealAnswer.guesses.map((d) => d.selectedAnswerId)
+                ),
+                correctlyGuessed: 0,
+                falselyGuessed: 0,
+            })
+        }
+    }, [revealAnswer, points])
+
     if (
         roundStage !== RoundStage.QUESTION_END &&
         roundStage !== RoundStage.GUESS_REVEAL &&
@@ -46,7 +66,9 @@ const StatementRevealBoard = ({
                     noBorderTop={!!i}
                     key={s.id}
                     isSelected={
-                        roundStage === RoundStage.FALSE_REVEAL &&
+                        (roundStage === RoundStage.FALSE_REVEAL ||
+                            roundStage === RoundStage.SCORE_REVEAL ||
+                            roundStage === RoundStage.SCORING) &&
                         s.id === revealAnswer.falseStatement.id
                     }
                 >
@@ -56,7 +78,7 @@ const StatementRevealBoard = ({
                             revealAnswer.guesses
                                 .filter((g) => g.selectedAnswerId === s.id)
                                 .map((g) => (
-                                    <span>
+                                    <span key={`emoji-${g.id}`}>
                                         {
                                             players.find((p) => p.id === g.id)
                                                 ?.emoji
