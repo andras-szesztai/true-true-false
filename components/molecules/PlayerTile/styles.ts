@@ -20,6 +20,10 @@ const emojiContainerStylesMapping = {
         },
         [breakPoints.md]: {
             [PlayerTileSize.md]: fontSize.md,
+            [PlayerTileSize.lg]: fontSize.md,
+        },
+        [breakPoints.lg]: {
+            [PlayerTileSize.md]: fontSize.md,
             [PlayerTileSize.lg]: fontSize.lg,
         },
     },
@@ -101,6 +105,9 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
             padding: ${emojiContainerStylesMapping.padding[breakPoints.lg][
                 size
             ]};
+            font-size: ${emojiContainerStylesMapping.fontSize[breakPoints.lg][
+                size
+            ]};
         }
     `}
 `
@@ -108,10 +115,18 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
 const nameContainerStylesMapping = {
     fontSize: {
         base: {
+            [PlayerTileSize.md]: fontSize.sm,
+            [PlayerTileSize.lg]: fontSize.base,
+        },
+        [breakPoints.sm]: {
             [PlayerTileSize.md]: fontSize.base,
             [PlayerTileSize.lg]: fontSize.md,
         },
         [breakPoints.md]: {
+            [PlayerTileSize.md]: fontSize.base,
+            [PlayerTileSize.lg]: fontSize.md,
+        },
+        [breakPoints.lg]: {
             [PlayerTileSize.md]: fontSize.md,
             [PlayerTileSize.lg]: fontSize.lg,
         },
@@ -163,6 +178,9 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
         padding: ${nameContainerStylesMapping.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
+            font-size: ${nameContainerStylesMapping.fontSize[breakPoints.sm][
+                size
+            ]};
             padding: ${nameContainerStylesMapping.padding[breakPoints.sm][
                 size
             ]};
@@ -178,6 +196,9 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
         }
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
+            font-size: ${nameContainerStylesMapping.fontSize[breakPoints.lg][
+                size
+            ]};
             padding: ${nameContainerStylesMapping.padding[breakPoints.lg][
                 size
             ]};

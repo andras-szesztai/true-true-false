@@ -136,6 +136,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 players={players}
                 isLoading={revealAnswer.loading}
                 error={revealAnswer.error}
+                selectedPlayerId={room.selectedPlayerId}
             />
             {(room.roundStage === RoundStage.IDLE ||
                 player.selectedAnswerId) && (

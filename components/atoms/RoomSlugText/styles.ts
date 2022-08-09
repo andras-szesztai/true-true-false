@@ -58,6 +58,10 @@ const textStylesMapping = {
             [RoomSlugSizes.md]: fontSize.base,
             [RoomSlugSizes.lg]: fontSize.md,
         },
+        [breakPoints.sm]: {
+            [RoomSlugSizes.md]: fontSize.md,
+            [RoomSlugSizes.lg]: fontSize.md,
+        },
         [breakPoints.md]: {
             [RoomSlugSizes.md]: fontSize.md,
             [RoomSlugSizes.lg]: fontSize.lg,
@@ -74,6 +78,10 @@ export const Text = styled.h1<Pick<Props, 'size'>>`
 
     ${({ size }) => css`
         font-size: ${textStylesMapping.fontSize.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            font-size: ${textStylesMapping.fontSize[breakPoints.sm][size]};
+        }
 
         @media only screen and (min-width: ${breakPoints.md}px) {
             font-size: ${textStylesMapping.fontSize[breakPoints.md][size]};

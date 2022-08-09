@@ -1,14 +1,20 @@
+import { useEffect, useState } from 'react'
 import { SquareLoader } from 'react-spinners'
 import { RoundStage } from '@prisma/client'
 
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
-import { useEffect, useState } from 'react'
 import { Props } from './types'
-import { GuessEmojiContainer } from './styles'
+import {
+    GuessEmojiContainer,
+    PlayerTileContainer,
+    SelectedPlayerScoreContainer,
+    StatementScoreContainer,
+} from './styles'
 import { getSelectedPlayerScore } from './utils'
 
 const { color, space } = designTokens
@@ -20,6 +26,7 @@ const StatementRevealBoard = ({
     error,
     roundStage,
     players,
+    selectedPlayerId,
 }: Props) => {
     const [points, setPoints] = useState<{
         selectedPlayer: number
@@ -33,8 +40,12 @@ const StatementRevealBoard = ({
                 selectedPlayer: getSelectedPlayerScore(
                     revealAnswer.guesses.map((d) => d.selectedAnswerId)
                 ),
-                correctlyGuessed: 0,
-                falselyGuessed: 0,
+                correctlyGuessed: revealAnswer.guesses.filter(
+                    (d) => d.selectedAnswerId !== revealAnswer.falseStatement.id
+                ).length,
+                falselyGuessed: -revealAnswer.guesses.filter(
+                    (d) => d.selectedAnswerId === revealAnswer.falseStatement.id
+                ).length,
             })
         }
     }, [revealAnswer, points])
@@ -59,36 +70,63 @@ const StatementRevealBoard = ({
 
     if ('error' in statements) return <ScreenMessage text={statements.error} />
 
+    const selectedPlayer = players.find((p) => p.id === selectedPlayerId)
+
     return (
-        <div>
-            {statements.map((s, i) => (
-                <StatementContainer
-                    noBorderTop={!!i}
-                    key={s.id}
-                    isSelected={
-                        (roundStage === RoundStage.FALSE_REVEAL ||
-                            roundStage === RoundStage.SCORE_REVEAL ||
-                            roundStage === RoundStage.SCORING) &&
-                        s.id === revealAnswer.falseStatement.id
-                    }
-                >
-                    <p>{s.text}</p>
-                    <GuessEmojiContainer>
-                        {roundStage !== RoundStage.QUESTION_END &&
-                            revealAnswer.guesses
-                                .filter((g) => g.selectedAnswerId === s.id)
-                                .map((g) => (
-                                    <span key={`emoji-${g.id}`}>
-                                        {
-                                            players.find((p) => p.id === g.id)
-                                                ?.emoji
-                                        }
-                                    </span>
-                                ))}
-                    </GuessEmojiContainer>
-                </StatementContainer>
-            ))}
-        </div>
+        <>
+            {selectedPlayer && (
+                <PlayerTileContainer>
+                    <PlayerTile
+                        name={selectedPlayer.name}
+                        size={PlayerTileSize.lg}
+                        emoji={selectedPlayer.emoji}
+                        isOffline={false}
+                    />
+                    {roundStage === RoundStage.SCORE_REVEAL && (
+                        <SelectedPlayerScoreContainer>
+                            +{points?.selectedPlayer}
+                        </SelectedPlayerScoreContainer>
+                    )}
+                </PlayerTileContainer>
+            )}
+            <div>
+                {statements.map((s, i) => (
+                    <StatementContainer
+                        noBorderTop={!!i}
+                        key={s.id}
+                        isSelected={
+                            (roundStage === RoundStage.FALSE_REVEAL ||
+                                roundStage === RoundStage.SCORE_REVEAL ||
+                                roundStage === RoundStage.SCORING) &&
+                            s.id === revealAnswer.falseStatement.id
+                        }
+                    >
+                        {roundStage === RoundStage.SCORE_REVEAL && (
+                            <StatementScoreContainer>
+                                {s.id === revealAnswer.falseStatement.id
+                                    ? `+${points?.correctlyGuessed}`
+                                    : points?.falselyGuessed}
+                            </StatementScoreContainer>
+                        )}
+                        <p>{s.text}</p>
+                        <GuessEmojiContainer>
+                            {roundStage !== RoundStage.QUESTION_END &&
+                                revealAnswer.guesses
+                                    .filter((g) => g.selectedAnswerId === s.id)
+                                    .map((g) => (
+                                        <span key={`emoji-${g.id}`}>
+                                            {
+                                                players.find(
+                                                    (p) => p.id === g.id
+                                                )?.emoji
+                                            }
+                                        </span>
+                                    ))}
+                        </GuessEmojiContainer>
+                    </StatementContainer>
+                ))}
+            </div>
+        </>
     )
 }
 

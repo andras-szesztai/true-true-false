@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
 
-const { fontSize, space, breakPoints } = designTokens
+const { fontSize, space, breakPoints, color, strokeWidth } = designTokens
 
 const stylesMapping = {
     fontSize: {
@@ -28,4 +28,55 @@ export const GuessEmojiContainer = styled.div`
         font-size: ${stylesMapping.fontSize[breakPoints.md]};
         padding-top: ${stylesMapping.paddingTop[breakPoints.md]};
     }
+`
+
+const scoreStyleMapping = {
+    padding: {
+        base: `${space.xxs}px`,
+        [breakPoints.sm]: `${space.xs}px`,
+        [breakPoints.md]: `${space.sm}px`,
+    },
+    fontSize: {
+        base: fontSize.base,
+        [breakPoints.sm]: fontSize.md,
+        [breakPoints.lg]: fontSize.lg,
+    },
+}
+
+const ScoreContainer = styled.div`
+    position: absolute;
+    background-color: ${color.background};
+    color: ${color.black};
+    border: ${strokeWidth.md}px solid ${color.black};
+    transform: translate(50%, -50%);
+
+    padding: ${scoreStyleMapping.padding.base};
+    font-size: ${scoreStyleMapping.fontSize.base};
+
+    @media only screen and (min-width: ${breakPoints.sm}px) {
+        padding: ${scoreStyleMapping.padding[breakPoints.sm]};
+        font-size: ${scoreStyleMapping.fontSize[breakPoints.sm]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        padding: ${scoreStyleMapping.padding[breakPoints.md]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.lg}px) {
+        font-size: ${scoreStyleMapping.fontSize[breakPoints.lg]};
+    }
+`
+
+export const StatementScoreContainer = styled(ScoreContainer)`
+    right: 0px;
+    top: 50%;
+`
+
+export const SelectedPlayerScoreContainer = styled(ScoreContainer)`
+    right: 0px;
+    top: 50%;
+`
+
+export const PlayerTileContainer = styled.div`
+    position: relative;
 `
