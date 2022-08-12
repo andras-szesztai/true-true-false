@@ -5,6 +5,7 @@ import { SquareLoader } from 'react-spinners'
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
+import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
@@ -22,6 +23,7 @@ const StatementSelectionBoard = ({
     isPlayerReady,
     isAllReady,
     isCurrentPlayerStatements,
+    selectedPlayer,
 }: Props) => {
     const [selectedId, setSelectedId] = useState<number | null>(null)
 
@@ -33,15 +35,22 @@ const StatementSelectionBoard = ({
         return result
     }, [selectedId])
 
-    if (isLoading)
+    if (isLoading) {
         return <SquareLoader color={color.black} loading size={space.lg} />
+    }
 
-    if (!statements || error)
+    if (!statements || error) {
         return <ScreenMessage text={error?.message || GENERAL_ERROR} />
+    }
 
-    if ('error' in statements) return <ScreenMessage text={statements.error} />
+    if ('error' in statements) {
+        return <ScreenMessage text={statements.error} />
+    }
 
-    if ((submitState.value && 'success' in submitState.value) || isPlayerReady)
+    if (
+        (submitState.value && 'success' in submitState.value) ||
+        isPlayerReady
+    ) {
         return (
             <ScreenMessage
                 text={
@@ -51,9 +60,18 @@ const StatementSelectionBoard = ({
                 }
             />
         )
+    }
 
     return (
         <>
+            {selectedPlayer && (
+                <PlayerTile
+                    name={selectedPlayer.name}
+                    size={PlayerTileSize.lg}
+                    emoji={selectedPlayer.emoji}
+                    isOffline={false}
+                />
+            )}
             <div>
                 {statements.map((s, i) => (
                     <StatementContainer

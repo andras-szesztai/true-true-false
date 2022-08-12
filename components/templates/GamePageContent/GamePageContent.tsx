@@ -2,6 +2,7 @@ import { useAsync, useWindowSize } from 'react-use'
 import { Role, RoundStage } from '@prisma/client'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
+import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
 import { PlayerTileSize } from 'components/molecules/PlayerTile'
 import { AdminButton } from 'components/molecules/AdminButton'
@@ -14,7 +15,6 @@ import {
 } from 'types/apiResponses'
 import { designTokens } from 'styles/designTokens'
 
-import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { getAdminButtonProps } from './utils'
 import { Props } from './types'
 
@@ -22,11 +22,8 @@ const { breakPoints } = designTokens
 
 // TODO
 // 1. Store how many questions are left in the room (managed by admin with - button) visible to everyone
-// 2. Admin clicks GUESS_REVEAL + add emojis on each statements as votes
-// 3. Reveal which one was false (admin reveals - fetch isTrue statements for currentPlayerId)
-// 4. Everyone gets or loses points (check submitted answers)
-// 5. Player gets flag as 'isDone'
-// 6. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
+// 2. Everyone gets or loses points (check submitted answers)
+// 3. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
     const { width } = useWindowSize()
@@ -66,6 +63,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
     const isPlayerReadyWithAnswer = isCurrentPlayerStatements
         ? isAllPlayersReady
         : !!player.selectedAnswerId
+    const selectedPlayer = players.find((p) => p.id === room.selectedPlayerId)
 
     return (
         <HomeContentContainer>
@@ -92,6 +90,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     playerSlug={player.slug}
                     isPlayerReady={isPlayerReadyWithAnswer}
                     isAllReady={isAllPlayersReady}
+                    selectedPlayer={selectedPlayer}
                 />
             )}
             {(room.roundStage === RoundStage.QUESTION_END ||
@@ -106,7 +105,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     players={players}
                     isLoading={revealAnswer.loading}
                     error={revealAnswer.error}
-                    selectedPlayerId={room.selectedPlayerId}
+                    selectedPlayer={selectedPlayer}
                 />
             )}
             {(room.roundStage === RoundStage.IDLE ||

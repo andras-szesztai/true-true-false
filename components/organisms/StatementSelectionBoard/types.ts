@@ -1,5 +1,6 @@
 import {
     GetPlayerResponseSuccess,
+    GetPlayersResponseSuccess,
     GetRoomResponseSuccess,
     GetStatementForQuestionResponse,
 } from 'types/apiResponses'
@@ -13,4 +14,5 @@ export interface Props {
     isPlayerReady: boolean
     isAllReady: boolean
     isCurrentPlayerStatements: boolean
+    selectedPlayer?: GetPlayersResponseSuccess[number]
 }

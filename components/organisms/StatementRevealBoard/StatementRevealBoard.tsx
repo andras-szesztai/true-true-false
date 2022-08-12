@@ -25,24 +25,26 @@ const StatementRevealBoard = ({
     error,
     roundStage,
     players,
-    selectedPlayerId,
+    selectedPlayer,
 }: Props) => {
     const points = useCalculatePoints(revealAnswer)
 
-    if (isLoading && !revealAnswer)
+    if (isLoading && !revealAnswer) {
         return <SquareLoader color={color.black} loading size={space.lg} />
+    }
 
-    if (!statements || error || !revealAnswer)
+    if (!statements || error || !revealAnswer) {
         return <ScreenMessage text={error?.message || GENERAL_ERROR} />
+    }
 
-    if ('error' in revealAnswer)
+    if ('error' in revealAnswer) {
         return <ScreenMessage text={revealAnswer.error} />
+    }
 
-    if ('error' in statements) return <ScreenMessage text={statements.error} />
+    if ('error' in statements) {
+        return <ScreenMessage text={statements.error} />
+    }
 
-    const selectedPlayer = players.find((p) => p.id === selectedPlayerId)
-
-    // TODO PlayerTileContainer to main screen
     return (
         <>
             {selectedPlayer && (
