@@ -17,13 +17,13 @@ import { designTokens } from 'styles/designTokens'
 
 import { getAdminButtonProps } from './utils'
 import { Props } from './types'
+import { useCalculatePoints, useUpdatePlayerPointsRequest } from './hooks'
 
 const { breakPoints } = designTokens
 
 // TODO
 // 1. Store how many questions are left in the room (managed by admin with - button) visible to everyone
-// 2. Everyone gets or loses points (check submitted answers)
-// 3. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
+// 2. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
     const { width } = useWindowSize()
@@ -56,11 +56,20 @@ const GamePageContent = ({ room, player, players }: Props) => {
         }
     }, [room.selectedPlayerId, room.roundStage])
 
+    const points = useCalculatePoints(revealAnswer.value)
+    const updateScoresStatus = useUpdatePlayerPointsRequest(
+        room,
+        player,
+        players,
+        points,
+        revealAnswer
+    )
+
     const isAllPlayersReady = !players
         .filter((d) => d.id !== player.id)
         .some((d) => d.showLoading)
-    const isCurrentPlayerStatements = player.id === room.selectedPlayerId
-    const isPlayerReadyWithAnswer = isCurrentPlayerStatements
+    const isCurrentPlayerSelected = player.id === room.selectedPlayerId
+    const isPlayerReadyWithAnswer = isCurrentPlayerSelected
         ? isAllPlayersReady
         : !!player.selectedAnswerId
     const selectedPlayer = players.find((p) => p.id === room.selectedPlayerId)
@@ -81,8 +90,8 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
                 )}
             {room.roundStage === RoundStage.QUESTION && (
+                // TODO See if prop types can be shared?
                 <StatementSelectionBoard
-                    isCurrentPlayerStatements={isCurrentPlayerStatements}
                     statements={statements.value}
                     isLoading={statements.loading}
                     error={statements.error}
@@ -91,6 +100,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     isPlayerReady={isPlayerReadyWithAnswer}
                     isAllReady={isAllPlayersReady}
                     selectedPlayer={selectedPlayer}
+                    isCurrentPlayerSelected={isCurrentPlayerSelected}
                 />
             )}
             {(room.roundStage === RoundStage.QUESTION_END ||
@@ -106,8 +116,14 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     isLoading={revealAnswer.loading}
                     error={revealAnswer.error}
                     selectedPlayer={selectedPlayer}
+                    points={points}
                 />
             )}
+            {player.role === Role.ADMIN &&
+                (updateScoresStatus.error ||
+                    'error' in updateScoresStatus.value) && (
+                    <ScreenMessage text="Something Went Wrong While Trying to Update Player Scores, Please Try Again" />
+                )}
             {(room.roundStage === RoundStage.IDLE ||
                 isPlayerReadyWithAnswer) && (
                 <AdminButton

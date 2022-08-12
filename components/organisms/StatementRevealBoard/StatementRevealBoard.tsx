@@ -14,7 +14,6 @@ import {
     SelectedPlayerScoreContainer,
     StatementScoreContainer,
 } from './styles'
-import { useCalculatePoints } from './hooks'
 
 const { color, space } = designTokens
 
@@ -26,9 +25,8 @@ const StatementRevealBoard = ({
     roundStage,
     players,
     selectedPlayer,
+    points,
 }: Props) => {
-    const points = useCalculatePoints(revealAnswer)
-
     if (isLoading && !revealAnswer) {
         return <SquareLoader color={color.black} loading size={space.lg} />
     }

@@ -10,6 +10,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - If someone joins in GAME stage, check if they have statements, if not, let them submit
 // - Add margin or padding bottom to screens for mobile scrolling
 // - Check if slug & id could be united into one key
+// - Investigate better typesafety on API side
 
 const Home = () => (
     <HomePageContainer>

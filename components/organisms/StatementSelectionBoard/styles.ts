@@ -6,11 +6,11 @@ const { space, fontSize } = designTokens
 
 export const StatementLabel = styled.label<{
     noBorderTop?: boolean
-    isCurrentPlayerStatements: boolean
+    isCurrentPlayerSelected: boolean
 }>`
     flex: 1;
-    cursor: ${({ isCurrentPlayerStatements }) =>
-        isCurrentPlayerStatements ? 'default' : 'pointer'};
+    cursor: ${({ isCurrentPlayerSelected }) =>
+        isCurrentPlayerSelected ? 'default' : 'pointer'};
 `
 
 export const TextBoxRadio = styled.input`

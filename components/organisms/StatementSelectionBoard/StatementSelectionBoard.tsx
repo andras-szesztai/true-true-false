@@ -22,7 +22,7 @@ const StatementSelectionBoard = ({
     playerSlug,
     isPlayerReady,
     isAllReady,
-    isCurrentPlayerStatements,
+    isCurrentPlayerSelected,
     selectedPlayer,
 }: Props) => {
     const [selectedId, setSelectedId] = useState<number | null>(null)
@@ -81,15 +81,13 @@ const StatementSelectionBoard = ({
                     >
                         <StatementLabel
                             htmlFor={`${s.id}`}
-                            isCurrentPlayerStatements={
-                                isCurrentPlayerStatements
-                            }
+                            isCurrentPlayerSelected={isCurrentPlayerSelected}
                         >
                             {s.text}
                         </StatementLabel>
                         <TextBoxRadio
-                            aria-disabled={isCurrentPlayerStatements}
-                            disabled={isCurrentPlayerStatements}
+                            aria-disabled={isCurrentPlayerSelected}
+                            disabled={isCurrentPlayerSelected}
                             type="radio"
                             id={`${s.id}`}
                             onClick={() => {
@@ -105,7 +103,7 @@ const StatementSelectionBoard = ({
             {'error' in submitState ||
                 (submitState.error && <ErrorText>Please Try Again!</ErrorText>)}
 
-            {!isCurrentPlayerStatements && (
+            {!isCurrentPlayerSelected && (
                 <Button
                     text="Submit"
                     onClick={submitSelectedStatement}

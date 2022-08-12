@@ -4,6 +4,7 @@ import {
     GetRevealAnswerResponse,
     GetStatementForQuestionResponse,
 } from 'types/apiResponses'
+import { Points } from 'types/points'
 
 export interface Props {
     statements: GetStatementForQuestionResponse | undefined
@@ -13,4 +14,5 @@ export interface Props {
     roundStage: RoundStage
     players: GetPlayersResponseSuccess
     selectedPlayer?: GetPlayersResponseSuccess[number]
+    points: Points
 }

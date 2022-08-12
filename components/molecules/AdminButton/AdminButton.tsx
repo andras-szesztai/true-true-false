@@ -41,7 +41,7 @@ const AdminButton = ({
         postBody,
         prevPostBody,
     ])
-    // TODO sync fetch fns
+
     const handleRoomUpdate = async () => {
         try {
             setIsLoading()
@@ -62,6 +62,7 @@ const AdminButton = ({
             setIsLoading()
         }
     }
+
     return (
         <>
             {error && <ScreenMessage text={error} />}
