@@ -21,6 +21,7 @@ const StatementSelectionBoard = ({
     playerSlug,
     isPlayerReady,
     isAllReady,
+    isCurrentPlayerStatements,
 }: Props) => {
     const [selectedId, setSelectedId] = useState<number | null>(null)
 
@@ -60,27 +61,41 @@ const StatementSelectionBoard = ({
                         noBorderTop={!!i}
                         isSelected={s.id === selectedId}
                     >
-                        <StatementLabel htmlFor={`${s.id}`}>
+                        <StatementLabel
+                            htmlFor={`${s.id}`}
+                            isCurrentPlayerStatements={
+                                isCurrentPlayerStatements
+                            }
+                        >
                             {s.text}
                         </StatementLabel>
                         <TextBoxRadio
+                            aria-disabled={isCurrentPlayerStatements}
+                            disabled={isCurrentPlayerStatements}
                             type="radio"
                             id={`${s.id}`}
-                            onClick={() => setSelectedId(s.id)}
-                            onFocus={() => setSelectedId(s.id)}
+                            onClick={() => {
+                                setSelectedId(s.id)
+                            }}
+                            onFocus={() => {
+                                setSelectedId(s.id)
+                            }}
                         />
                     </StatementContainer>
                 ))}
             </div>
             {'error' in submitState ||
                 (submitState.error && <ErrorText>Please Try Again!</ErrorText>)}
-            <Button
-                text="Submit"
-                onClick={submitSelectedStatement}
-                size={ButtonSizes.md}
-                isDisabled={!selectedId}
-                isLoading={submitState.loading}
-            />
+
+            {!isCurrentPlayerStatements && (
+                <Button
+                    text="Submit"
+                    onClick={submitSelectedStatement}
+                    size={ButtonSizes.md}
+                    isDisabled={!selectedId}
+                    isLoading={submitState.loading}
+                />
+            )}
         </>
     )
 }

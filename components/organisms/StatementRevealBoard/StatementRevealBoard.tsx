@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { SquareLoader } from 'react-spinners'
 import { RoundStage } from '@prisma/client'
 
@@ -15,7 +14,7 @@ import {
     SelectedPlayerScoreContainer,
     StatementScoreContainer,
 } from './styles'
-import { getSelectedPlayerScore } from './utils'
+import { useCalculatePoints } from './hooks'
 
 const { color, space } = designTokens
 
@@ -28,38 +27,9 @@ const StatementRevealBoard = ({
     players,
     selectedPlayerId,
 }: Props) => {
-    const [points, setPoints] = useState<{
-        selectedPlayer: number
-        correctlyGuessed: number
-        falselyGuessed: number
-    } | null>(null)
+    const points = useCalculatePoints(revealAnswer)
 
-    useEffect(() => {
-        if (revealAnswer && 'guesses' in revealAnswer && !points) {
-            setPoints({
-                selectedPlayer: getSelectedPlayerScore(
-                    revealAnswer.guesses.map((d) => d.selectedAnswerId)
-                ),
-                correctlyGuessed: revealAnswer.guesses.filter(
-                    (d) => d.selectedAnswerId !== revealAnswer.falseStatement.id
-                ).length,
-                falselyGuessed: -revealAnswer.guesses.filter(
-                    (d) => d.selectedAnswerId === revealAnswer.falseStatement.id
-                ).length,
-            })
-        }
-    }, [revealAnswer, points])
-
-    if (
-        roundStage !== RoundStage.QUESTION_END &&
-        roundStage !== RoundStage.GUESS_REVEAL &&
-        roundStage !== RoundStage.FALSE_REVEAL &&
-        roundStage !== RoundStage.SCORE_REVEAL &&
-        roundStage !== RoundStage.SCORING
-    )
-        return null
-
-    if (isLoading)
+    if (isLoading && !revealAnswer)
         return <SquareLoader color={color.black} loading size={space.lg} />
 
     if (!statements || error || !revealAnswer)
@@ -72,6 +42,7 @@ const StatementRevealBoard = ({
 
     const selectedPlayer = players.find((p) => p.id === selectedPlayerId)
 
+    // TODO PlayerTileContainer to main screen
     return (
         <>
             {selectedPlayer && (
@@ -84,7 +55,8 @@ const StatementRevealBoard = ({
                     />
                     {roundStage === RoundStage.SCORE_REVEAL && (
                         <SelectedPlayerScoreContainer>
-                            +{points?.selectedPlayer}
+                            {points?.selectedPlayer ? '+' : ''}
+                            {points?.selectedPlayer}
                         </SelectedPlayerScoreContainer>
                     )}
                 </PlayerTileContainer>
@@ -104,7 +76,9 @@ const StatementRevealBoard = ({
                         {roundStage === RoundStage.SCORE_REVEAL && (
                             <StatementScoreContainer>
                                 {s.id === revealAnswer.falseStatement.id
-                                    ? `+${points?.correctlyGuessed}`
+                                    ? `${points?.correctlyGuessed ? '+' : ''}${
+                                          points?.correctlyGuessed
+                                      }`
                                     : points?.falselyGuessed}
                             </StatementScoreContainer>
                         )}

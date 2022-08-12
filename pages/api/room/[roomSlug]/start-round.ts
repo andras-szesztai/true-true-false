@@ -25,15 +25,6 @@ export default async function handler(
                     error: 'Could Not Find Room By Provided ID',
                 })
             } else {
-                await prisma.player.updateMany({
-                    where: {
-                        roomId: room.id,
-                    },
-                    data: {
-                        showLoading: true,
-                        selectedAnswerId: null,
-                    },
-                })
                 const players = await prisma.player.findMany({
                     where: {
                         roomId: room.id,
@@ -63,6 +54,20 @@ export default async function handler(
                             roundStage: RoundStage.QUESTION,
                             selectedPlayerId: nextSelectedPlayerId,
                             isLastRound: remainingPlayers.length === 1,
+                        },
+                    })
+                    await prisma.player.updateMany({
+                        where: {
+                            roomId: room.id,
+                            NOT: {
+                                id: {
+                                    equals: nextSelectedPlayerId,
+                                },
+                            },
+                        },
+                        data: {
+                            showLoading: true,
+                            selectedAnswerId: null,
                         },
                     })
                     await prisma.player.update({

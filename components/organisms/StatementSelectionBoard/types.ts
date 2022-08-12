@@ -12,4 +12,5 @@ export interface Props {
     playerSlug: GetRoomResponseSuccess['slug']
     isPlayerReady: boolean
     isAllReady: boolean
+    isCurrentPlayerStatements: boolean
 }
