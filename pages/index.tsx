@@ -1,40 +1,39 @@
+import Head from 'next/head'
+
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
+import { APP_NAME } from 'constants/appName'
 
-// TODO
-//
+// FEAT
+// - 1. Rules modal on start page
+// - 2. End Screen with delete game (players & statements) button for Admin
+// - 3. CreatedBy & links
 // MISC
 // - Thumbnail for sharing url social media or chat
-// - Handle Enter for creation inputs
-// STYLING
-// - Add margin or padding bottom to screens for mobile scrolling
-// - Fix styling for responsiveness
-// API
-// - Check if fetching players might be easier with relational fetch
-// - Investigate better type safety on API side
-// - Check if slug & id could be united into one key
-// - review player & players request
+// - Add custom favicon
 // TEST
 // - e2e test with cypress
-// BUG
-// - Something Went Wrong While Trying to Update Player Scores, Please Try Again (last round?)
-//
 
 const Home = () => (
-    <HomePageContainer>
-        <HomeContentContainer>
-            <MainTitle>TrueTrueFalse</MainTitle>
-            <Link
-                href="/create-room"
-                text="Create a Room"
-                size={LinkSizes.lg}
-            />
-            <JoinRoom />
-        </HomeContentContainer>
-    </HomePageContainer>
+    <>
+        <Head>
+            <title>{APP_NAME}</title>
+        </Head>
+        <HomePageContainer>
+            <HomeContentContainer>
+                <MainTitle>{APP_NAME}</MainTitle>
+                <Link
+                    href="/create-room"
+                    text="Create a Room"
+                    size={LinkSizes.lg}
+                />
+                <JoinRoom />
+            </HomeContentContainer>
+        </HomePageContainer>
+    </>
 )
 
 export default Home

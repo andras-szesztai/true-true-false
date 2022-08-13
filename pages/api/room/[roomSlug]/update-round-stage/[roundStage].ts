@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { RoundStage } from '@prisma/client'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
@@ -7,18 +8,29 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    if (typeof req.query.playerSlug === 'string') {
-        if (typeof req.query.statementId === 'string') {
+    if (typeof req.query.roomSlug === 'string') {
+        if (
+            Object.values(RoundStage).includes(
+                req.query.roundStage as RoundStage
+            )
+        ) {
             try {
-                await prisma.player.update({
+                const room = await prisma.room.update({
                     where: {
-                        slug: req.query.playerSlug,
+                        slug: req.query.roomSlug,
                     },
                     data: {
-                        showLoading: false,
-                        selectedAnswerId: +req.query.statementId,
+                        roundStage: req.query.roundStage as RoundStage,
+                    },
+                    select: {
+                        id: true,
                     },
                 })
+                if (!room) {
+                    return res.status(404).json({
+                        error: 'Could Not Find Room By Provided ID',
+                    })
+                }
                 return res.status(200).json({ success: true })
             } catch (err) {
                 if (err instanceof Error) {
@@ -29,10 +41,10 @@ export default async function handler(
             }
         }
         return res.status(400).json({
-            error: 'Invalid Statement Id',
+            error: 'Invalid Round Stage Type',
         })
     }
     return res.status(400).json({
-        error: 'Invalid Player Slug',
+        error: 'Invalid Room Slug',
     })
 }

@@ -71,6 +71,11 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                 }),
             })
         )
+    useKey('Enter', () => {
+        if (!!name.length && !errorMessage && !loading) {
+            handleCreatePlayer()
+        }
+    })
 
     const router = useRouter()
     useEffect(() => {

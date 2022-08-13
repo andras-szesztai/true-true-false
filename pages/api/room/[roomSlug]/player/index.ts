@@ -40,12 +40,11 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { body, query } = req
-    if (query.roomSlug && typeof query.roomSlug === 'string') {
+    if (typeof req.query.roomSlug === 'string') {
         try {
             const room = await prisma.room.findUnique({
                 where: {
-                    slug: query.roomSlug,
+                    slug: req.query.roomSlug,
                 },
                 select: GET_ROOM_REQUEST_FIELDS,
             })
@@ -54,11 +53,11 @@ export default async function handler(
                     error: 'Could Not Find Room By Provided ID',
                 })
             } else {
-                const result = await createPlayer(room.id, body)
-                if (result && typeof result !== 'string') {
+                const result = await createPlayer(room.id, req.body)
+                if (typeof result !== 'string') {
                     return res.status(200).json(result)
                 }
-                return res.status(500).json({ error: GENERAL_ERROR })
+                return res.status(500).json({ error: result || GENERAL_ERROR })
             }
         } catch (err) {
             if (err instanceof Error) {
@@ -68,4 +67,7 @@ export default async function handler(
             }
         }
     }
+    return res.status(400).json({
+        error: 'Invalid Room Slug',
+    })
 }

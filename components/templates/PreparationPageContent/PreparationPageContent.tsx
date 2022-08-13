@@ -45,9 +45,8 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
         })
     )
 
-    const isReady = data || !!player.statements.length
     useSWR(
-        !player.showLoading && !isReady
+        !player.showLoading && !data
             ? `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
             : null,
         fetcher
@@ -71,7 +70,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                 isFixed={!isMobileSize}
                 fullWidth
             />
-            {isReady ? (
+            {data ? (
                 <>
                     <ScreenMessage
                         text={
@@ -85,8 +84,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                         role={player.role}
                         isDisabled={!isMinimumReady}
                         slug={room.slug}
-                        apiRoute="/update-room-stage"
-                        postBody={{ stage: RoomStage.GAME }}
+                        apiRoute={`/update-room-stage/${RoomStage.GAME}`}
                     />
                 </>
             ) : (
@@ -137,7 +135,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                     {error && <ScreenMessage text={GENERAL_ERROR_TRY_AGAIN} />}
                     <Button
                         text="Submit"
-                        size={ButtonSizes.lg}
+                        size={ButtonSizes.md}
                         onClick={postStatements}
                         isLoading={loading}
                         isDisabled={

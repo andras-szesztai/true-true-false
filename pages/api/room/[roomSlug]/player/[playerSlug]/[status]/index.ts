@@ -8,15 +8,14 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { query } = req
-    if (query.playerSlug && typeof query.playerSlug === 'string') {
+    if (typeof req.query.playerSlug === 'string') {
         try {
             const player = await prisma.player.update({
                 where: {
-                    slug: query.playerSlug,
+                    slug: req.query.playerSlug,
                 },
                 data: {
-                    isActive: query.status === 'connect',
+                    isActive: req.query.status === 'connect',
                 },
                 select: GET_PLAYER_REQUEST_FIELD,
             })
@@ -34,4 +33,7 @@ export default async function handler(
             }
         }
     }
+    return res.status(400).json({
+        error: 'Invalid Player Slug',
+    })
 }

@@ -4,7 +4,10 @@ import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { fetcher } from 'utils/fetcher'
+import Head from 'next/head'
+
 import { PostRoomResponse } from 'types/apiResponses'
+import { APP_NAME } from 'constants/appName'
 
 const CreateRoom = () => {
     const router = useRouter()
@@ -16,15 +19,19 @@ const CreateRoom = () => {
         }
     }, [data, router])
 
-    if (!data && !error)
-        return (
-            <ScreenMessage text="🧹🧽 One Second, We Are Preparing Your Room..." />
-        )
-
-    if (error || (data && 'error' in data))
-        return (
-            <ScreenMessage text="💔 Sorry, Something Went Wrong While Creating Your Room. Please Try Again!" />
-        )
+    return (
+        <>
+            <Head>
+                <title>{APP_NAME} - Preparing Your Room</title>
+            </Head>
+            {!data && !error && (
+                <ScreenMessage text="🧹🧽 One Second, We Are Preparing Your Room..." />
+            )}
+            {(error || (data && 'error' in data)) && (
+                <ScreenMessage text="💔 Sorry, Something Went Wrong While Creating Your Room. Please Try Again!" />
+            )}
+        </>
+    )
 }
 
 export default CreateRoom

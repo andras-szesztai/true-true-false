@@ -11,7 +11,7 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
 `
-const messageContainerStylesMapping = {
+const messageContainerStylesMap = {
     width: {
         base: '240px',
         [breakPoints.sm]: '320px',
@@ -23,22 +23,22 @@ const messageContainerStylesMapping = {
 export const MessageContainer = styled.div`
     text-align: center;
 
-    width: ${messageContainerStylesMapping.width.base};
+    width: ${messageContainerStylesMap.width.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        width: ${messageContainerStylesMapping.width[breakPoints.sm]};
+        width: ${messageContainerStylesMap.width[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        width: ${messageContainerStylesMapping.width[breakPoints.md]};
+        width: ${messageContainerStylesMap.width[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        width: ${messageContainerStylesMapping.width[breakPoints.lg]};
+        width: ${messageContainerStylesMap.width[breakPoints.lg]};
     }
 `
 
-const messageStylesMapping = {
+const messageStylesMap = {
     fontSize: {
         base: fontSize.md,
         [breakPoints.md]: fontSize.lg,
@@ -46,9 +46,9 @@ const messageStylesMapping = {
 }
 
 export const Message = styled.h1`
-    font-size: ${messageStylesMapping.fontSize.base};
+    font-size: ${messageStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${messageStylesMapping.fontSize[breakPoints.md]};
+        font-size: ${messageStylesMap.fontSize[breakPoints.md]};
     }
 `

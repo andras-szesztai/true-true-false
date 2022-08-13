@@ -9,7 +9,6 @@ export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
         text: string
         isDisabled?: boolean
         apiRoute?: string
-        postBody?: Record<string, string>
         size?: ButtonSizes
         noSuccessMessage?: boolean
     }

@@ -1,3 +1,13 @@
-import { CreateAPlayerCatch } from 'components/templates/CreateAPlayerCatch'
+import Head from 'next/head'
 
-export default () => <CreateAPlayerCatch />
+import { CreateAPlayerCatch } from 'components/templates/CreateAPlayerCatch'
+import { APP_NAME } from 'constants/appName'
+
+export default () => (
+    <>
+        <Head>
+            <title>{APP_NAME}</title>
+        </Head>
+        <CreateAPlayerCatch />
+    </>
+)

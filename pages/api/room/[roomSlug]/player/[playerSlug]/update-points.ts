@@ -9,46 +9,66 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { query, body } = req
-    if (query.playerSlug && typeof query.playerSlug === 'string') {
-        try {
-            const player = await prisma.player.findUnique({
-                where: {
-                    slug: query.playerSlug,
-                },
-                select: {
-                    role: true,
-                },
-            })
-            if (!player) {
-                return res.status(404).json({
-                    error: 'Could Not Find Player By Provided Player Slug',
-                })
-            }
-            if (player.role !== Role.ADMIN) {
-                return res.status(404).json({
-                    error: 'Only Admin Users Can Update Scores',
-                })
-            }
-            await Promise.all(
-                body.map(async (player: PlayerPoint) => {
-                    await prisma.player.update({
-                        where: {
-                            id: player.playerId,
+    if (typeof req.query.roomSlug === 'string') {
+        if (typeof req.query.playerSlug === 'string') {
+            try {
+                const room = await prisma.room.findUnique({
+                    where: {
+                        slug: req.query.roomSlug,
+                    },
+                    select: {
+                        players: {
+                            where: {
+                                slug: req.query.playerSlug,
+                            },
+                            select: {
+                                role: true,
+                            },
                         },
-                        data: {
-                            score: player.score,
-                        },
+                    },
+                })
+                if (!room) {
+                    return res.status(404).json({
+                        error: 'Could Not Find Room By Provided Room Slug',
                     })
-                })
-            )
-            return res.status(200).json({ success: true })
-        } catch (err) {
-            if (err instanceof Error) {
-                return res.status(500).json({
-                    error: GENERAL_ERROR,
-                })
+                }
+                const player = room.players[0]
+                if (!player) {
+                    return res.status(404).json({
+                        error: 'Could Not Find Player By Provided Player Slug',
+                    })
+                }
+                if (player.role !== Role.ADMIN) {
+                    return res.status(404).json({
+                        error: 'Only Admin Users Can Update Scores',
+                    })
+                }
+                await Promise.all(
+                    req.body.map(async (player: PlayerPoint) => {
+                        await prisma.player.update({
+                            where: {
+                                id: player.playerId,
+                            },
+                            data: {
+                                score: player.score,
+                            },
+                        })
+                    })
+                )
+                return res.status(200).json({ success: true })
+            } catch (err) {
+                if (err instanceof Error) {
+                    return res.status(500).json({
+                        error: GENERAL_ERROR,
+                    })
+                }
             }
         }
+        return res.status(400).json({
+            error: 'Invalid Player Slug',
+        })
     }
+    return res.status(400).json({
+        error: 'Invalid Room Slug',
+    })
 }

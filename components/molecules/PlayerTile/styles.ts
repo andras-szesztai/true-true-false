@@ -13,6 +13,24 @@ export const Container = styled.div`
 `
 
 const emojiContainerStylesMap = {
+    width: {
+        base: {
+            [PlayerTileSize.md]: `${space.xl}px`,
+            [PlayerTileSize.lg]: `${space.xl}px`,
+        },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: `${space.xl}px`,
+            [PlayerTileSize.lg]: `${space.xxl}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.xxl}px`,
+            [PlayerTileSize.lg]: `${space.xxl}px`,
+        },
+        [breakPoints.lg]: {
+            [PlayerTileSize.md]: `${space.xxl}px`,
+            [PlayerTileSize.lg]: `${space['3xl']}px`,
+        },
+    },
     fontSize: {
         base: {
             [PlayerTileSize.md]: fontSize.base,
@@ -60,6 +78,7 @@ const emojiContainerStylesMap = {
 export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
     display: flex;
     align-items: center;
+    justify-content: center;
     border: ${strokeWidth.md}px solid ${color.black};
     border-right: none;
     line-height: 1;
@@ -75,10 +94,12 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
             width: ${emojiContainerStylesMap.offLineSvgWidth.base[size]};
             height: ${emojiContainerStylesMap.offLineSvgWidth.base[size]};
         }
+        width: ${emojiContainerStylesMap.width.base[size]};
         font-size: ${emojiContainerStylesMap.fontSize.base[size]};
         padding: ${emojiContainerStylesMap.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
+            width: ${emojiContainerStylesMap.width[breakPoints.sm][size]};
             padding: ${emojiContainerStylesMap.padding[breakPoints.sm][size]};
         }
 
@@ -91,6 +112,7 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
                     breakPoints.md
                 ][size]};
             }
+            width: ${emojiContainerStylesMap.width[breakPoints.md][size]};
             font-size: ${emojiContainerStylesMap.fontSize[breakPoints.md][
                 size
             ]};
@@ -98,6 +120,7 @@ export const EmojiContainer = styled.div<Pick<Props, 'noBorderTop' | 'size'>>`
         }
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
+            width: ${emojiContainerStylesMap.width[breakPoints.lg][size]};
             padding: ${emojiContainerStylesMap.padding[breakPoints.lg][size]};
             font-size: ${emojiContainerStylesMap.fontSize[breakPoints.lg][
                 size
@@ -188,7 +211,7 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
     `}
 `
 
-const scoreContainerStylesMapping = {
+const scoreContainerStylesMap = {
     width: {
         base: `${space.xl}px`,
         [breakPoints.sm]: `${space.xxl}px`,
@@ -206,18 +229,16 @@ export const ScoreContainer = styled.div`
     display: flex;
     align-items: center;
 
-    width: ${scoreContainerStylesMapping.width.base};
-    padding-right: ${scoreContainerStylesMapping.paddingRight.base};
+    width: ${scoreContainerStylesMap.width.base};
+    padding-right: ${scoreContainerStylesMap.paddingRight.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        width: ${scoreContainerStylesMapping.width[breakPoints.sm]};
+        width: ${scoreContainerStylesMap.width[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        width: ${scoreContainerStylesMapping.width[breakPoints.md]};
-        padding-right: ${scoreContainerStylesMapping.paddingRight[
-            breakPoints.md
-        ]};
+        width: ${scoreContainerStylesMap.width[breakPoints.md]};
+        padding-right: ${scoreContainerStylesMap.paddingRight[breakPoints.md]};
     }
 `
 
@@ -234,7 +255,7 @@ export const StarContainer = styled.span`
     transform: translateY(-50%);
 `
 
-const scoreNumberContainerStylesMapping = {
+const scoreNumberContainerStylesMap = {
     fontSize: {
         base: fontSize.sm,
         [breakPoints.md]: fontSize.base,
@@ -244,11 +265,9 @@ const scoreNumberContainerStylesMapping = {
 export const ScoreNumberContainer = styled.span`
     position: absolute;
     right: 0px;
-    font-size: ${scoreNumberContainerStylesMapping.fontSize.base};
+    font-size: ${scoreNumberContainerStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${scoreNumberContainerStylesMapping.fontSize[
-            breakPoints.md
-        ]};
+        font-size: ${scoreNumberContainerStylesMap.fontSize[breakPoints.md]};
     }
 `

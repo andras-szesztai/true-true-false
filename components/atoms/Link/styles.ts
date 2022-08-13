@@ -8,7 +8,7 @@ import { LinkSizes, Props, StyleProps } from './types'
 const { color, space, fontSize, strokeWidth, shadows, breakPoints } =
     designTokens
 
-const linkStylesMapping = {
+const stylesMap = {
     padding: {
         base: {
             [LinkSizes.md]: `${space.sm}px ${space.md}px;`,
@@ -81,20 +81,20 @@ export const StyledLink = styled.a<Pick<Props, StyleProps>>`
         `}
 
     ${({ size }) => css`
-        font-size: ${linkStylesMapping.fontSize.base[size]};
-        padding: ${linkStylesMapping.padding.base[size]};
+        font-size: ${stylesMap.fontSize.base[size]};
+        padding: ${stylesMap.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
-            padding: ${linkStylesMapping.padding[breakPoints.sm][size]};
+            padding: ${stylesMap.padding[breakPoints.sm][size]};
         }
 
         @media only screen and (min-width: ${breakPoints.md}px) {
-            font-size: ${linkStylesMapping.fontSize[breakPoints.md][size]};
-            padding: ${linkStylesMapping.padding[breakPoints.md][size]};
+            font-size: ${stylesMap.fontSize[breakPoints.md][size]};
+            padding: ${stylesMap.padding[breakPoints.md][size]};
         }
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
-            font-size: ${linkStylesMapping.fontSize[breakPoints.lg][size]};
+            font-size: ${stylesMap.fontSize[breakPoints.lg][size]};
         }
     `}
 `

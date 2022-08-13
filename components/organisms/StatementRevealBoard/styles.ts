@@ -49,6 +49,7 @@ const ScoreContainer = styled.div`
     color: ${color.black};
     border: ${strokeWidth.md}px solid ${color.black};
     transform: translate(50%, -50%);
+    line-height: 1;
 
     padding: ${scoreStyleMap.padding.base};
     font-size: ${scoreStyleMap.fontSize.base};
