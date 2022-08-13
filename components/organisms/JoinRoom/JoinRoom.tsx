@@ -15,7 +15,7 @@ const JoinRoom = () => {
 
     const shouldFetch = roomSlug.length === 5 && prevRoomSlug !== roomSlug
     const [error, setError] = useState('')
-    const [data, setData] = useState<null | GetRoomResponseSuccess>()
+    const [data, setData] = useState<null | GetRoomResponseSuccess>(null)
     useSWR<GetRoomResponse>(
         shouldFetch ? `/api/room/${roomSlug}` : null,
         fetcher,
@@ -54,7 +54,7 @@ const JoinRoom = () => {
                 size={LinkSizes.md}
                 noBorderTop
                 isDisabled={!data}
-                isLoading={!!roomSlug.length && !data && !error}
+                isLoading={roomSlug.length === 5 && !data && !error}
             />
         </JoinRoomContainer>
     )

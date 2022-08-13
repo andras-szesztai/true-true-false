@@ -1,6 +1,6 @@
 import { RoomStage } from '@prisma/client'
 import { useState } from 'react'
-import { useAsync, useAsyncFn, useWindowSize } from 'react-use'
+import { useAsyncFn, useWindowSize } from 'react-use'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -14,6 +14,8 @@ import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { GENERAL_ERROR_TRY_AGAIN } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
+import useSWR from 'swr'
+import { fetcher } from 'utils/fetcher'
 import { Props } from './types'
 import { TextAreaContainer, TextBoxesContainer } from './styles'
 
@@ -48,13 +50,12 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
     }, [firstTrueStatement, secondTrueStatement, falseStatement])
 
     const isReady = state.value?.success || !!player.statements.length
-    useAsync(async () => {
-        if (!player.showLoading && !isReady) {
-            await fetch(
-                `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
-            )
-        }
-    }, [player, isReady])
+    useSWR(
+        !player.showLoading && !isReady
+            ? `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
+            : null,
+        fetcher
+    )
 
     const isMobileSize = width <= breakPoints.md
     const isMinimumReady =

@@ -2,13 +2,12 @@ import {
     GetPlayerResponseSuccess,
     GetPlayersResponseSuccess,
     GetRoomResponseSuccess,
-    GetStatementForQuestionResponse,
+    GetStatementForQuestionResponseSuccess,
 } from 'types/apiResponses'
 
 export interface Props {
-    statements: GetStatementForQuestionResponse | undefined
-    isLoading: boolean
-    error: Error | undefined
+    statements: GetStatementForQuestionResponseSuccess | null
+    error: string
     roomSlug: GetPlayerResponseSuccess['slug']
     playerSlug: GetRoomResponseSuccess['slug']
     isPlayerReady: boolean

@@ -1,16 +1,15 @@
 import { RoundStage } from '@prisma/client'
 import {
     GetPlayersResponseSuccess,
-    GetRevealAnswerResponse,
-    GetStatementForQuestionResponse,
+    GetRevealAnswerResponseSuccess,
+    GetStatementForQuestionResponseSuccess,
 } from 'types/apiResponses'
 import { Points } from 'types/points'
 
 export interface Props {
-    statements: GetStatementForQuestionResponse | undefined
-    revealAnswer: GetRevealAnswerResponse | undefined
-    isLoading: boolean
-    error: Error | undefined
+    statementsData: GetStatementForQuestionResponseSuccess | null
+    revealData: GetRevealAnswerResponseSuccess | null
+    error: string
     roundStage: RoundStage
     players: GetPlayersResponseSuccess
     selectedPlayer?: GetPlayersResponseSuccess[number]

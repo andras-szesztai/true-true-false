@@ -4,7 +4,6 @@ import { RoundStage } from '@prisma/client'
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
-import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
@@ -18,29 +17,20 @@ import {
 const { color, space } = designTokens
 
 const StatementRevealBoard = ({
-    statements,
-    revealAnswer,
-    isLoading,
+    statementsData,
+    revealData,
     error,
     roundStage,
     players,
     selectedPlayer,
     points,
 }: Props) => {
-    if (isLoading && !revealAnswer) {
+    if (!error && (!statementsData || !revealData)) {
         return <SquareLoader color={color.black} loading size={space.lg} />
     }
 
-    if (!statements || error || !revealAnswer) {
-        return <ScreenMessage text={error?.message || GENERAL_ERROR} />
-    }
-
-    if ('error' in revealAnswer) {
-        return <ScreenMessage text={revealAnswer.error} />
-    }
-
-    if ('error' in statements) {
-        return <ScreenMessage text={statements.error} />
+    if (error) {
+        return <ScreenMessage text={error} />
     }
 
     return (
@@ -62,7 +52,7 @@ const StatementRevealBoard = ({
                 </PlayerTileContainer>
             )}
             <div>
-                {statements.map((s, i) => (
+                {statementsData?.map((s, i) => (
                     <StatementContainer
                         noBorderTop={!!i}
                         key={s.id}
@@ -70,12 +60,12 @@ const StatementRevealBoard = ({
                             (roundStage === RoundStage.FALSE_REVEAL ||
                                 roundStage === RoundStage.SCORE_REVEAL ||
                                 roundStage === RoundStage.SCORING) &&
-                            s.id === revealAnswer.falseStatement.id
+                            s.id === revealData?.falseStatement.id
                         }
                     >
                         {roundStage === RoundStage.SCORE_REVEAL && (
                             <StatementScoreContainer>
-                                {s.id === revealAnswer.falseStatement.id
+                                {s.id === revealData?.falseStatement.id
                                     ? `${points?.correctlyGuessed ? '+' : ''}${
                                           points?.correctlyGuessed
                                       }`
@@ -85,7 +75,7 @@ const StatementRevealBoard = ({
                         <p>{s.text}</p>
                         <GuessEmojiContainer>
                             {roundStage !== RoundStage.QUESTION_END &&
-                                revealAnswer.guesses
+                                revealData?.guesses
                                     .filter((g) => g.selectedAnswerId === s.id)
                                     .map((g) => (
                                         <span key={`emoji-${g.id}`}>

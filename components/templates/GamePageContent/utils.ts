@@ -3,7 +3,9 @@ import { min, pullAt, uniq } from 'lodash'
 
 export const getAdminButtonProps = (
     roundStage: RoundStage,
-    isLastRound: boolean
+    isLastRound: boolean,
+    updateScoresSuccess: boolean,
+    updateScoresError: boolean
 ) => {
     if (roundStage === RoundStage.QUESTION) {
         return {
@@ -33,14 +35,14 @@ export const getAdminButtonProps = (
             postBody: { stage: RoundStage.SCORE_REVEAL },
         }
     }
-    if (roundStage === RoundStage.SCORE_REVEAL) {
+    if (roundStage === RoundStage.SCORE_REVEAL || updateScoresError) {
         return {
             text: 'Update Scores',
             apiRoute: '/update-round-stage',
             postBody: { stage: RoundStage.SCORING },
         }
     }
-    if (roundStage === RoundStage.SCORING) {
+    if (roundStage === RoundStage.SCORING && updateScoresSuccess) {
         return isLastRound
             ? {
                   text: 'End Game',

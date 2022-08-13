@@ -1,16 +1,22 @@
 import { Role, RoundStage } from '@prisma/client'
-import { useEffect, useState } from 'react'
-import { useAsync } from 'react-use'
-import { AsyncState } from 'react-use/lib/useAsyncFn'
+import { useEffect, useMemo, useState } from 'react'
+import useSWR from 'swr'
 
-import { GetRevealAnswerResponse } from 'types/apiResponses'
+import {
+    GetRevealAnswerResponse,
+    GetRevealAnswerResponseSuccess,
+    GetRoomResponseSuccess,
+    GetStatementForQuestionResponse,
+    GetStatementForQuestionResponseSuccess,
+} from 'types/apiResponses'
 import { Points } from 'types/points'
+import { fetcher } from 'utils/fetcher'
 
 import { getSelectedPlayerScore } from './utils'
 import { Props } from './types'
 
 export const useCalculatePoints = (
-    revealAnswer: GetRevealAnswerResponse | undefined
+    revealData: GetRevealAnswerResponseSuccess | null
 ) => {
     const [points, setPoints] = useState<{
         selectedPlayer: number
@@ -18,12 +24,12 @@ export const useCalculatePoints = (
         falselyGuessed: number
     } | null>(null)
     useEffect(() => {
-        if (revealAnswer && 'guesses' in revealAnswer && !points) {
-            const validGuesses = revealAnswer.guesses.filter(
+        if (revealData && !points) {
+            const validGuesses = revealData.guesses.filter(
                 (g) => !!g.selectedAnswerId
             )
             const correctlyGuessedLength = validGuesses.filter(
-                (d) => d.selectedAnswerId === revealAnswer.falseStatement.id
+                (d) => d.selectedAnswerId === revealData.falseStatement.id
             ).length
             setPoints({
                 selectedPlayer: getSelectedPlayerScore(
@@ -33,15 +39,86 @@ export const useCalculatePoints = (
                     correctlyGuessedLength &&
                     validGuesses.filter(
                         (d) =>
-                            d.selectedAnswerId !==
-                            revealAnswer.falseStatement.id
+                            d.selectedAnswerId !== revealData.falseStatement.id
                     ).length,
                 falselyGuessed: -correctlyGuessedLength,
             })
         }
-    }, [revealAnswer, points])
+    }, [revealData, points])
 
     return points
+}
+
+export const useFetchSelectedPlayerStatementsQuestion = (
+    selectedPlayerId: GetRoomResponseSuccess['selectedPlayerId'],
+    roomSlug: GetRoomResponseSuccess['slug']
+) => {
+    const [error, setError] = useState('')
+    const [data, setData] =
+        useState<null | GetStatementForQuestionResponseSuccess>(null)
+    useSWR<GetStatementForQuestionResponse>(
+        selectedPlayerId
+            ? `/api/room/${roomSlug}/statement/${selectedPlayerId}/for-question`
+            : null,
+        fetcher,
+        {
+            onSuccess: (data) => {
+                if ('error' in data) {
+                    setData(null)
+                    setError(data.error)
+                } else {
+                    setError('')
+                    setData(data)
+                }
+            },
+            onError: (err) => {
+                setData(null)
+                setError(err.message)
+            },
+            isPaused: () => !!data,
+        }
+    )
+    return { statementsError: error, statementsData: data }
+}
+
+export const useFetchSelectedPlayerStatementsReveal = (
+    selectedPlayerId: GetRoomResponseSuccess['selectedPlayerId'],
+    roundStage: GetRoomResponseSuccess['roundStage'],
+    roomSlug: GetRoomResponseSuccess['slug']
+) => {
+    const shouldFetch =
+        roundStage === RoundStage.QUESTION_END ||
+        roundStage === RoundStage.GUESS_REVEAL ||
+        roundStage === RoundStage.FALSE_REVEAL ||
+        roundStage === RoundStage.SCORE_REVEAL ||
+        roundStage === RoundStage.SCORING
+    const [error, setError] = useState('')
+    const [data, setData] = useState<null | GetRevealAnswerResponseSuccess>(
+        null
+    )
+    useSWR<GetRevealAnswerResponse>(
+        shouldFetch
+            ? `/api/room/${roomSlug}/statement/${selectedPlayerId}/for-reveal`
+            : null,
+        fetcher,
+        {
+            onSuccess: (data) => {
+                if ('error' in data) {
+                    setData(null)
+                    setError(data.error)
+                } else {
+                    setError('')
+                    setData(data)
+                }
+            },
+            onError: (err) => {
+                setData(null)
+                setError(err.message)
+            },
+            isPaused: () => !!data,
+        }
+    )
+    return { revealError: error, revealData: data }
 }
 
 export const useUpdatePlayerPointsRequest = (
@@ -49,18 +126,18 @@ export const useUpdatePlayerPointsRequest = (
     player: Props['player'],
     players: Props['players'],
     points: Points,
-    revealAnswer: AsyncState<GetRevealAnswerResponse | undefined>
+    revealData: GetRevealAnswerResponseSuccess | null
 ) => {
-    const updateScoresStatus = useAsync(async () => {
-        if (
-            room.roundStage === RoundStage.SCORING &&
-            points &&
-            player.role === Role.ADMIN &&
-            revealAnswer.value &&
-            'falseStatement' in revealAnswer.value
-        ) {
-            const { guesses, falseStatement } = revealAnswer.value
-            const playerPoints = players.map((d) => {
+    const shouldFetch =
+        room.roundStage === RoundStage.SCORING &&
+        points &&
+        player.role === Role.ADMIN &&
+        revealData
+    const playerPoints = useMemo(() => {
+        let newPlayerPoints: { playerId: number; score: number }[] = []
+        if (shouldFetch) {
+            const { guesses, falseStatement } = revealData
+            newPlayerPoints = players.map((d) => {
                 let pointsToReceive = points?.falselyGuessed
                 const selectedAnswerId = guesses.find(
                     (g) => g.id === d.id
@@ -74,21 +151,42 @@ export const useUpdatePlayerPointsRequest = (
                 }
                 return { playerId: d.id, score: d.score + pointsToReceive }
             })
-            const response = await fetch(
-                `/api/room/${room.slug}/player/${player.slug}/update-points`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(playerPoints),
-                }
-            )
-            const result = await response.json()
-            return result
         }
-    }, [room.roundStage, revealAnswer.value, points])
+        return newPlayerPoints
+    }, [room, points, players, revealData, shouldFetch])
 
-    return updateScoresStatus
+    const [error, setError] = useState('')
+    const [data, setData] = useState<null | { success: true }>(null)
+    useSWR<{ success: true } | { error: string }>(
+        shouldFetch
+            ? `/api/room/${room.slug}/player/${player.slug}/update-points`
+            : null,
+        (url) =>
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(playerPoints),
+            }).then((res) => res.json()),
+        {
+            onSuccess: (data) => {
+                if ('error' in data) {
+                    setData(null)
+                    setError(data.error)
+                } else {
+                    setError('')
+                    setData(data)
+                }
+            },
+            onError: (err) => {
+                setData(null)
+                setError(err.message)
+            },
+            isPaused: () => !!data,
+        }
+    )
+
+    return { updateScoresSuccess: data, updateScoresError: error }
 }

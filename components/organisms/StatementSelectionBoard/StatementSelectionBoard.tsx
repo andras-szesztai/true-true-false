@@ -16,7 +16,6 @@ const { color, space } = designTokens
 
 const StatementSelectionBoard = ({
     statements,
-    isLoading,
     error,
     roomSlug,
     playerSlug,
@@ -35,16 +34,12 @@ const StatementSelectionBoard = ({
         return result
     }, [selectedId])
 
-    if (isLoading) {
+    if (!statements && !error) {
         return <SquareLoader color={color.black} loading size={space.lg} />
     }
 
-    if (!statements || error) {
-        return <ScreenMessage text={error?.message || GENERAL_ERROR} />
-    }
-
-    if ('error' in statements) {
-        return <ScreenMessage text={statements.error} />
+    if (error) {
+        return <ScreenMessage text={error || GENERAL_ERROR} />
     }
 
     if (
@@ -73,7 +68,7 @@ const StatementSelectionBoard = ({
                 />
             )}
             <div>
-                {statements.map((s, i) => (
+                {statements?.map((s, i) => (
                     <StatementContainer
                         key={s.id}
                         noBorderTop={!!i}

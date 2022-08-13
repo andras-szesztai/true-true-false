@@ -1,4 +1,4 @@
-import { useAsync, useWindowSize } from 'react-use'
+import { useWindowSize } from 'react-use'
 import { Role, RoundStage } from '@prisma/client'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -9,15 +9,16 @@ import { AdminButton } from 'components/molecules/AdminButton'
 import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { StatementSelectionBoard } from 'components/organisms/StatementSelectionBoard'
 import { StatementRevealBoard } from 'components/organisms/StatementRevealBoard'
-import {
-    GetRevealAnswerResponse,
-    GetStatementForQuestionResponse,
-} from 'types/apiResponses'
 import { designTokens } from 'styles/designTokens'
 
 import { getAdminButtonProps } from './utils'
 import { Props } from './types'
-import { useCalculatePoints, useUpdatePlayerPointsRequest } from './hooks'
+import {
+    useCalculatePoints,
+    useFetchSelectedPlayerStatementsQuestion,
+    useFetchSelectedPlayerStatementsReveal,
+    useUpdatePlayerPointsRequest,
+} from './hooks'
 
 const { breakPoints } = designTokens
 
@@ -26,57 +27,36 @@ const { breakPoints } = designTokens
 // 2. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
+    const { selectedPlayerId, slug: roomSlug, roundStage } = room
     const { width } = useWindowSize()
     const isMobileSize = width <= breakPoints.md
 
-    const statements = useAsync(async () => {
-        if (room.selectedPlayerId) {
-            const response = await fetch(
-                `/api/room/${room.slug}/statement/${room.selectedPlayerId}/for-question`
-            )
-            const result: GetStatementForQuestionResponse =
-                await response.json()
-            return result
-        }
-    }, [room.selectedPlayerId])
+    const { statementsData, statementsError } =
+        useFetchSelectedPlayerStatementsQuestion(selectedPlayerId, roomSlug)
 
-    const revealAnswer = useAsync(async () => {
-        if (
-            room.roundStage === RoundStage.QUESTION_END ||
-            room.roundStage === RoundStage.GUESS_REVEAL ||
-            room.roundStage === RoundStage.FALSE_REVEAL ||
-            room.roundStage === RoundStage.SCORE_REVEAL ||
-            room.roundStage === RoundStage.SCORING
-        ) {
-            const response = await fetch(
-                `/api/room/${room.slug}/statement/${room.selectedPlayerId}/for-reveal`
-            )
-            const result: GetRevealAnswerResponse = await response.json()
-            return result
-        }
-    }, [room.selectedPlayerId, room.roundStage])
-
-    const points = useCalculatePoints(revealAnswer.value)
-    const updateScoresStatus = useUpdatePlayerPointsRequest(
-        room,
-        player,
-        players,
-        points,
-        revealAnswer
+    const { revealData, revealError } = useFetchSelectedPlayerStatementsReveal(
+        selectedPlayerId,
+        roundStage,
+        roomSlug
     )
+
+    const points = useCalculatePoints(revealData)
+
+    const { updateScoresSuccess, updateScoresError } =
+        useUpdatePlayerPointsRequest(room, player, players, points, revealData)
 
     const isAllPlayersReady = !players
         .filter((d) => d.id !== player.id)
         .some((d) => d.showLoading)
-    const isCurrentPlayerSelected = player.id === room.selectedPlayerId
+    const isCurrentPlayerSelected = player.id === selectedPlayerId
     const isPlayerReadyWithAnswer = isCurrentPlayerSelected
         ? isAllPlayersReady
         : !!player.selectedAnswerId
-    const selectedPlayer = players.find((p) => p.id === room.selectedPlayerId)
+    const selectedPlayer = players.find((p) => p.id === selectedPlayerId)
 
     return (
         <HomeContentContainer>
-            <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
+            <RoomSlugText slug={roomSlug} size={RoomSlugSizes.md} />
             <PlayersBoard
                 player={player}
                 players={players}
@@ -85,17 +65,15 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 fullWidth
                 displayScore
             />
-            {room.roundStage === RoundStage.IDLE &&
-                player.role === Role.USER && (
-                    <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
-                )}
-            {room.roundStage === RoundStage.QUESTION && (
+            {roundStage === RoundStage.IDLE && player.role === Role.USER && (
+                <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
+            )}
+            {roundStage === RoundStage.QUESTION && (
                 // TODO See if prop types can be shared?
                 <StatementSelectionBoard
-                    statements={statements.value}
-                    isLoading={statements.loading}
-                    error={statements.error}
-                    roomSlug={room.slug}
+                    statements={statementsData}
+                    error={statementsError}
+                    roomSlug={roomSlug}
                     playerSlug={player.slug}
                     isPlayerReady={isPlayerReadyWithAnswer}
                     isAllReady={isAllPlayersReady}
@@ -103,36 +81,35 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     isCurrentPlayerSelected={isCurrentPlayerSelected}
                 />
             )}
-            {(room.roundStage === RoundStage.QUESTION_END ||
-                room.roundStage === RoundStage.GUESS_REVEAL ||
-                room.roundStage === RoundStage.FALSE_REVEAL ||
-                room.roundStage === RoundStage.SCORE_REVEAL ||
-                room.roundStage === RoundStage.SCORING) && (
+            {(roundStage === RoundStage.QUESTION_END ||
+                roundStage === RoundStage.GUESS_REVEAL ||
+                roundStage === RoundStage.FALSE_REVEAL ||
+                roundStage === RoundStage.SCORE_REVEAL ||
+                roundStage === RoundStage.SCORING) && (
                 <StatementRevealBoard
-                    roundStage={room.roundStage}
-                    statements={statements.value}
-                    revealAnswer={revealAnswer.value}
+                    statementsData={statementsData}
+                    revealData={revealData}
+                    error={revealError || statementsError}
+                    roundStage={roundStage}
                     players={players}
-                    isLoading={revealAnswer.loading}
-                    error={revealAnswer.error}
                     selectedPlayer={selectedPlayer}
                     points={points}
                 />
             )}
-            {player.role === Role.ADMIN &&
-                updateScoresStatus &&
-                (updateScoresStatus.error ||
-                    (updateScoresStatus.value &&
-                        'error' in updateScoresStatus.value)) && (
-                    <ScreenMessage text="Something Went Wrong While Trying to Update Player Scores, Please Try Again" />
-                )}
-            {(room.roundStage === RoundStage.IDLE ||
-                isPlayerReadyWithAnswer) && (
+            {player.role === Role.ADMIN && updateScoresError && (
+                <ScreenMessage text="Something Went Wrong While Trying to Update Player Scores, Please Try Again" />
+            )}
+            {(roundStage === RoundStage.IDLE || isPlayerReadyWithAnswer) && (
                 <AdminButton
-                    {...getAdminButtonProps(room.roundStage, room.isLastRound)}
+                    {...getAdminButtonProps(
+                        roundStage,
+                        room.isLastRound,
+                        !!updateScoresSuccess,
+                        !!updateScoresError
+                    )}
                     role={player.role}
                     isDisabled={false}
-                    slug={room.slug}
+                    slug={roomSlug}
                 />
             )}
         </HomeContentContainer>
