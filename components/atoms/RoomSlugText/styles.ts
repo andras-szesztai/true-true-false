@@ -7,7 +7,7 @@ import { Props, RoomSlugSizes } from './types'
 
 const { space, fontSize, breakPoints } = designTokens
 
-const containerStylesMapping = {
+const containerStylesMap = {
     position: {
         base: `${space.sm}px`,
         [breakPoints.sm]: `${space.base}px`,
@@ -27,23 +27,23 @@ export const Container = styled.div<Pick<Props, 'isFixed'>>`
             position: fixed;
             justify-content: flex-end;
 
-            right: ${containerStylesMapping.position.base};
-            top: ${containerStylesMapping.position.base};
+            right: ${containerStylesMap.position.base};
+            top: ${containerStylesMap.position.base};
 
             @media only screen and (min-width: ${breakPoints.sm}px) {
-                right: ${containerStylesMapping.position[breakPoints.sm]};
-                top: ${containerStylesMapping.position[breakPoints.sm]};
+                right: ${containerStylesMap.position[breakPoints.sm]};
+                top: ${containerStylesMap.position[breakPoints.sm]};
             }
 
             @media only screen and (min-width: ${breakPoints.md}px) {
                 flex-direction: column;
-                right: ${containerStylesMapping.position[breakPoints.md]};
-                top: ${containerStylesMapping.position[breakPoints.md]};
+                right: ${containerStylesMap.position[breakPoints.md]};
+                top: ${containerStylesMap.position[breakPoints.md]};
             }
 
             @media only screen and (min-width: ${breakPoints.lg}px) {
-                right: ${containerStylesMapping.position[breakPoints.lg]};
-                top: ${containerStylesMapping.position[breakPoints.lg]};
+                right: ${containerStylesMap.position[breakPoints.lg]};
+                top: ${containerStylesMap.position[breakPoints.lg]};
             }
         `}
 
@@ -52,7 +52,7 @@ export const Container = styled.div<Pick<Props, 'isFixed'>>`
     }
 `
 
-const textStylesMapping = {
+const textStylesMap = {
     fontSize: {
         base: {
             [RoomSlugSizes.md]: fontSize.base,
@@ -77,18 +77,18 @@ export const Text = styled.h1<Pick<Props, 'size'>>`
     text-align: right;
 
     ${({ size }) => css`
-        font-size: ${textStylesMapping.fontSize.base[size]};
+        font-size: ${textStylesMap.fontSize.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
-            font-size: ${textStylesMapping.fontSize[breakPoints.sm][size]};
+            font-size: ${textStylesMap.fontSize[breakPoints.sm][size]};
         }
 
         @media only screen and (min-width: ${breakPoints.md}px) {
-            font-size: ${textStylesMapping.fontSize[breakPoints.md][size]};
+            font-size: ${textStylesMap.fontSize[breakPoints.md][size]};
         }
 
         @media only screen and (min-width: ${breakPoints.lg}px) {
-            font-size: ${textStylesMapping.fontSize[breakPoints.lg][size]};
+            font-size: ${textStylesMap.fontSize[breakPoints.lg][size]};
         }
     `}
 `

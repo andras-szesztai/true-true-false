@@ -5,7 +5,7 @@ import { designTokens } from 'styles/designTokens'
 const { shadows, color, fontSize, space, strokeWidth, breakPoints } =
     designTokens
 
-const inputStylesMapping = {
+const inputStylesMap = {
     padding: {
         base: `${space.base}px ${space.lg}px`,
         [breakPoints.sm]: `${space.base}px ${space.xl}px`,
@@ -42,24 +42,24 @@ export const StyledInput = styled.input`
         z-index: 0;
     }
 
-    padding: ${inputStylesMapping.padding.base};
-    width: ${inputStylesMapping.width.base};
-    font-size: ${inputStylesMapping.fontSize.base};
+    padding: ${inputStylesMap.padding.base};
+    width: ${inputStylesMap.width.base};
+    font-size: ${inputStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        padding: ${inputStylesMapping.padding[breakPoints.sm]};
-        width: ${inputStylesMapping.width[breakPoints.sm]};
+        padding: ${inputStylesMap.padding[breakPoints.sm]};
+        width: ${inputStylesMap.width[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        padding: ${inputStylesMapping.padding[breakPoints.md]};
-        width: ${inputStylesMapping.width[breakPoints.md]};
-        font-size: ${inputStylesMapping.fontSize[breakPoints.md]};
+        padding: ${inputStylesMap.padding[breakPoints.md]};
+        width: ${inputStylesMap.width[breakPoints.md]};
+        font-size: ${inputStylesMap.fontSize[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        width: ${inputStylesMapping.width[breakPoints.lg]};
-        font-size: ${inputStylesMapping.fontSize[breakPoints.lg]};
+        width: ${inputStylesMap.width[breakPoints.lg]};
+        font-size: ${inputStylesMap.fontSize[breakPoints.lg]};
     }
 `
 
@@ -68,7 +68,7 @@ export const InputContainer = styled.div`
     z-index: 1;
 `
 
-const inputErrorStylesMapping = {
+const inputErrorStylesMap = {
     fontSize: {
         base: fontSize.sm,
         [breakPoints.sm]: fontSize.sm,
@@ -88,17 +88,17 @@ export const InputError = styled.span`
     border-top: none;
 
     font-size: ${fontSize.base};
-    font-size: ${inputErrorStylesMapping.fontSize.base};
+    font-size: ${inputErrorStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.sm]};
+        font-size: ${inputErrorStylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.md]};
+        font-size: ${inputErrorStylesMap.fontSize[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${inputErrorStylesMapping.fontSize[breakPoints.lg]};
+        font-size: ${inputErrorStylesMap.fontSize[breakPoints.lg]};
     }
 `

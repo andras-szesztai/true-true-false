@@ -8,8 +8,8 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 import { APP_NAME } from 'constants/appName'
 
 // FEAT
-// - 1. End Screen with delete game (players & statements) button for Admin
-// - 2. Rules modal on start page
+// - 1. Rules modal on start page
+// - 2. End Screen with delete game (players & statements) button for Admin
 // - 3. CreatedBy & links
 // MISC
 // - Thumbnail for sharing url social media or chat

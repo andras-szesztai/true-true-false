@@ -211,7 +211,7 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
     `}
 `
 
-const scoreContainerStylesMapping = {
+const scoreContainerStylesMap = {
     width: {
         base: `${space.xl}px`,
         [breakPoints.sm]: `${space.xxl}px`,
@@ -229,18 +229,16 @@ export const ScoreContainer = styled.div`
     display: flex;
     align-items: center;
 
-    width: ${scoreContainerStylesMapping.width.base};
-    padding-right: ${scoreContainerStylesMapping.paddingRight.base};
+    width: ${scoreContainerStylesMap.width.base};
+    padding-right: ${scoreContainerStylesMap.paddingRight.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        width: ${scoreContainerStylesMapping.width[breakPoints.sm]};
+        width: ${scoreContainerStylesMap.width[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        width: ${scoreContainerStylesMapping.width[breakPoints.md]};
-        padding-right: ${scoreContainerStylesMapping.paddingRight[
-            breakPoints.md
-        ]};
+        width: ${scoreContainerStylesMap.width[breakPoints.md]};
+        padding-right: ${scoreContainerStylesMap.paddingRight[breakPoints.md]};
     }
 `
 
@@ -257,7 +255,7 @@ export const StarContainer = styled.span`
     transform: translateY(-50%);
 `
 
-const scoreNumberContainerStylesMapping = {
+const scoreNumberContainerStylesMap = {
     fontSize: {
         base: fontSize.sm,
         [breakPoints.md]: fontSize.base,
@@ -267,11 +265,9 @@ const scoreNumberContainerStylesMapping = {
 export const ScoreNumberContainer = styled.span`
     position: absolute;
     right: 0px;
-    font-size: ${scoreNumberContainerStylesMapping.fontSize.base};
+    font-size: ${scoreNumberContainerStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${scoreNumberContainerStylesMapping.fontSize[
-            breakPoints.md
-        ]};
+        font-size: ${scoreNumberContainerStylesMap.fontSize[breakPoints.md]};
     }
 `

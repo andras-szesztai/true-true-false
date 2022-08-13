@@ -19,7 +19,7 @@ export const ButtonContainer = styled.div`
     align-self: stretch;
 `
 
-const emojiSelectorButtonStylesMapping = {
+const stylesMap = {
     padding: {
         base: `${space.sm}px ${space.xs}px;`,
         [breakPoints.sm]: `${space.base}px ${space.base}px;`,
@@ -49,22 +49,22 @@ export const EmojiSelectorButton = styled.button`
         z-index: 0;
     }
 
-    font-size: ${emojiSelectorButtonStylesMapping.fontSize.base};
-    padding: ${emojiSelectorButtonStylesMapping.padding.base};
+    font-size: ${stylesMap.fontSize.base};
+    padding: ${stylesMap.padding.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        font-size: ${emojiSelectorButtonStylesMapping.fontSize[breakPoints.sm]};
-        padding: ${emojiSelectorButtonStylesMapping.padding[breakPoints.sm]};
+        font-size: ${stylesMap.fontSize[breakPoints.sm]};
+        padding: ${stylesMap.padding[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${emojiSelectorButtonStylesMapping.fontSize[breakPoints.md]};
-        padding: ${emojiSelectorButtonStylesMapping.padding[breakPoints.md]};
+        font-size: ${stylesMap.fontSize[breakPoints.md]};
+        padding: ${stylesMap.padding[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${emojiSelectorButtonStylesMapping.fontSize[breakPoints.lg]};
-        padding: ${emojiSelectorButtonStylesMapping.padding[breakPoints.lg]};
+        font-size: ${stylesMap.fontSize[breakPoints.lg]};
+        padding: ${stylesMap.padding[breakPoints.lg]};
     }
 `
 
