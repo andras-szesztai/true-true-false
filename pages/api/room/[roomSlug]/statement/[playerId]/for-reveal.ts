@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { RoundStage } from '@prisma/client'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
-import { RoundStage } from '@prisma/client'
 
 export default async function handler(
     req: NextApiRequest,

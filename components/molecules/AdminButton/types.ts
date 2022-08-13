@@ -6,8 +6,8 @@ import {
 
 export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
     Pick<GetRoomResponseSuccess, 'slug'> & {
-        isDisabled: boolean
         text: string
+        isDisabled?: boolean
         apiRoute?: string
         postBody?: Record<string, string>
         size?: ButtonSizes

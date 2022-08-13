@@ -20,7 +20,6 @@ const QuestionCounter = ({
                 role={playerRole}
                 slug={roomSlug}
                 apiRoute={`/decrease-questions-left/${questionsLeft}`}
-                isDisabled={false}
                 text="Decrease"
                 size={ButtonSizes.sm}
                 noSuccessMessage

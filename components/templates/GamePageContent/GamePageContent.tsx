@@ -13,24 +13,24 @@ import { QuestionCounter } from 'components/organisms/QuestionCounter'
 import { designTokens } from 'styles/designTokens'
 
 import { getAdminButtonProps } from './utils'
-import { Props } from './types'
 import {
     useCalculatePoints,
     useFetchSelectedPlayerStatementsQuestion,
     useFetchSelectedPlayerStatementsReveal,
     useUpdatePlayerPointsRequest,
 } from './hooks'
+import { Props } from './types'
 
 const { breakPoints } = designTokens
 
 const GamePageContent = ({ room, player, players }: Props) => {
     const { selectedPlayerId, slug: roomSlug, roundStage } = room
+
     const { width } = useWindowSize()
     const isMobileSize = width <= breakPoints.md
 
     const { statementsData, statementsError } =
         useFetchSelectedPlayerStatementsQuestion(selectedPlayerId, roomSlug)
-
     const { revealData, revealError } = useFetchSelectedPlayerStatementsReveal(
         selectedPlayerId,
         roundStage,
@@ -38,7 +38,6 @@ const GamePageContent = ({ room, player, players }: Props) => {
     )
 
     const points = useCalculatePoints(revealData)
-
     const { updateScoresSuccess, updateScoresError } =
         useUpdatePlayerPointsRequest(room, player, players, points, revealData)
 
@@ -112,7 +111,6 @@ const GamePageContent = ({ room, player, players }: Props) => {
                         !!updateScoresError
                     )}
                     role={player.role}
-                    isDisabled={false}
                     slug={roomSlug}
                 />
             )}

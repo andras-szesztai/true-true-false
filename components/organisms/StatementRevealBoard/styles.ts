@@ -4,7 +4,7 @@ import { designTokens } from 'styles/designTokens'
 
 const { fontSize, space, breakPoints, color, strokeWidth } = designTokens
 
-const stylesMapping = {
+const emojiContainerStylesMap = {
     fontSize: {
         base: fontSize.base,
         [breakPoints.md]: fontSize.md,
@@ -21,16 +21,16 @@ export const GuessEmojiContainer = styled.div`
     min-height: ${space.lg}px;
     gap: ${space.xs}px;
 
-    font-size: ${stylesMapping.fontSize.base};
-    padding-top: ${stylesMapping.paddingTop.base};
+    font-size: ${emojiContainerStylesMap.fontSize.base};
+    padding-top: ${emojiContainerStylesMap.paddingTop.base};
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${stylesMapping.fontSize[breakPoints.md]};
-        padding-top: ${stylesMapping.paddingTop[breakPoints.md]};
+        font-size: ${emojiContainerStylesMap.fontSize[breakPoints.md]};
+        padding-top: ${emojiContainerStylesMap.paddingTop[breakPoints.md]};
     }
 `
 
-const scoreStyleMapping = {
+const scoreStyleMap = {
     padding: {
         base: `${space.xxs}px`,
         [breakPoints.sm]: `${space.xs}px`,
@@ -50,20 +50,20 @@ const ScoreContainer = styled.div`
     border: ${strokeWidth.md}px solid ${color.black};
     transform: translate(50%, -50%);
 
-    padding: ${scoreStyleMapping.padding.base};
-    font-size: ${scoreStyleMapping.fontSize.base};
+    padding: ${scoreStyleMap.padding.base};
+    font-size: ${scoreStyleMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        padding: ${scoreStyleMapping.padding[breakPoints.sm]};
-        font-size: ${scoreStyleMapping.fontSize[breakPoints.sm]};
+        padding: ${scoreStyleMap.padding[breakPoints.sm]};
+        font-size: ${scoreStyleMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        padding: ${scoreStyleMapping.padding[breakPoints.md]};
+        padding: ${scoreStyleMap.padding[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${scoreStyleMapping.fontSize[breakPoints.lg]};
+        font-size: ${scoreStyleMap.fontSize[breakPoints.lg]};
     }
 `
 

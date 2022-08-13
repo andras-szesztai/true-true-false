@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { shuffle } from 'lodash'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
 import { GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD } from 'constants/requests'
-import { shuffle } from 'lodash'
 
 export default async function handler(
     req: NextApiRequest,

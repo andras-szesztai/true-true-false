@@ -10,11 +10,11 @@ import { AdminButtonProps } from './types'
 
 const AdminButton = ({
     role,
-    isDisabled,
     slug,
     apiRoute,
     postBody,
     text,
+    isDisabled = false,
     size = ButtonSizes.md,
     noSuccessMessage,
 }: AdminButtonProps) => {

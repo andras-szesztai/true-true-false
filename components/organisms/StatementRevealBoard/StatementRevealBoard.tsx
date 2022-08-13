@@ -43,10 +43,10 @@ const StatementRevealBoard = ({
                         emoji={selectedPlayer.emoji}
                         isOffline={false}
                     />
-                    {roundStage === RoundStage.SCORE_REVEAL && (
+                    {roundStage === RoundStage.SCORE_REVEAL && points && (
                         <SelectedPlayerScoreContainer>
-                            {points?.selectedPlayer ? '+' : ''}
-                            {points?.selectedPlayer}
+                            {points.selectedPlayer ? '+' : ''}
+                            {points.selectedPlayer}
                         </SelectedPlayerScoreContainer>
                     )}
                 </PlayerTileContainer>
@@ -65,16 +65,15 @@ const StatementRevealBoard = ({
                     >
                         {roundStage === RoundStage.SCORE_REVEAL && (
                             <StatementScoreContainer>
-                                {revealData?.guesses.some(
-                                    (g) => g.id === s.id
-                                ) &&
+                                {points &&
+                                    revealData?.guesses.some(
+                                        (g) => g.id === s.id
+                                    ) &&
                                     (s.id === revealData?.falseStatement.id
                                         ? `${
-                                              points?.correctlyGuessed
-                                                  ? '+'
-                                                  : ''
-                                          }${points?.correctlyGuessed}`
-                                        : points?.falselyGuessed)}
+                                              points.correctlyGuessed ? '+' : ''
+                                          }${points.correctlyGuessed}`
+                                        : points.falselyGuessed)}
                             </StatementScoreContainer>
                         )}
                         <p>{s.text}</p>

@@ -95,11 +95,7 @@ const StatementSelectionBoard = ({
                     </StatementContainer>
                 ))}
             </div>
-            {'error' in submitState ||
-                (submitState.error && (
-                    <ErrorMessage text="Please Try Again!" />
-                ))}
-
+            {submitState.error && <ErrorMessage text="Please Try Again!" />}
             {!isCurrentPlayerSelected && (
                 <Button
                     text="Submit"
