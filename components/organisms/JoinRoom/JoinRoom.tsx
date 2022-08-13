@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { usePrevious } from 'react-use'
+import { useRouter } from 'next/router'
+import { useKey, usePrevious } from 'react-use'
 import useSWR from 'swr'
 
 import { Link, LinkSizes } from 'components/atoms/Link'
@@ -13,7 +14,6 @@ const JoinRoom = () => {
     const [roomSlug, setRoomSlug] = useState('')
     const prevRoomSlug = usePrevious(roomSlug)
 
-    // TODO check if hook should be made
     const shouldFetch = roomSlug.length === 5 && prevRoomSlug !== roomSlug
     const [error, setError] = useState('')
     const [data, setData] = useState<null | GetRoomResponseSuccess>(null)
@@ -35,6 +35,18 @@ const JoinRoom = () => {
                 setError(err.message)
             },
         }
+    )
+
+    const router = useRouter()
+    useKey(
+        'Enter',
+        () => {
+            if (data) {
+                router.push(`/${roomSlug}/create-player`)
+            }
+        },
+        {},
+        [data]
     )
 
     return (

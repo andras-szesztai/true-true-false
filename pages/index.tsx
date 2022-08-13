@@ -4,14 +4,18 @@ import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
+//
 // TODO
 //
+// FEAT
+// - End Screen with delete game (players & statements) button for Admin
+// - Rules modal on start page
+// - CreatedBy & links
 // MISC
 // - Thumbnail for sharing url social media or chat
-// - Handle Enter for creation inputs
 // STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
-// - Fix styling for responsiveness
+// - Fix styling for responsiveness consistency
 // API
 // - Check if fetching players might be easier with relational fetch
 // - Investigate better type safety on API side
