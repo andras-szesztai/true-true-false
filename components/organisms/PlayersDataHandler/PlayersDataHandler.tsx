@@ -5,11 +5,11 @@ import useSWR from 'swr'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { fetcher } from 'utils/fetcher'
 import { GENERAL_ERROR } from 'constants/messages'
-import { REFRESH_INTERVAL } from 'constants/requests'
 import {
     GetPlayersResponse,
     GetPlayersResponseSuccess,
 } from 'types/apiResponses'
+import { REFRESH_INTERVAL } from 'constants/requests'
 import { designTokens } from 'styles/designTokens'
 
 const { color, space } = designTokens
@@ -23,6 +23,8 @@ const PlayersDataHandler: FC<{
         fetcher,
         { refreshInterval: REFRESH_INTERVAL }
     )
+    console.log(playersData)
+
     if (playersData) {
         if ('error' in playersData) {
             return <ScreenMessage text={playersData.error} />

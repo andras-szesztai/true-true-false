@@ -4,7 +4,6 @@ import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
-//
 // TODO
 //
 // FEAT

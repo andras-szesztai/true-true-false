@@ -34,7 +34,7 @@ export default async function handler(
                         error: 'Could Not Find Player By Provided Player Slug',
                     })
                 }
-                return res.status(200).json({ player: room.players[0] })
+                return res.status(200).json(room.players[0])
             } catch (err) {
                 if (err instanceof Error) {
                     return res.status(500).json({
