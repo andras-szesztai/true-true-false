@@ -120,8 +120,10 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 />
             )}
             {player.role === Role.ADMIN &&
+                updateScoresStatus &&
                 (updateScoresStatus.error ||
-                    'error' in updateScoresStatus.value) && (
+                    (updateScoresStatus.value &&
+                        'error' in updateScoresStatus.value)) && (
                     <ScreenMessage text="Something Went Wrong While Trying to Update Player Scores, Please Try Again" />
                 )}
             {(room.roundStage === RoundStage.IDLE ||

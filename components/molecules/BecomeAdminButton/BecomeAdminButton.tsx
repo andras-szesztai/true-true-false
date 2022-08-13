@@ -23,7 +23,7 @@ const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
 
     return (
         <Container>
-            {(becomeAdminState.error || becomeAdminState.value.error) && (
+            {(becomeAdminState.error || becomeAdminState?.value?.error) && (
                 <ErrorText>Please Try Again!</ErrorText>
             )}
             <Button
