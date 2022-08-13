@@ -1,9 +1,10 @@
 import { Role } from '@prisma/client'
 import { useAsyncFn } from 'react-use'
 
+import { ErrorMessage } from 'components/atoms/ErrorMessage'
 import { Button, ButtonSizes } from 'components/atoms/Button'
 
-import { Container, ErrorText } from './styles'
+import { Container } from './styles'
 import { Props } from './types'
 
 const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
@@ -25,7 +26,7 @@ const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
     return (
         <Container>
             {(becomeAdminState.error || becomeAdminState?.value?.error) && (
-                <ErrorText>Please Try Again!</ErrorText>
+                <ErrorMessage text="Please Try Again!" />
             )}
             <Button
                 text="Become Admin"

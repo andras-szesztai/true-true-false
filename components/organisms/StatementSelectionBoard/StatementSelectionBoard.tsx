@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAsyncFn } from 'react-use'
 import { SquareLoader } from 'react-spinners'
 
+import { ErrorMessage } from 'components/atoms/ErrorMessage'
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
@@ -10,7 +11,7 @@ import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
 import { Props } from './types'
-import { ErrorText, StatementLabel, TextBoxRadio } from './styles'
+import { StatementLabel, TextBoxRadio } from './styles'
 
 const { color, space } = designTokens
 
@@ -96,7 +97,9 @@ const StatementSelectionBoard = ({
                 ))}
             </div>
             {'error' in submitState ||
-                (submitState.error && <ErrorText>Please Try Again!</ErrorText>)}
+                (submitState.error && (
+                    <ErrorMessage text="Please Try Again!" />
+                ))}
 
             {!isCurrentPlayerSelected && (
                 <Button
