@@ -3,7 +3,9 @@ import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { fetcher } from 'utils/fetcher'
 import { GENERAL_ERROR } from 'constants/messages'
+import { REFRESH_INTERVAL } from 'constants/requests'
 import {
     GetPlayersResponse,
     GetPlayersResponseSuccess,
@@ -18,8 +20,8 @@ const PlayersDataHandler: FC<{
 }> = ({ roomSlug, children }) => {
     const { data: playersData, error } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
-        (url: string) => fetch(url).then((res) => res.json()),
-        { refreshInterval: 5 }
+        fetcher,
+        { refreshInterval: REFRESH_INTERVAL }
     )
     if (playersData) {
         if ('error' in playersData) {

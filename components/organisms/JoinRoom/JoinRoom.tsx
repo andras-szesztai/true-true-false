@@ -1,24 +1,42 @@
 import { useState } from 'react'
-import { useAsync, usePrevious } from 'react-use'
+import { usePrevious } from 'react-use'
+import useSWR from 'swr'
 
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { Input } from 'components/molecules/Input'
-import { GetRoomResponse } from 'types/apiResponses'
+import { fetcher } from 'utils/fetcher'
+import { GetRoomResponse, GetRoomResponseSuccess } from 'types/apiResponses'
 
 import { JoinRoomContainer, OrText } from './styles'
 
 const JoinRoom = () => {
     const [roomSlug, setRoomSlug] = useState('')
     const prevRoomSlug = usePrevious(roomSlug)
-    const { value, loading } = useAsync(async () => {
-        if (roomSlug.length === 5 && prevRoomSlug !== roomSlug) {
-            const response = await fetch(`/api/room/${roomSlug}`)
-            const result: GetRoomResponse = await response.json()
-            return result
+
+    // TODO check if hook should be made
+    const shouldFetch = roomSlug.length === 5 && prevRoomSlug !== roomSlug
+    const [error, setError] = useState('')
+    const [data, setData] = useState<null | GetRoomResponseSuccess>(null)
+    useSWR<GetRoomResponse>(
+        shouldFetch ? `/api/room/${roomSlug}` : null,
+        fetcher,
+        {
+            onSuccess: (data) => {
+                if ('error' in data) {
+                    setData(null)
+                    setError(data.error)
+                } else {
+                    setError('')
+                    setData(data)
+                }
+            },
+            onError: (err) => {
+                setData(null)
+                setError(err.message)
+            },
         }
-    }, [roomSlug])
-    const showError = value && 'error' in value ? value.error : ''
-    const disableLink = !(value && 'id' in value)
+    )
+
     return (
         <JoinRoomContainer>
             <OrText>or</OrText>
@@ -29,15 +47,15 @@ const JoinRoom = () => {
                 onChange={(e) => {
                     setRoomSlug(e.target.value)
                 }}
-                error={showError}
+                error={error}
             />
             <Link
                 href={`/${roomSlug}/create-player`}
                 text="Join"
                 size={LinkSizes.md}
                 noBorderTop
-                isDisabled={disableLink}
-                isLoading={!!roomSlug.length && loading}
+                isDisabled={!data}
+                isLoading={roomSlug.length === 5 && !data && !error}
             />
         </JoinRoomContainer>
     )

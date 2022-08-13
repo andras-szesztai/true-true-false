@@ -1,33 +1,27 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useAsync } from 'react-use'
+import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { fetcher } from 'utils/fetcher'
 import { PostRoomResponse } from 'types/apiResponses'
 
 const CreateRoom = () => {
     const router = useRouter()
-
-    const { value, loading, error } = useAsync(async () => {
-        const response = await fetch('/api/room', {
-            method: 'POST',
-        })
-        const result: PostRoomResponse = await response.json()
-        return result
-    }, [])
+    const { data, error } = useSWR<PostRoomResponse>('/api/room', fetcher)
 
     useEffect(() => {
-        if (value && 'slug' in value) {
-            router.push(`/${value.slug}/create-player/admin`)
+        if (data && 'slug' in data) {
+            router.push(`/${data.slug}/create-player/admin`)
         }
-    }, [value, router])
+    }, [data, router])
 
-    if (loading)
+    if (!data && !error)
         return (
             <ScreenMessage text="🧹🧽 One Second, We Are Preparing Your Room..." />
         )
 
-    if (error || (value && 'error' in value))
+    if (error || (data && 'error' in data))
         return (
             <ScreenMessage text="💔 Sorry, Something Went Wrong While Creating Your Room. Please Try Again!" />
         )

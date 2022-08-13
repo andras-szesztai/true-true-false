@@ -8,7 +8,7 @@ import { Props } from './types'
 
 const { color, space, strokeWidth, breakPoints } = designTokens
 
-const containerStylesMapping = {
+const containerStylesMap = {
     padding: {
         base: {
             [PlayerTileSize.md]: `${space.xs}px`,
@@ -22,6 +22,10 @@ const containerStylesMapping = {
     maxHeight: {
         base: {
             [PlayerTileSize.md]: '25vh',
+            [PlayerTileSize.lg]: '45vh',
+        },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: '35vh',
             [PlayerTileSize.lg]: '45vh',
         },
         [breakPoints.md]: '50vh',
@@ -55,12 +59,16 @@ export const Container = styled.div<
     width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
     ${({ size }) => css`
-        max-height: ${containerStylesMapping.maxHeight.base[size]};
-        padding: ${containerStylesMapping.padding.base[size]};
+        max-height: ${containerStylesMap.maxHeight.base[size]};
+        padding: ${containerStylesMap.padding.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            max-height: ${containerStylesMap.maxHeight[breakPoints.sm][size]};
+        }
 
         @media only screen and (min-width: ${breakPoints.md}px) {
-            max-height: ${containerStylesMapping.maxHeight[breakPoints.md]};
-            padding: ${containerStylesMapping.padding[breakPoints.md][size]};
+            max-height: ${containerStylesMap.maxHeight[breakPoints.md]};
+            padding: ${containerStylesMap.padding[breakPoints.md][size]};
         }
     `}
 
@@ -73,13 +81,13 @@ export const Container = styled.div<
             @media only screen and (min-width: ${breakPoints.md}px) {
                 flex-direction: column;
                 gap: 0;
-                left: ${containerStylesMapping.position[breakPoints.md]};
-                top: ${containerStylesMapping.position[breakPoints.md]};
+                left: ${containerStylesMap.position[breakPoints.md]};
+                top: ${containerStylesMap.position[breakPoints.md]};
             }
 
             @media only screen and (min-width: ${breakPoints.lg}px) {
-                left: ${containerStylesMapping.position[breakPoints.lg]};
-                top: ${containerStylesMapping.position[breakPoints.lg]};
+                left: ${containerStylesMap.position[breakPoints.lg]};
+                top: ${containerStylesMap.position[breakPoints.lg]};
             }
         `}
 `

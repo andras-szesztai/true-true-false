@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useClickAway, useKey, useLocalStorage, useToggle } from 'react-use'
@@ -7,10 +7,15 @@ import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
-import { GetPlayersResponse, PostPlayerResponse } from 'types/apiResponses'
+import { useAsyncFn } from 'hooks/useAsyncFn/useAsyncFn'
+import { fetcher } from 'utils/fetcher'
+import {
+    GetPlayersResponse,
+    PostPlayerResponseSuccess,
+} from 'types/apiResponses'
 
 import { Props } from './types'
-import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
+import { getErrorMessage, getRandomEmoji } from './utils'
 import {
     ButtonContainer,
     CreatePlayerContainer,
@@ -45,17 +50,14 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
 
     const { data: playersData } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
-        playersFetcher
+        fetcher
     )
+
     const errorMessage = getErrorMessage(name, emoji, playersData)
 
-    const router = useRouter()
-    const [isLoading, setIsLoading] = useToggle(false)
-    const [createPlayerError, setCreatePlayerError] = useState('')
-    const handleCreatePlayer = async () => {
-        try {
-            setIsLoading()
-            const response = await fetch(`/api/room/${roomSlug}/player`, {
+    const [handleCreatePlayer, { data, loading, error }] =
+        useAsyncFn<PostPlayerResponseSuccess>(() =>
+            fetch(`/api/room/${roomSlug}/player`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -68,21 +70,16 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                     role: isAdmin ? Role.ADMIN : Role.USER,
                 }),
             })
-            const result: PostPlayerResponse = await response.json()
-            if ('slug' in result) {
-                setStoredName(name)
-                setStoredEmoji(emoji)
-                router.push(`/${roomSlug}/game/${result.slug}`)
-            } else {
-                throw new Error(result.error)
-            }
-        } catch (err) {
-            if (err instanceof Error) {
-                setCreatePlayerError(err.message)
-            }
-            setIsLoading()
+        )
+
+    const router = useRouter()
+    useEffect(() => {
+        if (data) {
+            setStoredName(name)
+            setStoredEmoji(emoji)
+            router.push(`/${roomSlug}/game/${data.slug}`)
         }
-    }
+    }, [emoji, name, roomSlug, router, setStoredEmoji, setStoredName, data])
 
     return (
         <CreatePlayerContainer>
@@ -94,9 +91,10 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                     {emojiSelectorIsOpen && (
                         <EmojiSelectorContainer>
                             <Picker
-                                onEmojiClick={(_, emojiObject) =>
+                                onEmojiClick={(_, emojiObject) => {
                                     setEmoji(emojiObject.emoji)
-                                }
+                                    setEmojiSelectorIsOpen()
+                                }}
                             />
                         </EmojiSelectorContainer>
                     )}
@@ -108,7 +106,7 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                         setName(e.target.value)
                     }}
                     value={name}
-                    error={errorMessage || createPlayerError}
+                    error={errorMessage || error}
                 />
             </InputContainer>
             <Button
@@ -116,8 +114,8 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                 onClick={handleCreatePlayer}
                 size={ButtonSizes.md}
                 noBorderTop
-                isDisabled={!name.length || !!errorMessage || isLoading}
-                isLoading={isLoading}
+                isDisabled={!name.length || !!errorMessage || loading}
+                isLoading={loading}
             />
         </CreatePlayerContainer>
     )

@@ -31,7 +31,7 @@ const LobbyPageContent = ({ room, player, players }: Props) => (
             isDisabled={players.length < 2}
             slug={room.slug}
             text="Start"
-            apiRoute="/update-stage"
+            apiRoute="/update-room-stage"
             postBody={{ stage: RoomStage.PREPARATION }}
         />
     </HomeContentContainer>

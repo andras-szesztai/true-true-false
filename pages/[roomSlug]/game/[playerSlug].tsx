@@ -10,11 +10,55 @@ import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
+import { GamePageContent } from 'components/templates/GamePageContent'
+import {
+    GetPlayerResponseSuccess,
+    GetPlayersResponseSuccess,
+    GetRoomResponseSuccess,
+} from 'types/apiResponses'
 
 const PlayerGamePage = () => {
     const {
         query: { roomSlug, playerSlug },
     } = useRouter()
+
+    const getPageContent = (
+        roomData: GetRoomResponseSuccess,
+        playerData: GetPlayerResponseSuccess,
+        playersData: GetPlayersResponseSuccess
+    ) => {
+        switch (roomData.stage) {
+            case RoomStage.LOBBY:
+                return (
+                    <LobbyPageContent
+                        room={roomData}
+                        player={playerData}
+                        players={playersData}
+                    />
+                )
+            case RoomStage.PREPARATION:
+                return (
+                    <PreparationPageContent
+                        room={roomData}
+                        player={playerData}
+                        players={playersData}
+                    />
+                )
+            case RoomStage.GAME:
+                return (
+                    <GamePageContent
+                        room={roomData}
+                        player={playerData}
+                        players={playersData}
+                    />
+                )
+            case RoomStage.END:
+                return <div>End</div>
+            default:
+                return <ScreenMessage text={GENERAL_ERROR} />
+        }
+    }
+
     return (
         <GameContainer>
             <RoomDataHandler roomSlug={roomSlug!}>
@@ -25,54 +69,20 @@ const PlayerGamePage = () => {
                     >
                         {(playerData) => (
                             <PlayersDataHandler roomSlug={roomSlug!}>
-                                {(playersData) => {
-                                    switch (roomData.stage) {
-                                        case RoomStage.LOBBY:
-                                            return (
-                                                <>
-                                                    <LobbyPageContent
-                                                        room={roomData}
-                                                        player={playerData}
-                                                        players={playersData}
-                                                    />
-                                                    <BecomeAdminButton
-                                                        players={playersData}
-                                                        roomSlug={roomData.slug}
-                                                        playerSlug={
-                                                            playerData.slug
-                                                        }
-                                                    />
-                                                </>
-                                            )
-                                        case RoomStage.PREPARATION:
-                                            return (
-                                                <>
-                                                    <PreparationPageContent
-                                                        room={roomData}
-                                                        player={playerData}
-                                                        players={playersData}
-                                                    />
-                                                    <BecomeAdminButton
-                                                        players={playersData}
-                                                        roomSlug={roomData.slug}
-                                                        playerSlug={
-                                                            playerData.slug
-                                                        }
-                                                    />
-                                                </>
-                                            )
-                                        case RoomStage.GAME:
-                                            return <div>Game</div>
-                                        case RoomStage.END:
-                                            return <div>End</div>
-                                        default:
-                                            return (
-                                                <ScreenMessage
-                                                    text={GENERAL_ERROR}
-                                                />
-                                            )
-                                    }
-                                }}
+                                {(playersData) => (
+                                    <>
+                                        {getPageContent(
+                                            roomData,
+                                            playerData,
+                                            playersData
+                                        )}
+                                        <BecomeAdminButton
+                                            roomSlug={roomData.slug}
+                                            playerSlug={playerData.slug}
+                                            players={playersData}
+                                        />
+                                    </>
+                                )}
                             </PlayersDataHandler>
                         )}
                     </PlayerDataHandler>

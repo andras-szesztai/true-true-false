@@ -32,6 +32,11 @@ const linkStylesMapping = {
             [ButtonSizes.md]: fontSize.base,
             [ButtonSizes.lg]: fontSize.md,
         },
+        [breakPoints.sm]: {
+            [ButtonSizes.sm]: fontSize.base,
+            [ButtonSizes.md]: fontSize.md,
+            [ButtonSizes.lg]: fontSize.lg,
+        },
         [breakPoints.md]: {
             [ButtonSizes.sm]: fontSize.base,
             [ButtonSizes.md]: fontSize.md,
@@ -91,6 +96,7 @@ export const StyledButton = styled.button<Pick<Props, StyleProps>>`
         padding: ${linkStylesMapping.padding.base[size]};
 
         @media only screen and (min-width: ${breakPoints.sm}px) {
+            font-size: ${linkStylesMapping.fontSize[breakPoints.sm][size]};
             padding: ${linkStylesMapping.padding[breakPoints.sm][size]};
         }
 

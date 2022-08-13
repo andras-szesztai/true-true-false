@@ -5,8 +5,10 @@ import useSWR from 'swr'
 import { useMount } from 'react-use'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { fetcher } from 'utils/fetcher'
 import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
 import { GENERAL_ERROR } from 'constants/messages'
+import { REFRESH_INTERVAL } from 'constants/requests'
 import { designTokens } from 'styles/designTokens'
 
 import { handleConnection } from './utils'
@@ -20,8 +22,8 @@ const PlayerDataHandler: FC<{
 }> = ({ roomSlug, children, playerSlug }) => {
     const { data: playerData, error } = useSWR<GetPlayerResponse>(
         `/api/room/${roomSlug}/player/${playerSlug}`,
-        (url: string) => fetch(url).then((res) => res.json()),
-        { refreshInterval: 3 }
+        fetcher,
+        { refreshInterval: REFRESH_INTERVAL }
     )
     const router = useRouter()
     useEffect(() => {

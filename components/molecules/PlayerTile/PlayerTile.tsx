@@ -1,11 +1,20 @@
+import { isUndefined } from 'lodash'
 import { SquareLoader } from 'react-spinners'
 import { useWindowSize } from 'react-use'
-import { designTokens } from 'styles/designTokens'
 
 import { OfflineIcon } from 'components/atoms/icons/OfflineIcon'
+import { designTokens } from 'styles/designTokens'
 
-import { Container, EmojiContainer, NameContainer } from './styles'
-import { Props } from './types'
+import { PlayerTileSize, Props } from './types'
+import {
+    Container,
+    EmojiContainer,
+    NameContainer,
+    ScoreBar,
+    ScoreContainer,
+    ScoreNumberContainer,
+    StarContainer,
+} from './styles'
 
 const { color, space, breakPoints } = designTokens
 
@@ -16,8 +25,21 @@ const PlayerTile = ({
     emoji,
     size,
     isLoading,
+    score,
+    maxScore,
 }: Props) => {
     const { width } = useWindowSize()
+
+    const LoaderSize = {
+        smallScreen: {
+            [PlayerTileSize.md]: space.base,
+            [PlayerTileSize.lg]: space.md,
+        },
+        largeScreen: {
+            [PlayerTileSize.md]: space.md,
+            [PlayerTileSize.lg]: space.lg,
+        },
+    }
 
     const getEmojiState = () => {
         if (isOffline) {
@@ -28,7 +50,11 @@ const PlayerTile = ({
                 <SquareLoader
                     loading={isLoading}
                     color={color.black}
-                    size={width <= breakPoints.md ? space.md : space.lg}
+                    size={
+                        width <= breakPoints.md
+                            ? LoaderSize.smallScreen[size]
+                            : LoaderSize.largeScreen[size]
+                    }
                 />
             )
         }
@@ -47,6 +73,15 @@ const PlayerTile = ({
             >
                 <p>{name}</p>
             </NameContainer>
+            {!isUndefined(score) && (
+                <ScoreContainer>
+                    <ScoreBar width={maxScore ? score / maxScore : 0} />
+                    {score === maxScore && !!maxScore && (
+                        <StarContainer>⭐</StarContainer>
+                    )}
+                    <ScoreNumberContainer>{score}</ScoreNumberContainer>
+                </ScoreContainer>
+            )}
         </Container>
     )
 }

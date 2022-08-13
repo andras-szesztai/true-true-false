@@ -3,6 +3,7 @@ import {
     GET_PLAYERS_REQUEST_FIELDS,
     GET_PLAYER_REQUEST_FIELD,
     GET_ROOM_REQUEST_FIELDS,
+    GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD,
     POST_PLAYER_REQUEST_FIELD,
     POST_ROOM_REQUEST_FIELDS,
 } from 'constants/requests'
@@ -39,3 +40,21 @@ export type GetPlayerResponseSuccess = Pick<
     keyof typeof GET_PLAYER_REQUEST_FIELD
 >
 export type GetPlayerResponse = GetPlayerResponseSuccess | ErrorResponse
+
+export type GetStatementForQuestionResponseSuccess = Pick<
+    Statement,
+    keyof typeof GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD
+>[]
+
+export type GetStatementForQuestionResponse =
+    | GetStatementForQuestionResponseSuccess
+    | ErrorResponse
+
+export type GetRevealAnswerResponseSuccess = {
+    falseStatement: { id: number }
+    guesses: { id: number; selectedAnswerId: number }[]
+}
+
+export type GetRevealAnswerResponse =
+    | GetRevealAnswerResponseSuccess
+    | ErrorResponse
