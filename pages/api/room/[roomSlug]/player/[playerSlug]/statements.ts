@@ -8,28 +8,41 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { query, method, body } = req
-    if (query.playerSlug && typeof query.playerSlug === 'string') {
-        if (method === 'POST') {
+    if (typeof req.query.roomSlug === 'string') {
+        if (typeof req.query.playerSlug === 'string') {
             try {
-                const player = await prisma.player.findUnique({
+                const room = await prisma.room.findUnique({
                     where: {
-                        slug: query.playerSlug,
+                        slug: req.query.roomSlug,
                     },
                     select: {
-                        id: true,
+                        players: {
+                            where: {
+                                slug: req.query.playerSlug,
+                            },
+                            select: {
+                                id: true,
+                            },
+                        },
                     },
                 })
-                if (!player) {
+                if (!room) {
+                    return res.status(404).json({
+                        error: 'Could Not Find Room By Provided Room Slug',
+                    })
+                }
+                if (!room.players[0]) {
                     return res.status(404).json({
                         error: 'Could Not Find Player By Provided Player Slug',
                     })
                 }
                 const statements = await prisma.statement.createMany({
-                    data: body.map((d: Pick<Statement, 'text' | 'isTrue'>) => ({
-                        ...d,
-                        playerId: player.id,
-                    })),
+                    data: req.body.map(
+                        (d: Pick<Statement, 'text' | 'isTrue'>) => ({
+                            ...d,
+                            playerId: room.players[0].id,
+                        })
+                    ),
                 })
                 if (!statements) {
                     return res.status(404).json({
@@ -38,7 +51,7 @@ export default async function handler(
                 }
                 await prisma.player.update({
                     where: {
-                        slug: query.playerSlug,
+                        slug: req.query.playerSlug,
                     },
                     data: {
                         showLoading: false,
@@ -53,5 +66,11 @@ export default async function handler(
                 }
             }
         }
+        return res.status(400).json({
+            error: 'Invalid Player Slug',
+        })
     }
+    return res.status(400).json({
+        error: 'Invalid Room Slug',
+    })
 }

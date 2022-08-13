@@ -13,14 +13,13 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - CreatedBy & links
 // MISC
 // - Thumbnail for sharing url social media or chat
+// - Style tab name/page header
 // STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
 // - Fix styling for responsiveness consistency
 // API
 // - Review player & players request
-// - Investigate better type safety on API side
 // - Check if fetching players might be easier with relational fetch
-// - Check if slug & id could be united into one key
 // TEST
 // - e2e test with cypress
 // BUG
