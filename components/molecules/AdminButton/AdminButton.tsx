@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash'
 import { useEffect, useState } from 'react'
 import { Role } from '@prisma/client'
 import { usePrevious, useToggle } from 'react-use'
@@ -12,7 +11,6 @@ const AdminButton = ({
     role,
     slug,
     apiRoute,
-    postBody,
     text,
     isDisabled = false,
     size = ButtonSizes.md,
@@ -23,9 +21,8 @@ const AdminButton = ({
     const [success, setSuccess] = useToggle(false)
 
     const prevApiRout = usePrevious(apiRoute)
-    const prevPostBody = usePrevious(postBody)
     useEffect(() => {
-        if (apiRoute !== prevApiRout || !isEqual(postBody, prevPostBody)) {
+        if (apiRoute !== prevApiRout) {
             if (success) {
                 setSuccess(false)
             }
@@ -33,32 +30,18 @@ const AdminButton = ({
                 setError('')
             }
         }
-    }, [
-        apiRoute,
-        success,
-        error,
-        prevApiRout,
-        setSuccess,
-        setError,
-        postBody,
-        prevPostBody,
-    ])
+    }, [apiRoute, success, error, prevApiRout, setSuccess, setError])
 
     const handleRoomUpdate = async () => {
+        setIsLoading()
         try {
-            setIsLoading()
-            await fetch(`/api/room/${slug}${apiRoute}`, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postBody),
-            })
+            await fetch(`/api/room/${slug}${apiRoute}`)
             setSuccess()
+            setError('')
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message)
+                setSuccess(false)
             }
         } finally {
             setIsLoading()

@@ -1,4 +1,7 @@
+// Updates RoundStage
+
 import { NextApiRequest, NextApiResponse } from 'next'
+import { RoundStage } from '@prisma/client'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
@@ -7,27 +10,28 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { query, body } = req
-    if (query.roomSlug && typeof query.roomSlug === 'string') {
+    if (
+        typeof req.query.roomSlug === 'string' &&
+        Object.values(RoundStage).includes(req.query.roundStage as RoundStage)
+    ) {
         try {
             const room = await prisma.room.update({
                 where: {
-                    slug: query.roomSlug,
+                    slug: req.query.roomSlug,
                 },
                 data: {
-                    roundStage: body.stage,
+                    roundStage: req.query.roundStage as RoundStage,
                 },
                 select: {
                     id: true,
                 },
             })
             if (!room) {
-                res.status(404).json({
+                return res.status(404).json({
                     error: 'Could Not Find Room By Provided ID',
                 })
-            } else {
-                return res.status(200).json({ success: true })
             }
+            return res.status(200).json({ success: true })
         } catch (err) {
             if (err instanceof Error) {
                 return res.status(500).json({

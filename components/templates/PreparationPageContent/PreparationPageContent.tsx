@@ -85,8 +85,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                         role={player.role}
                         isDisabled={!isMinimumReady}
                         slug={room.slug}
-                        apiRoute="/update-room-stage"
-                        postBody={{ stage: RoomStage.GAME }}
+                        apiRoute={`/update-room-stage/${RoomStage.GAME}`}
                     />
                 </>
             ) : (

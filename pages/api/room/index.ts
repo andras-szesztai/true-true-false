@@ -1,3 +1,5 @@
+// Create a room route
+
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { generateSlug } from 'utils/slug'

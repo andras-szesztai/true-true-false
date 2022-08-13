@@ -17,10 +17,10 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - Add margin or padding bottom to screens for mobile scrolling
 // - Fix styling for responsiveness consistency
 // API
-// - Check if fetching players might be easier with relational fetch
+// - Review player & players request
 // - Investigate better type safety on API side
+// - Check if fetching players might be easier with relational fetch
 // - Check if slug & id could be united into one key
-// - review player & players request
 // TEST
 // - e2e test with cypress
 // BUG
