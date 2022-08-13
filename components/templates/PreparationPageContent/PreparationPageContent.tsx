@@ -45,9 +45,8 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
         })
     )
 
-    const isReady = data || !!player.statements.length
     useSWR(
-        !player.showLoading && !isReady
+        !player.showLoading && !data
             ? `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
             : null,
         fetcher
@@ -71,7 +70,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                 isFixed={!isMobileSize}
                 fullWidth
             />
-            {isReady ? (
+            {data ? (
                 <>
                     <ScreenMessage
                         text={

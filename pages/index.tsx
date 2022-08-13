@@ -16,9 +16,6 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
 // - Fix styling for responsiveness consistency
-// API
-// - Review player & players request
-// - Check if fetching players might be easier with relational fetch
 // TEST
 // - e2e test with cypress
 // BUG

@@ -36,7 +36,6 @@ export const GET_PLAYER_REQUEST_FIELD = {
     emoji: true,
     role: true,
     isActive: true,
-    statements: true,
     showLoading: true,
     score: true,
     selectedAnswerId: true,
