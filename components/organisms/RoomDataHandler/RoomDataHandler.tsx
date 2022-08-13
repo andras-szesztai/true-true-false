@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { fetcher } from 'utils/fetcher'
 import { GENERAL_ERROR } from 'constants/messages'
 import { REFRESH_INTERVAL } from 'constants/requests'
 import { designTokens } from 'styles/designTokens'
@@ -18,7 +19,7 @@ const RoomDataHandler: FC<{
 }> = ({ roomSlug, children }) => {
     const { data: roomData, error } = useSWR<GetRoomResponse>(
         roomSlug ? `/api/room/${roomSlug}` : null,
-        (url: string) => fetch(url).then((res) => res.json()),
+        fetcher,
         { refreshInterval: REFRESH_INTERVAL }
     )
     if (roomData) {

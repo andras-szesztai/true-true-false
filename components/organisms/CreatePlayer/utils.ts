@@ -21,8 +21,5 @@ export const getErrorMessage = (
     return ''
 }
 
-export const playersFetcher = (url: string) =>
-    fetch(url).then((res) => res.json())
-
 export const getRandomEmoji = () =>
     DEFAULT_EMOJIS[random(0, DEFAULT_EMOJIS.length - 1)]

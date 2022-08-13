@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
-import { PostRoomResponse } from 'types/apiResponses'
 import { fetcher } from 'utils/fetcher'
+import { PostRoomResponse } from 'types/apiResponses'
 
 const CreateRoom = () => {
     const router = useRouter()

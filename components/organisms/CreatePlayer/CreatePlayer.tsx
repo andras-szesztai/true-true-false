@@ -1,22 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import {
-    useAsyncFn,
-    useClickAway,
-    useKey,
-    useLocalStorage,
-    useToggle,
-} from 'react-use'
+import { useClickAway, useKey, useLocalStorage, useToggle } from 'react-use'
 import useSWR from 'swr'
 import { Role } from '@prisma/client'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Input } from 'components/molecules/Input'
-import { GetPlayersResponse } from 'types/apiResponses'
+import { useAsyncFn } from 'hooks/useAsyncFn/useAsyncFn'
+import { fetcher } from 'utils/fetcher'
+import {
+    GetPlayersResponse,
+    PostPlayerResponseSuccess,
+} from 'types/apiResponses'
 
 import { Props } from './types'
-import { getErrorMessage, getRandomEmoji, playersFetcher } from './utils'
+import { getErrorMessage, getRandomEmoji } from './utils'
 import {
     ButtonContainer,
     CreatePlayerContainer,
@@ -51,44 +50,36 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
 
     const { data: playersData } = useSWR<GetPlayersResponse>(
         `/api/room/${roomSlug}/players`,
-        playersFetcher
+        fetcher
     )
+
     const errorMessage = getErrorMessage(name, emoji, playersData)
 
-    const [createPlayerState, handleCreatePlayer] = useAsyncFn(async () => {
-        const response = await fetch(`/api/room/${roomSlug}/player`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                emoji,
-                name,
-                roomSlug,
-                role: isAdmin ? Role.ADMIN : Role.USER,
-            }),
-        })
-        const result = await response.json()
-        return result
-    }, [roomSlug, name, emoji, isAdmin])
+    const [handleCreatePlayer, { data, loading, error }] =
+        useAsyncFn<PostPlayerResponseSuccess>(() =>
+            fetch(`/api/room/${roomSlug}/player`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    emoji,
+                    name,
+                    roomSlug,
+                    role: isAdmin ? Role.ADMIN : Role.USER,
+                }),
+            })
+        )
 
     const router = useRouter()
     useEffect(() => {
-        if ('value' in createPlayerState && 'slug' in createPlayerState.value) {
+        if (data) {
             setStoredName(name)
             setStoredEmoji(emoji)
-            router.push(`/${roomSlug}/game/${createPlayerState.value.slug}`)
+            router.push(`/${roomSlug}/game/${data.slug}`)
         }
-    }, [
-        createPlayerState,
-        emoji,
-        name,
-        roomSlug,
-        router,
-        setStoredEmoji,
-        setStoredName,
-    ])
+    }, [emoji, name, roomSlug, router, setStoredEmoji, setStoredName, data])
 
     return (
         <CreatePlayerContainer>
@@ -114,7 +105,7 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                         setName(e.target.value)
                     }}
                     value={name}
-                    error={errorMessage || createPlayerState.error?.message}
+                    error={errorMessage || error}
                 />
             </InputContainer>
             <Button
@@ -122,10 +113,8 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                 onClick={handleCreatePlayer}
                 size={ButtonSizes.md}
                 noBorderTop
-                isDisabled={
-                    !name.length || !!errorMessage || createPlayerState.loading
-                }
-                isLoading={createPlayerState.loading}
+                isDisabled={!name.length || !!errorMessage || loading}
+                isLoading={loading}
             />
         </CreatePlayerContainer>
     )

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useAsyncFn } from 'react-use'
 import { SquareLoader } from 'react-spinners'
 
 import { ErrorMessage } from 'components/atoms/ErrorMessage'
@@ -7,6 +6,7 @@ import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { StatementContainer } from 'components/atoms/containers/StatementContainer'
 import { PlayerTile, PlayerTileSize } from 'components/molecules/PlayerTile'
+import { useAsyncFn } from 'hooks/useAsyncFn/useAsyncFn'
 import { GENERAL_ERROR } from 'constants/messages'
 import { designTokens } from 'styles/designTokens'
 
@@ -27,26 +27,25 @@ const StatementSelectionBoard = ({
 }: Props) => {
     const [selectedId, setSelectedId] = useState<number | null>(null)
 
-    const [submitState, submitSelectedStatement] = useAsyncFn(async () => {
-        const response = await fetch(
+    const [submitSelectedStatement, submitState] = useAsyncFn<{
+        success: true
+    }>(() =>
+        fetch(
             `/api/room/${roomSlug}/player/${playerSlug}/select-statement/${selectedId}`
         )
-        const result = await response.json()
-        return result
-    }, [selectedId])
+    )
 
     if (!statements && !error) {
         return <SquareLoader color={color.black} loading size={space.lg} />
     }
 
-    if (error) {
-        return <ScreenMessage text={error || GENERAL_ERROR} />
+    if (error || submitState.error) {
+        return (
+            <ScreenMessage text={error || submitState.error || GENERAL_ERROR} />
+        )
     }
 
-    if (
-        (submitState.value && 'success' in submitState.value) ||
-        isPlayerReady
-    ) {
+    if (submitState.data || isPlayerReady) {
         return (
             <ScreenMessage
                 text={

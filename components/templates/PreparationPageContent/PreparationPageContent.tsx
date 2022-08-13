@@ -1,6 +1,7 @@
 import { RoomStage } from '@prisma/client'
 import { useState } from 'react'
-import { useAsyncFn, useWindowSize } from 'react-use'
+import { useWindowSize } from 'react-use'
+import useSWR from 'swr'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -11,11 +12,11 @@ import { AdminButton } from 'components/molecules/AdminButton'
 import { TextArea } from 'components/atoms/TextArea'
 import { PlayerTileSize } from 'components/molecules/PlayerTile'
 import { PlayersBoard } from 'components/organisms/PlayersBoard'
+import { useAsyncFn } from 'hooks/useAsyncFn/useAsyncFn'
 import { GENERAL_ERROR_TRY_AGAIN } from 'constants/messages'
+import { fetcher } from 'utils/fetcher'
 import { designTokens } from 'styles/designTokens'
 
-import useSWR from 'swr'
-import { fetcher } from 'utils/fetcher'
 import { Props } from './types'
 import { TextAreaContainer, TextBoxesContainer } from './styles'
 
@@ -29,28 +30,22 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
     const [secondTrueStatement, setSecondTrueStatement] = useState('')
     const [falseStatement, setFalseStatement] = useState('')
 
-    const [postStatementState, postStatements] = useAsyncFn(async () => {
-        const response = await fetch(
-            `/api/room/${room.slug}/player/${player.slug}/statements`,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify([
-                    { text: firstTrueStatement, isTrue: true },
-                    { text: secondTrueStatement, isTrue: true },
-                    { text: falseStatement, isTrue: false },
-                ]),
-            }
-        )
-        const result = await response.json()
-        return result
-    }, [firstTrueStatement, secondTrueStatement, falseStatement])
+    const [postStatements, { loading, data, error }] = useAsyncFn(() =>
+        fetch(`/api/room/${room.slug}/player/${player.slug}/statements`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([
+                { text: firstTrueStatement, isTrue: true },
+                { text: secondTrueStatement, isTrue: true },
+                { text: falseStatement, isTrue: false },
+            ]),
+        })
+    )
 
-    const isReady =
-        postStatementState.value?.success || !!player.statements.length
+    const isReady = data || !!player.statements.length
     useSWR(
         !player.showLoading && !isReady
             ? `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
@@ -139,20 +134,17 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                             />
                         </TextAreaContainer>
                     </TextBoxesContainer>
-                    {postStatementState.error ||
-                        (postStatementState.value?.error && (
-                            <ScreenMessage text={GENERAL_ERROR_TRY_AGAIN} />
-                        ))}
+                    {error && <ScreenMessage text={GENERAL_ERROR_TRY_AGAIN} />}
                     <Button
                         text="Submit"
                         size={ButtonSizes.lg}
                         onClick={postStatements}
-                        isLoading={postStatementState.loading}
+                        isLoading={loading}
                         isDisabled={
                             !firstTrueStatement ||
                             !secondTrueStatement ||
                             !falseStatement ||
-                            postStatementState.loading
+                            loading
                         }
                     />
                 </>

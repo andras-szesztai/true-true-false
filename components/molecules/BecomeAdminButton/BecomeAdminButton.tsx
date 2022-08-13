@@ -1,39 +1,30 @@
 import { Role } from '@prisma/client'
-import { useAsyncFn } from 'react-use'
 
 import { ErrorMessage } from 'components/atoms/ErrorMessage'
 import { Button, ButtonSizes } from 'components/atoms/Button'
+import { useAsyncFn } from 'hooks/useAsyncFn/useAsyncFn'
 
 import { Container } from './styles'
 import { Props } from './types'
 
 const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
-    // TODO check if useAsyncFn could be replaced
-    const [becomeAdminState, handleBecomeAdmin] = useAsyncFn(async () => {
-        const response = await fetch(
-            `/api/room/${roomSlug}/player/${playerSlug}/become-admin`
-        )
-        const result = await response.json()
-        return result
-    }, [roomSlug, playerSlug])
+    const [handleBecomeAdmin, { data, loading, error }] = useAsyncFn<{
+        success: true
+    }>(() => fetch(`/api/room/${roomSlug}/player/${playerSlug}/become-admin`))
 
-    if (
-        !players.some((p) => p.role === Role.ADMIN && !p.isActive) ||
-        ('value' in becomeAdminState && 'success' in becomeAdminState.value)
-    )
+    if (!players.some((p) => p.role === Role.ADMIN && !p.isActive) || data) {
         return null
+    }
 
     return (
         <Container>
-            {(becomeAdminState.error || becomeAdminState?.value?.error) && (
-                <ErrorMessage text="Please Try Again!" />
-            )}
+            {error && <ErrorMessage text="Please Try Again!" />}
             <Button
                 text="Become Admin"
                 size={ButtonSizes.sm}
                 onClick={handleBecomeAdmin}
-                isLoading={becomeAdminState.loading}
-                isDisabled={becomeAdminState.loading}
+                isLoading={loading}
+                isDisabled={loading}
             />
         </Container>
     )
