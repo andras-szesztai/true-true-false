@@ -1,4 +1,4 @@
-// Create a room route
+// Create a room
 
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -38,5 +38,5 @@ export default async function handler(
     if (result && typeof result !== 'string') {
         return res.status(200).json(result)
     }
-    return res.status(500).json({ error: GENERAL_ERROR })
+    return res.status(500).json({ error: result || GENERAL_ERROR })
 }

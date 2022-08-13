@@ -39,4 +39,7 @@ export default async function handler(
             }
         }
     }
+    return res.status(400).json({
+        error: 'Invalid Room Slug',
+    })
 }

@@ -1,5 +1,3 @@
-// Start game round for room
-
 import { RoundStage } from '@prisma/client'
 import { random } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -89,4 +87,7 @@ export default async function handler(
             }
         }
     }
+    return res.status(400).json({
+        error: 'Invalid Room Slug',
+    })
 }
