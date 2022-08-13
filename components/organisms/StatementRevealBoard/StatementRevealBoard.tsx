@@ -63,19 +63,21 @@ const StatementRevealBoard = ({
                             s.id === revealData?.falseStatement.id
                         }
                     >
-                        {roundStage === RoundStage.SCORE_REVEAL && (
-                            <StatementScoreContainer>
-                                {points &&
-                                    revealData?.guesses.some(
-                                        (g) => g.id === s.id
-                                    ) &&
-                                    (s.id === revealData?.falseStatement.id
-                                        ? `${
-                                              points.correctlyGuessed ? '+' : ''
-                                          }${points.correctlyGuessed}`
-                                        : points.falselyGuessed)}
-                            </StatementScoreContainer>
-                        )}
+                        {roundStage === RoundStage.SCORE_REVEAL &&
+                            revealData?.guesses.some(
+                                (g) => g.selectedAnswerId === s.id
+                            ) && (
+                                <StatementScoreContainer>
+                                    {points &&
+                                        (s.id === revealData?.falseStatement.id
+                                            ? `${
+                                                  points.correctlyGuessed
+                                                      ? '+'
+                                                      : ''
+                                              }${points.correctlyGuessed}`
+                                            : points.falselyGuessed)}
+                                </StatementScoreContainer>
+                            )}
                         <p>{s.text}</p>
                         <GuessEmojiContainer>
                             {roundStage !== RoundStage.QUESTION_END &&

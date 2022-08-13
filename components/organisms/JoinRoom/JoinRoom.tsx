@@ -59,7 +59,7 @@ const JoinRoom = () => {
                 onChange={(e) => {
                     setRoomSlug(e.target.value)
                 }}
-                error={error}
+                error={roomSlug.length === 5 ? error : ''}
             />
             <Link
                 href={`/${roomSlug}/create-player`}

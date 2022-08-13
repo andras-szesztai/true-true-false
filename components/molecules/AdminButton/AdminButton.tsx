@@ -51,7 +51,7 @@ const AdminButton = ({
     return (
         <>
             {error && <ScreenMessage text={error} />}
-            {role === Role.ADMIN && !success && (
+            {text && role === Role.ADMIN && !success && (
                 <Button
                     text={text}
                     size={size}

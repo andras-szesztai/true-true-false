@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { RoomStage } from '@prisma/client'
 
@@ -9,8 +10,9 @@ import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
 import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
-import { GENERAL_ERROR } from 'constants/messages'
 import { GamePageContent } from 'components/templates/GamePageContent'
+import { GENERAL_ERROR } from 'constants/messages'
+import { APP_NAME } from 'constants/appName'
 import {
     GetPlayerResponseSuccess,
     GetPlayersResponseSuccess,
@@ -30,30 +32,54 @@ const PlayerGamePage = () => {
         switch (roomData.stage) {
             case RoomStage.LOBBY:
                 return (
-                    <LobbyPageContent
-                        room={roomData}
-                        player={playerData}
-                        players={playersData}
-                    />
+                    <>
+                        <Head>
+                            <title>{APP_NAME} - Lobby</title>
+                        </Head>
+                        <LobbyPageContent
+                            room={roomData}
+                            player={playerData}
+                            players={playersData}
+                        />
+                    </>
                 )
             case RoomStage.PREPARATION:
                 return (
-                    <PreparationPageContent
-                        room={roomData}
-                        player={playerData}
-                        players={playersData}
-                    />
+                    <>
+                        <Head>
+                            <title>{APP_NAME} - Preparation</title>
+                        </Head>
+                        <PreparationPageContent
+                            room={roomData}
+                            player={playerData}
+                            players={playersData}
+                        />
+                    </>
                 )
             case RoomStage.GAME:
                 return (
-                    <GamePageContent
-                        room={roomData}
-                        player={playerData}
-                        players={playersData}
-                    />
+                    <>
+                        <Head>
+                            <title>{APP_NAME} - Game</title>
+                        </Head>
+                        <GamePageContent
+                            room={roomData}
+                            player={playerData}
+                            players={playersData}
+                        />
+                    </>
                 )
+
             case RoomStage.END:
-                return <div>End</div>
+                return (
+                    <>
+                        <Head>
+                            <title>{APP_NAME} - Results</title>
+                        </Head>
+                        <div>End</div>
+                    </>
+                )
+
             default:
                 return <ScreenMessage text={GENERAL_ERROR} />
         }

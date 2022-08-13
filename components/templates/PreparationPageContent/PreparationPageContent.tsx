@@ -135,7 +135,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                     {error && <ScreenMessage text={GENERAL_ERROR_TRY_AGAIN} />}
                     <Button
                         text="Submit"
-                        size={ButtonSizes.lg}
+                        size={ButtonSizes.md}
                         onClick={postStatements}
                         isLoading={loading}
                         isDisabled={

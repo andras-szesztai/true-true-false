@@ -45,7 +45,10 @@ export const getAdminButtonProps = (
               }
             : { text: 'Next Round', apiRoute: '/start-round' }
     }
-    return { text: 'Start First Round', apiRoute: '/start-round' }
+    if (roundStage === RoundStage.IDLE) {
+        return { text: 'Start First Round', apiRoute: '/start-round' }
+    }
+    return { text: '' }
 }
 
 const getMinIdCount = (fullIdArray: number[], uniqIdArray: number[]) =>

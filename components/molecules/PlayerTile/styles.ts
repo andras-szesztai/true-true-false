@@ -15,7 +15,7 @@ export const Container = styled.div`
 const emojiContainerStylesMap = {
     width: {
         base: {
-            [PlayerTileSize.md]: `${space.lg}px`,
+            [PlayerTileSize.md]: `${space.xl}px`,
             [PlayerTileSize.lg]: `${space.xl}px`,
         },
         [breakPoints.sm]: {

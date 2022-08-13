@@ -1,5 +1,15 @@
-import { CreatePlayerPageContent } from 'components/templates/CreatePlayerPageContent'
+import Head from 'next/head'
 
-const CreateUserPlayerPage = () => <CreatePlayerPageContent isAdmin />
+import { CreatePlayerPageContent } from 'components/templates/CreatePlayerPageContent'
+import { APP_NAME } from 'constants/appName'
+
+const CreateUserPlayerPage = () => (
+    <>
+        <Head>
+            <title>{APP_NAME} - Create a Player</title>
+        </Head>
+        <CreatePlayerPageContent isAdmin />
+    </>
+)
 
 export default CreateUserPlayerPage
