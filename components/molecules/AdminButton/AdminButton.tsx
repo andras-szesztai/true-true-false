@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash'
 import { useEffect, useState } from 'react'
 import { Role } from '@prisma/client'
 import { usePrevious, useToggle } from 'react-use'
@@ -5,7 +6,6 @@ import { usePrevious, useToggle } from 'react-use'
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 
-import { isEqual } from 'lodash'
 import { AdminButtonProps } from './types'
 
 const AdminButton = ({
@@ -15,6 +15,8 @@ const AdminButton = ({
     apiRoute,
     postBody,
     text,
+    size = ButtonSizes.md,
+    noSuccessMessage,
 }: AdminButtonProps) => {
     const [isLoading, setIsLoading] = useToggle(false)
     const [error, setError] = useState('')
@@ -69,13 +71,15 @@ const AdminButton = ({
             {role === Role.ADMIN && !success && (
                 <Button
                     text={text}
-                    size={ButtonSizes.md}
+                    size={size}
                     isLoading={isLoading}
                     isDisabled={isDisabled || isLoading}
                     onClick={handleRoomUpdate}
                 />
             )}
-            {success && <ScreenMessage text="Just One More Second..." />}
+            {!noSuccessMessage && success && (
+                <ScreenMessage text="Just One More Second..." />
+            )}
         </>
     )
 }

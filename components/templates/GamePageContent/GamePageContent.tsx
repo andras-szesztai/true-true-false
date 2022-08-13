@@ -11,6 +11,7 @@ import { StatementSelectionBoard } from 'components/organisms/StatementSelection
 import { StatementRevealBoard } from 'components/organisms/StatementRevealBoard'
 import { designTokens } from 'styles/designTokens'
 
+import { QuestionCounter } from 'components/organisms/QuestionCounter'
 import { getAdminButtonProps } from './utils'
 import { Props } from './types'
 import {
@@ -23,7 +24,6 @@ import {
 const { breakPoints } = designTokens
 
 // TODO
-// 1. Store how many questions are left in the room (managed by admin with - button) visible to everyone
 // 2. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
@@ -65,6 +65,14 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 fullWidth
                 displayScore
             />
+            {roundStage !== RoundStage.IDLE && (
+                <QuestionCounter
+                    questionsLeft={room.questionsLeft}
+                    roomSlug={roomSlug}
+                    playerRole={player.role}
+                    adminButtonIsEnabled={roundStage === RoundStage.QUESTION}
+                />
+            )}
             {roundStage === RoundStage.IDLE && player.role === Role.USER && (
                 <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
             )}

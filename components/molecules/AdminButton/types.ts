@@ -1,3 +1,4 @@
+import { ButtonSizes } from 'components/atoms/Button'
 import {
     GetPlayerResponseSuccess,
     GetRoomResponseSuccess,
@@ -9,4 +10,6 @@ export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
         text: string
         apiRoute?: string
         postBody?: Record<string, string>
+        size?: ButtonSizes
+        noSuccessMessage?: boolean
     }

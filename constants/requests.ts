@@ -11,9 +11,9 @@ export const GET_ROOM_REQUEST_FIELDS = {
     selectedPlayerId: true,
     roundStage: true,
     isLastRound: true,
+    questionsLeft: true,
 }
 
-// TODO review player & players request
 export const GET_PLAYERS_REQUEST_FIELDS = {
     name: true,
     emoji: true,

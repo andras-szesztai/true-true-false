@@ -5,11 +5,19 @@ import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
 
 // TODO
+//
+// MISC
 // - Thumbnail for sharing url social media or chat
-// - Check if fetching players might be easier with relational fetch
+// STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
-// - Check if slug & id could be united into one key
+// API
+// - Check if fetching players might be easier with relational fetch
 // - Investigate better type safety on API side
+// - Check if slug & id could be united into one key
+// - review player & players request
+// TEST
+// - e2e test with cypress
+//
 
 const Home = () => (
     <HomePageContainer>
