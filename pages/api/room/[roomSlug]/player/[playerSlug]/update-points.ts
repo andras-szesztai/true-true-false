@@ -3,6 +3,7 @@ import { Role } from '@prisma/client'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
+import { PlayerPoint } from 'types/points'
 
 export default async function handler(
     req: NextApiRequest,
@@ -30,18 +31,16 @@ export default async function handler(
                 })
             }
             await Promise.all(
-                body.map(
-                    async (player: { playerId: number; score: number }) => {
-                        await prisma.player.update({
-                            where: {
-                                id: player.playerId,
-                            },
-                            data: {
-                                score: player.score,
-                            },
-                        })
-                    }
-                )
+                body.map(async (player: PlayerPoint) => {
+                    await prisma.player.update({
+                        where: {
+                            id: player.playerId,
+                        },
+                        data: {
+                            score: player.score,
+                        },
+                    })
+                })
             )
             return res.status(200).json({ success: true })
         } catch (err) {

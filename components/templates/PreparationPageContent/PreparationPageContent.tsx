@@ -29,7 +29,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
     const [secondTrueStatement, setSecondTrueStatement] = useState('')
     const [falseStatement, setFalseStatement] = useState('')
 
-    const [state, doFetch] = useAsyncFn(async () => {
+    const [postStatementState, postStatements] = useAsyncFn(async () => {
         const response = await fetch(
             `/api/room/${room.slug}/player/${player.slug}/statements`,
             {
@@ -49,7 +49,8 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
         return result
     }, [firstTrueStatement, secondTrueStatement, falseStatement])
 
-    const isReady = state.value?.success || !!player.statements.length
+    const isReady =
+        postStatementState.value?.success || !!player.statements.length
     useSWR(
         !player.showLoading && !isReady
             ? `/api/room/${room.slug}/player/${player.slug}/update-show-loading`
@@ -138,20 +139,20 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
                             />
                         </TextAreaContainer>
                     </TextBoxesContainer>
-                    {state.error ||
-                        (state.value?.error && (
+                    {postStatementState.error ||
+                        (postStatementState.value?.error && (
                             <ScreenMessage text={GENERAL_ERROR_TRY_AGAIN} />
                         ))}
                     <Button
                         text="Submit"
                         size={ButtonSizes.lg}
-                        onClick={doFetch}
-                        isLoading={state.loading}
+                        onClick={postStatements}
+                        isLoading={postStatementState.loading}
                         isDisabled={
                             !firstTrueStatement ||
                             !secondTrueStatement ||
                             !falseStatement ||
-                            state.loading
+                            postStatementState.loading
                         }
                     />
                 </>

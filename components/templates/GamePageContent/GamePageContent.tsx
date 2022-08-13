@@ -69,7 +69,6 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
             )}
             {roundStage === RoundStage.QUESTION && (
-                // TODO See if prop types can be shared?
                 <StatementSelectionBoard
                     statements={statementsData}
                     error={statementsError}

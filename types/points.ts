@@ -3,3 +3,5 @@ export type Points = {
     correctlyGuessed: number
     falselyGuessed: number
 } | null
+
+export type PlayerPoint = { playerId: number; score: number }

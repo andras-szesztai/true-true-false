@@ -9,9 +9,10 @@ import {
     GetStatementForQuestionResponse,
     GetStatementForQuestionResponseSuccess,
 } from 'types/apiResponses'
-import { Points } from 'types/points'
+import { PlayerPoint, Points } from 'types/points'
 import { fetcher } from 'utils/fetcher'
 
+import { usePrevious } from 'react-use'
 import { getSelectedPlayerScore } from './utils'
 import { Props } from './types'
 
@@ -31,17 +32,17 @@ export const useCalculatePoints = (
             const correctlyGuessedLength = validGuesses.filter(
                 (d) => d.selectedAnswerId === revealData.falseStatement.id
             ).length
+            const falselyGuessedLength = validGuesses.filter(
+                (d) => d.selectedAnswerId !== revealData.falseStatement.id
+            ).length
             setPoints({
                 selectedPlayer: getSelectedPlayerScore(
                     validGuesses.map((d) => d.selectedAnswerId)
                 ),
                 correctlyGuessed:
-                    correctlyGuessedLength &&
-                    validGuesses.filter(
-                        (d) =>
-                            d.selectedAnswerId !== revealData.falseStatement.id
-                    ).length,
-                falselyGuessed: -correctlyGuessedLength,
+                    correctlyGuessedLength && (falselyGuessedLength || 1),
+                falselyGuessed:
+                    falselyGuessedLength && -(correctlyGuessedLength || 1),
             })
         }
     }, [revealData, points])
@@ -56,6 +57,7 @@ export const useFetchSelectedPlayerStatementsQuestion = (
     const [error, setError] = useState('')
     const [data, setData] =
         useState<null | GetStatementForQuestionResponseSuccess>(null)
+    const prevSelectedPlayerId = usePrevious(selectedPlayerId)
     useSWR<GetStatementForQuestionResponse>(
         selectedPlayerId
             ? `/api/room/${roomSlug}/statement/${selectedPlayerId}/for-question`
@@ -75,7 +77,7 @@ export const useFetchSelectedPlayerStatementsQuestion = (
                 setData(null)
                 setError(err.message)
             },
-            isPaused: () => !!data,
+            isPaused: () => selectedPlayerId === prevSelectedPlayerId,
         }
     )
     return { statementsError: error, statementsData: data }
@@ -92,6 +94,7 @@ export const useFetchSelectedPlayerStatementsReveal = (
         roundStage === RoundStage.FALSE_REVEAL ||
         roundStage === RoundStage.SCORE_REVEAL ||
         roundStage === RoundStage.SCORING
+    const prevShouldFetch = usePrevious(shouldFetch)
     const [error, setError] = useState('')
     const [data, setData] = useState<null | GetRevealAnswerResponseSuccess>(
         null
@@ -115,7 +118,7 @@ export const useFetchSelectedPlayerStatementsReveal = (
                 setData(null)
                 setError(err.message)
             },
-            isPaused: () => !!data,
+            isPaused: () => shouldFetch === prevShouldFetch,
         }
     )
     return { revealError: error, revealData: data }
@@ -133,8 +136,9 @@ export const useUpdatePlayerPointsRequest = (
         points &&
         player.role === Role.ADMIN &&
         revealData
+    const prevShouldFetch = usePrevious(shouldFetch)
     const playerPoints = useMemo(() => {
-        let newPlayerPoints: { playerId: number; score: number }[] = []
+        let newPlayerPoints: PlayerPoint[] = []
         if (shouldFetch) {
             const { guesses, falseStatement } = revealData
             newPlayerPoints = players.map((d) => {
@@ -149,7 +153,8 @@ export const useUpdatePlayerPointsRequest = (
                 if (selectedAnswerId === falseStatement.id) {
                     pointsToReceive = points?.correctlyGuessed
                 }
-                return { playerId: d.id, score: d.score + pointsToReceive }
+                const newScore = d.score + pointsToReceive
+                return { playerId: d.id, score: newScore < 0 ? 0 : newScore }
             })
         }
         return newPlayerPoints
@@ -184,7 +189,7 @@ export const useUpdatePlayerPointsRequest = (
                 setData(null)
                 setError(err.message)
             },
-            isPaused: () => !!data,
+            isPaused: () => shouldFetch === prevShouldFetch,
         }
     )
 

@@ -7,6 +7,7 @@ import { Container, ErrorText } from './styles'
 import { Props } from './types'
 
 const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
+    // TODO check if useAsyncFn could be replaced
     const [becomeAdminState, handleBecomeAdmin] = useAsyncFn(async () => {
         const response = await fetch(
             `/api/room/${roomSlug}/player/${playerSlug}/become-admin`
