@@ -1,9 +1,9 @@
+import { RoundStage } from '@prisma/client'
+import { random } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { prisma } from 'utils/prisma'
 import { GENERAL_ERROR } from 'constants/messages'
-import { random } from 'lodash'
-import { RoundStage } from '@prisma/client'
 
 export default async function handler(
     req: NextApiRequest,
@@ -75,6 +75,7 @@ export default async function handler(
                             id: nextSelectedPlayerId,
                         },
                         data: {
+                            selectedAnswerId: null,
                             isDone: true,
                         },
                     })

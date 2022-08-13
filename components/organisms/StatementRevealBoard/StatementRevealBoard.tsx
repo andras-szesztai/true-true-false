@@ -65,11 +65,16 @@ const StatementRevealBoard = ({
                     >
                         {roundStage === RoundStage.SCORE_REVEAL && (
                             <StatementScoreContainer>
-                                {s.id === revealData?.falseStatement.id
-                                    ? `${points?.correctlyGuessed ? '+' : ''}${
-                                          points?.correctlyGuessed
-                                      }`
-                                    : points?.falselyGuessed}
+                                {revealData?.guesses.some(
+                                    (g) => g.id === s.id
+                                ) &&
+                                    (s.id === revealData?.falseStatement.id
+                                        ? `${
+                                              points?.correctlyGuessed
+                                                  ? '+'
+                                                  : ''
+                                          }${points?.correctlyGuessed}`
+                                        : points?.falselyGuessed)}
                             </StatementScoreContainer>
                         )}
                         <p>{s.text}</p>

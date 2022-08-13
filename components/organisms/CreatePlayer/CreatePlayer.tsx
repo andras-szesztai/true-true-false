@@ -91,9 +91,10 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
                     {emojiSelectorIsOpen && (
                         <EmojiSelectorContainer>
                             <Picker
-                                onEmojiClick={(_, emojiObject) =>
+                                onEmojiClick={(_, emojiObject) => {
                                     setEmoji(emojiObject.emoji)
-                                }
+                                    setEmojiSelectorIsOpen()
+                                }}
                             />
                         </EmojiSelectorContainer>
                     )}
