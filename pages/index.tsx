@@ -8,6 +8,9 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 //
 // MISC
 // - Thumbnail for sharing url social media or chat
+// - Handle Enter for creation inputs
+// - Close emoji select on lcik
+// - Show score only on selected True statements
 // STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
 // API
@@ -17,7 +20,9 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - review player & players request
 // TEST
 // - e2e test with cypress
-//
+// BUG
+// - Fix not null selectedIds
+// - Something Went Wrong While Trying to Update Player Scores, Please Try Again (last round?)
 
 const Home = () => (
     <HomePageContainer>

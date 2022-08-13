@@ -9,26 +9,24 @@ const QuestionCounter = ({
     playerRole,
     roomSlug,
     adminButtonIsEnabled,
-}: Props) => {
-    return (
-        <Container>
-            <div>
-                <Number questionsLeft={questionsLeft}>{questionsLeft}</Number>{' '}
-                Question{questionsLeft !== 1 ? 's' : ''} Left
-            </div>
-            {!!questionsLeft && (
-                <AdminButton
-                    role={playerRole}
-                    slug={roomSlug}
-                    apiRoute={`/decrease-questions-left/${questionsLeft}`}
-                    isDisabled={!adminButtonIsEnabled}
-                    text="Decrease"
-                    size={ButtonSizes.sm}
-                    noSuccessMessage
-                />
-            )}
-        </Container>
-    )
-}
+}: Props) => (
+    <Container>
+        <div>
+            <Number questionsLeft={questionsLeft}>{questionsLeft}</Number>{' '}
+            Question{questionsLeft !== 1 ? 's' : ''} Left
+        </div>
+        {!!questionsLeft && adminButtonIsEnabled && (
+            <AdminButton
+                role={playerRole}
+                slug={roomSlug}
+                apiRoute={`/decrease-questions-left/${questionsLeft}`}
+                isDisabled={false}
+                text="Decrease"
+                size={ButtonSizes.sm}
+                noSuccessMessage
+            />
+        )}
+    </Container>
+)
 
 export default QuestionCounter

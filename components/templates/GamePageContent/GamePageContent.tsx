@@ -9,9 +9,9 @@ import { AdminButton } from 'components/molecules/AdminButton'
 import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { StatementSelectionBoard } from 'components/organisms/StatementSelectionBoard'
 import { StatementRevealBoard } from 'components/organisms/StatementRevealBoard'
+import { QuestionCounter } from 'components/organisms/QuestionCounter'
 import { designTokens } from 'styles/designTokens'
 
-import { QuestionCounter } from 'components/organisms/QuestionCounter'
 import { getAdminButtonProps } from './utils'
 import { Props } from './types'
 import {
@@ -22,9 +22,6 @@ import {
 } from './hooks'
 
 const { breakPoints } = designTokens
-
-// TODO
-// 2. Admin clicks "next" (if there is anyone not done yet) - Otherwise changes stage to END page
 
 const GamePageContent = ({ room, player, players }: Props) => {
     const { selectedPlayerId, slug: roomSlug, roundStage } = room
