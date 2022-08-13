@@ -71,7 +71,7 @@ const CreatePlayer = ({ roomSlug, isAdmin }: Props) => {
         })
         const result = await response.json()
         return result
-    }, [roomSlug])
+    }, [roomSlug, name, emoji, isAdmin])
 
     const router = useRouter()
     useEffect(() => {
