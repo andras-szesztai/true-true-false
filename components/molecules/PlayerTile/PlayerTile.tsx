@@ -5,6 +5,7 @@ import { useWindowSize } from 'react-use'
 import { OfflineIcon } from 'components/atoms/icons/OfflineIcon'
 import { designTokens } from 'styles/designTokens'
 
+import { PlayerTileSize, Props } from './types'
 import {
     Container,
     EmojiContainer,
@@ -14,7 +15,6 @@ import {
     ScoreNumberContainer,
     StarContainer,
 } from './styles'
-import { PlayerTileSize, Props } from './types'
 
 const { color, space, breakPoints } = designTokens
 

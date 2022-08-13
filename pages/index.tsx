@@ -11,6 +11,7 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 // - Handle Enter for creation inputs
 // STYLING
 // - Add margin or padding bottom to screens for mobile scrolling
+// - Fix styling for responsiveness
 // API
 // - Check if fetching players might be easier with relational fetch
 // - Investigate better type safety on API side

@@ -5,7 +5,7 @@ import { designTokens } from 'styles/designTokens'
 
 const { color, strokeWidth, space, fontSize, breakPoints } = designTokens
 
-const stylesMapping = {
+const stylesMap = {
     width: {
         base: '240px',
         [breakPoints.sm]: '320px',
@@ -47,23 +47,23 @@ const StatementContainer = styled.div<{
             color: ${color.background};
         `}
 
-    width: ${stylesMapping.width.base};
-    padding: ${stylesMapping.padding.base};
-    font-size: ${stylesMapping.fontSize.base};
+    width: ${stylesMap.width.base};
+    padding: ${stylesMap.padding.base};
+    font-size: ${stylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        width: ${stylesMapping.width[breakPoints.sm]};
-        padding: ${stylesMapping.padding[breakPoints.sm]};
-        font-size: ${stylesMapping.fontSize[breakPoints.sm]};
+        width: ${stylesMap.width[breakPoints.sm]};
+        padding: ${stylesMap.padding[breakPoints.sm]};
+        font-size: ${stylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        width: ${stylesMapping.width[breakPoints.md]};
-        padding: ${stylesMapping.padding[breakPoints.md]};
+        width: ${stylesMap.width[breakPoints.md]};
+        padding: ${stylesMap.padding[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${stylesMapping.fontSize[breakPoints.lg]};
+        font-size: ${stylesMap.fontSize[breakPoints.lg]};
     }
 `
 export default StatementContainer

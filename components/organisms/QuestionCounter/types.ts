@@ -1,4 +1,5 @@
 import { Role } from '@prisma/client'
+
 import { GetRoomResponseSuccess } from 'types/apiResponses'
 
 export interface Props {

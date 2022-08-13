@@ -6,7 +6,7 @@ import { designTokens } from 'styles/designTokens'
 const { color, strokeWidth, space, breakPoints, fontSize, shadows } =
     designTokens
 
-const textAreaStylesMapping = {
+const stylesMap = {
     padding: {
         base: `${space.base}px`,
         [breakPoints.sm]: `${space.base}px`,
@@ -42,20 +42,20 @@ const TextArea = styled.textarea<{ noBorderTop?: boolean }>`
         z-index: 0;
     }
 
-    padding: ${textAreaStylesMapping.padding.base};
-    font-size: ${textAreaStylesMapping.fontSize.base};
+    padding: ${stylesMap.padding.base};
+    font-size: ${stylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        padding: ${textAreaStylesMapping.padding[breakPoints.sm]};
-        font-size: ${textAreaStylesMapping.fontSize[breakPoints.sm]};
+        padding: ${stylesMap.padding[breakPoints.sm]};
+        font-size: ${stylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        padding: ${textAreaStylesMapping.padding[breakPoints.md]};
+        padding: ${stylesMap.padding[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${textAreaStylesMapping.fontSize[breakPoints.lg]};
+        font-size: ${stylesMap.fontSize[breakPoints.lg]};
     }
 `
 

@@ -6,7 +6,7 @@ import { Props } from './types'
 
 const { space, fontSize, color, breakPoints } = designTokens
 
-const stylesMapping = {
+const stylesMap = {
     position: {
         base: `${space.sm}px`,
         [breakPoints.sm]: `${space.base}px`,
@@ -26,25 +26,25 @@ export const Container = styled.div`
     gap: ${space.base}px;
     align-items: center;
 
-    bottom: ${stylesMapping.position.base};
-    left: ${stylesMapping.position.base};
-    font-size: ${stylesMapping.fontSize.base};
+    bottom: ${stylesMap.position.base};
+    left: ${stylesMap.position.base};
+    font-size: ${stylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        bottom: ${stylesMapping.position[breakPoints.sm]};
-        left: ${stylesMapping.position[breakPoints.sm]};
-        font-size: ${stylesMapping.fontSize[breakPoints.sm]};
+        bottom: ${stylesMap.position[breakPoints.sm]};
+        left: ${stylesMap.position[breakPoints.sm]};
+        font-size: ${stylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        bottom: ${stylesMapping.position[breakPoints.md]};
-        left: ${stylesMapping.position[breakPoints.md]};
+        bottom: ${stylesMap.position[breakPoints.md]};
+        left: ${stylesMap.position[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        bottom: ${stylesMapping.position[breakPoints.lg]};
-        left: ${stylesMapping.position[breakPoints.lg]};
-        font-size: ${stylesMapping.fontSize[breakPoints.lg]};
+        bottom: ${stylesMap.position[breakPoints.lg]};
+        left: ${stylesMap.position[breakPoints.lg]};
+        font-size: ${stylesMap.fontSize[breakPoints.lg]};
     }
 `
 

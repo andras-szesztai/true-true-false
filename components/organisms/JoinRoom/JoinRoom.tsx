@@ -13,6 +13,7 @@ const JoinRoom = () => {
     const [roomSlug, setRoomSlug] = useState('')
     const prevRoomSlug = usePrevious(roomSlug)
 
+    // TODO check if hook should be made
     const shouldFetch = roomSlug.length === 5 && prevRoomSlug !== roomSlug
     const [error, setError] = useState('')
     const [data, setData] = useState<null | GetRoomResponseSuccess>(null)
