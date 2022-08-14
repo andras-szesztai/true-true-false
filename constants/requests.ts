@@ -12,6 +12,7 @@ export const GET_ROOM_REQUEST_FIELDS = {
     roundStage: true,
     isLastRound: true,
     questionsLeft: true,
+    isDeleteStarted: true,
 }
 
 export const GET_PLAYERS_REQUEST_FIELDS = {

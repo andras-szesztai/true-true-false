@@ -38,6 +38,7 @@ model Room {
   roundStage       RoundStage @default(IDLE)
   isLastRound      Boolean    @default(false)
   questionsLeft    Int        @default(10)
+  isDeleteStarted  Boolean    @default(false)
 }
 
 enum Role {
@@ -56,7 +57,7 @@ model Player {
   name             String
   emoji            String
   score            Int         @default(0)
-  room             Room        @relation(fields: [roomId], references: [id])
+  room             Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId           Int
   statements       Statement[]
   selectedAnswerId Int?
@@ -67,6 +68,6 @@ model Statement {
   id       Int     @id @default(autoincrement())
   text     String
   isTrue   Boolean
-  player   Player  @relation(fields: [playerId], references: [id])
+  player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId Int
 }

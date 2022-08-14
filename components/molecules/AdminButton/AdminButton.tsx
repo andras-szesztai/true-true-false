@@ -15,11 +15,20 @@ const AdminButton = ({
     isDisabled = false,
     size = ButtonSizes.md,
     noSuccessMessage,
+    onSuccess,
+    customError,
 }: AdminButtonProps) => {
     const [ref, { height: buttonHeight }] = useMeasure<HTMLDivElement>()
     const [isLoading, setIsLoading] = useToggle(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useToggle(false)
+    const prevSuccess = usePrevious(success)
+
+    useEffect(() => {
+        if (!prevSuccess && success && onSuccess) {
+            onSuccess()
+        }
+    }, [success, onSuccess, prevSuccess])
 
     const prevApiRout = usePrevious(apiRoute)
     useEffect(() => {
@@ -37,12 +46,12 @@ const AdminButton = ({
         setIsLoading()
         try {
             await fetch(`/api/room/${slug}${apiRoute}`)
-            setSuccess()
             setError('')
+            setSuccess(true)
         } catch (err) {
             if (err instanceof Error) {
-                setError(err.message)
                 setSuccess(false)
+                setError(err.message)
             }
         } finally {
             setIsLoading()
@@ -51,7 +60,7 @@ const AdminButton = ({
 
     return (
         <div ref={ref} style={{ minHeight: buttonHeight }}>
-            {error && <ScreenMessage text={error} />}
+            {error && <ScreenMessage text={customError || error} />}
             {text && role === Role.ADMIN && !success && (
                 <Button
                     text={text}

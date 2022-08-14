@@ -219,7 +219,7 @@ const scoreContainerStylesMap = {
         },
         [breakPoints.sm]: {
             [PlayerTileSize.md]: `${space.xxl}px`,
-            [PlayerTileSize.lg]: `${space['4xl']}px`,
+            [PlayerTileSize.lg]: `${space.xxl}px`,
         },
         [breakPoints.md]: {
             [PlayerTileSize.md]: `${space['3xl']}px`,

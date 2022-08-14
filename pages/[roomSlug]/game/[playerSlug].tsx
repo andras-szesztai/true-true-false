@@ -85,6 +85,9 @@ const PlayerGamePage = () => {
                             </Head>
                             <ResultsPageContent
                                 players={orderBy(playersData, 'score', 'desc')}
+                                playerRole={playerData.role}
+                                roomSlug={roomData.slug}
+                                isDeleteStarted={roomData.isDeleteStarted}
                             />
                         </>
                     )
