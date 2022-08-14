@@ -1,27 +1,27 @@
 import { FC, ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
-import { useMount } from 'react-use'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { fetcher } from 'utils/fetcher'
 import { GetPlayerResponse, GetPlayerResponseSuccess } from 'types/apiResponses'
 import { GENERAL_ERROR } from 'constants/messages'
 import { REFRESH_INTERVAL } from 'constants/requests'
-import { designTokens } from 'styles/designTokens'
 
 import { handleConnection } from './utils'
 
-const { color, space } = designTokens
-
 const PlayerDataHandler: FC<{
-    roomSlug: string | string[]
-    playerSlug: string | string[]
-    children(data: GetPlayerResponseSuccess): ReactElement
+    roomSlug: string | string[] | undefined
+    playerSlug: string | string[] | undefined
+    children(
+        data: GetPlayerResponseSuccess | null,
+        loading: boolean
+    ): ReactElement
 }> = ({ roomSlug, children, playerSlug }) => {
     const { data: playerData, error } = useSWR<GetPlayerResponse>(
-        `/api/room/${roomSlug}/player/${playerSlug}`,
+        roomSlug && playerSlug
+            ? `/api/room/${roomSlug}/player/${playerSlug}`
+            : null,
         fetcher,
         { refreshInterval: REFRESH_INTERVAL }
     )
@@ -31,12 +31,14 @@ const PlayerDataHandler: FC<{
             router.push(`/${roomSlug}/create-player`)
         }
     })
-    useMount(() => {
-        handleConnection(roomSlug, playerSlug)
-    })
-    if (playerData && 'slug' in playerData) return children(playerData)
+    useEffect(() => {
+        if (playerSlug && roomSlug) {
+            handleConnection(roomSlug, playerSlug)
+        }
+    }, [roomSlug, playerSlug])
+    if (playerData && 'slug' in playerData) return children(playerData, false)
     if (error) return <ScreenMessage text={GENERAL_ERROR} />
-    return <SquareLoader color={color.black} loading size={space.lg} />
+    return children(null, true)
 }
 
 export default PlayerDataHandler

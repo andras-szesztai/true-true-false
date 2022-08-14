@@ -6,7 +6,7 @@ export enum RoomSlugSizes {
 }
 
 export interface Props {
-    slug: GetRoomResponseSuccess['slug']
+    slug: GetRoomResponseSuccess['slug'] | undefined
     size: RoomSlugSizes
     isFixed?: boolean
 }

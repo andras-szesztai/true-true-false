@@ -1,4 +1,4 @@
 export interface Props {
-    roomSlug: string
+    roomSlug: string | undefined
     isAdmin: boolean
 }
