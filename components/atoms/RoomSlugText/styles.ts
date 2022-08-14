@@ -15,14 +15,15 @@ const containerStylesMap = {
 }
 
 export const Container = styled.div`
-    display: flex;
+    display: grid;
     gap: ${space.xs}px;
+    grid-auto-flow: column;
     justify-content: center;
 
     @media only screen and (min-width: ${breakPoints.md}px) {
         position: fixed;
-        justify-content: flex-end;
-        flex-direction: column;
+        justify-content: end;
+        grid-auto-flow: row;
         gap: 0;
         right: ${containerStylesMap.position[breakPoints.md]};
         top: ${containerStylesMap.position[breakPoints.md]};

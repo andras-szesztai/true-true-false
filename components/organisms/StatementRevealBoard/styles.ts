@@ -16,7 +16,8 @@ const emojiContainerStylesMap = {
 }
 
 export const GuessEmojiContainer = styled.div`
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
     align-items: center;
     min-height: ${space.lg}px;
     gap: ${space.xs}px;

@@ -12,8 +12,7 @@ const stylesMap = {
 }
 
 export const ScreenMessagesContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
 
     gap: ${stylesMap.gap.base};
 

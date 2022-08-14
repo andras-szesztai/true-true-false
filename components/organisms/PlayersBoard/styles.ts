@@ -79,8 +79,6 @@ export const Container = styled.div<
             width: auto;
 
             @media only screen and (min-width: ${breakPoints.md}px) {
-                flex-direction: column;
-                gap: 0;
                 left: ${containerStylesMap.position[breakPoints.md]};
                 top: ${containerStylesMap.position[breakPoints.md]};
             }
