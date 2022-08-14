@@ -7,7 +7,9 @@ import { Props } from './types'
 const Modal = ({ children, isOpen, handleClose }: Props) => {
     const modalRef = useRef<HTMLDivElement>(null)
     useClickAway(modalRef, handleClose)
+
     if (!isOpen) return null
+
     return <ModalContainer ref={modalRef}>{children}</ModalContainer>
 }
 

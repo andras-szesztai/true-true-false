@@ -9,7 +9,6 @@ import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
 // FEAT
-// - 1. Rules modal on start page
 // - 2. End Screen with delete game (players & statements) button for Admin
 // - 3. CreatedBy & links
 // MISC
@@ -19,7 +18,7 @@ import { APP_NAME } from 'constants/appName'
 // - e2e test with cypress
 // FIX
 // - Switch between submit & waiting (should keep statements in view)
-// - Solution for Mobile slug and decrease qeustions button
+// - Solution for Mobile slug and decrease questions button
 // - Loading flicker fix for data
 
 const Home = () => (

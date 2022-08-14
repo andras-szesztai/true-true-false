@@ -17,7 +17,7 @@ const RulesModal = () => {
             <Container isFixed={!isMobileSize}>
                 <Button
                     size={ButtonSizes.sm}
-                    text="Rules"
+                    text="How to Play?"
                     onClick={toggleIsOpen}
                     isDisabled={isOpen}
                 />
