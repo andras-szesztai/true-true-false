@@ -1,5 +1,4 @@
 import { FC, ReactElement } from 'react'
-import { SquareLoader } from 'react-spinners'
 import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
@@ -10,29 +9,28 @@ import {
     GetPlayersResponseSuccess,
 } from 'types/apiResponses'
 import { REFRESH_INTERVAL } from 'constants/requests'
-import { designTokens } from 'styles/designTokens'
-
-const { color, space } = designTokens
 
 const PlayersDataHandler: FC<{
-    roomSlug: string | string[]
-    children(data: GetPlayersResponseSuccess): ReactElement
+    roomSlug: string | string[] | undefined
+    children(
+        data: GetPlayersResponseSuccess | null,
+        loading: boolean
+    ): ReactElement
 }> = ({ roomSlug, children }) => {
     const { data: playersData, error } = useSWR<GetPlayersResponse>(
-        `/api/room/${roomSlug}/players`,
+        roomSlug ? `/api/room/${roomSlug}/players` : null,
         fetcher,
         { refreshInterval: REFRESH_INTERVAL }
     )
-    console.log(playersData)
 
     if (playersData) {
         if ('error' in playersData) {
             return <ScreenMessage text={playersData.error} />
         }
-        return children(playersData)
+        return children(playersData, false)
     }
     if (error) return <ScreenMessage text={GENERAL_ERROR} />
-    return <SquareLoader color={color.black} loading size={space.lg} />
+    return children(null, true)
 }
 
 export default PlayersDataHandler

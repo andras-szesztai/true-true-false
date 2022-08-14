@@ -40,9 +40,9 @@ export const useCalculatePoints = (
                     validGuesses.map((d) => d.selectedAnswerId)
                 ),
                 correctlyGuessed:
-                    correctlyGuessedLength && (falselyGuessedLength || 1),
+                    correctlyGuessedLength && 1 + falselyGuessedLength,
                 falselyGuessed:
-                    falselyGuessedLength && -(correctlyGuessedLength || 1),
+                    falselyGuessedLength && -1 - correctlyGuessedLength,
             })
         }
     }, [revealData, points])

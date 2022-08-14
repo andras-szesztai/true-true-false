@@ -5,7 +5,7 @@ import {
 } from 'types/apiResponses'
 
 export interface Props {
-    players: GetPlayersResponseSuccess
-    roomSlug: GetPlayerResponseSuccess['slug']
-    playerSlug: GetRoomResponseSuccess['slug']
+    players: GetPlayersResponseSuccess | null
+    roomSlug: GetPlayerResponseSuccess['slug'] | undefined
+    playerSlug: GetRoomResponseSuccess['slug'] | undefined
 }

@@ -13,7 +13,7 @@ const QuestionCounter = ({
     <Container>
         <div>
             <Number questionsLeft={questionsLeft}>{questionsLeft}</Number>{' '}
-            Question{questionsLeft !== 1 ? 's' : ''} Left
+            Question{questionsLeft !== 1 ? 's' : ''}
         </div>
         {!!questionsLeft && adminButtonIsEnabled && (
             <AdminButton

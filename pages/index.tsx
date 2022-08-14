@@ -5,17 +5,17 @@ import { HomePageContainer } from 'components/atoms/containers/HomePageContainer
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
+import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
 // FEAT
-// - 1. Rules modal on start page
-// - 2. End Screen with delete game (players & statements) button for Admin
-// - 3. CreatedBy & links
+// - 2. End Screen with delete game (players & statements) button for Admin (router.push to home page on success)
 // MISC
 // - Thumbnail for sharing url social media or chat
-// - Add custom favicon
 // TEST
 // - e2e test with cypress
+// FIX
+// - Solution for Mobile slug and decrease questions button (not fixed after certain width)
 
 const Home = () => (
     <>
@@ -31,6 +31,7 @@ const Home = () => (
                     size={LinkSizes.lg}
                 />
                 <JoinRoom />
+                <RulesModal />
             </HomeContentContainer>
         </HomePageContainer>
     </>

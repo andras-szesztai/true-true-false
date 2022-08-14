@@ -30,7 +30,7 @@ export const GuessEmojiContainer = styled.div`
     }
 `
 
-const scoreStyleMap = {
+const scoreStylesMap = {
     padding: {
         base: `${space.xxs}px`,
         [breakPoints.sm]: `${space.xs}px`,
@@ -51,20 +51,20 @@ const ScoreContainer = styled.div`
     transform: translate(50%, -50%);
     line-height: 1;
 
-    padding: ${scoreStyleMap.padding.base};
-    font-size: ${scoreStyleMap.fontSize.base};
+    padding: ${scoreStylesMap.padding.base};
+    font-size: ${scoreStylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        padding: ${scoreStyleMap.padding[breakPoints.sm]};
-        font-size: ${scoreStyleMap.fontSize[breakPoints.sm]};
+        padding: ${scoreStylesMap.padding[breakPoints.sm]};
+        font-size: ${scoreStylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        padding: ${scoreStyleMap.padding[breakPoints.md]};
+        padding: ${scoreStylesMap.padding[breakPoints.md]};
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {
-        font-size: ${scoreStyleMap.fontSize[breakPoints.lg]};
+        font-size: ${scoreStylesMap.fontSize[breakPoints.lg]};
     }
 `
 

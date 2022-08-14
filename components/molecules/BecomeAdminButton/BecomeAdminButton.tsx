@@ -12,7 +12,7 @@ const BecomeAdminButton = ({ players, roomSlug, playerSlug }: Props) => {
         success: true
     }>(() => fetch(`/api/room/${roomSlug}/player/${playerSlug}/become-admin`))
 
-    if (!players.some((p) => p.role === Role.ADMIN && !p.isActive) || data) {
+    if (!players?.some((p) => p.role === Role.ADMIN && !p.isActive) || data) {
         return null
     }
 

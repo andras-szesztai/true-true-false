@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { RoomStage } from '@prisma/client'
+import { SquareLoader } from 'react-spinners'
 
 import { GameContainer } from 'components/atoms/containers/GameContainer'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
@@ -18,6 +19,9 @@ import {
     GetPlayersResponseSuccess,
     GetRoomResponseSuccess,
 } from 'types/apiResponses'
+import { designTokens } from 'styles/designTokens'
+
+const { color, space } = designTokens
 
 const PlayerGamePage = () => {
     const {
@@ -25,86 +29,98 @@ const PlayerGamePage = () => {
     } = useRouter()
 
     const getPageContent = (
-        roomData: GetRoomResponseSuccess,
-        playerData: GetPlayerResponseSuccess,
-        playersData: GetPlayersResponseSuccess
+        roomData: GetRoomResponseSuccess | null,
+        playerData: GetPlayerResponseSuccess | null,
+        playersData: GetPlayersResponseSuccess | null
     ) => {
-        switch (roomData.stage) {
-            case RoomStage.LOBBY:
-                return (
-                    <>
-                        <Head>
-                            <title>{APP_NAME} - Lobby</title>
-                        </Head>
-                        <LobbyPageContent
-                            room={roomData}
-                            player={playerData}
-                            players={playersData}
-                        />
-                    </>
-                )
-            case RoomStage.PREPARATION:
-                return (
-                    <>
-                        <Head>
-                            <title>{APP_NAME} - Preparation</title>
-                        </Head>
-                        <PreparationPageContent
-                            room={roomData}
-                            player={playerData}
-                            players={playersData}
-                        />
-                    </>
-                )
-            case RoomStage.GAME:
-                return (
-                    <>
-                        <Head>
-                            <title>{APP_NAME} - Game</title>
-                        </Head>
-                        <GamePageContent
-                            room={roomData}
-                            player={playerData}
-                            players={playersData}
-                        />
-                    </>
-                )
+        if (roomData && playerData && playersData) {
+            switch (roomData.stage) {
+                case RoomStage.LOBBY:
+                    return (
+                        <>
+                            <Head>
+                                <title>{APP_NAME} - Lobby</title>
+                            </Head>
+                            <LobbyPageContent
+                                room={roomData}
+                                player={playerData}
+                                players={playersData}
+                            />
+                        </>
+                    )
+                case RoomStage.PREPARATION:
+                    return (
+                        <>
+                            <Head>
+                                <title>{APP_NAME} - Preparation</title>
+                            </Head>
+                            <PreparationPageContent
+                                room={roomData}
+                                player={playerData}
+                                players={playersData}
+                            />
+                        </>
+                    )
+                case RoomStage.GAME:
+                    return (
+                        <>
+                            <Head>
+                                <title>{APP_NAME} - Game</title>
+                            </Head>
+                            <GamePageContent
+                                room={roomData}
+                                player={playerData}
+                                players={playersData}
+                            />
+                        </>
+                    )
 
-            case RoomStage.END:
-                return (
-                    <>
-                        <Head>
-                            <title>{APP_NAME} - Results</title>
-                        </Head>
-                        <div>End</div>
-                    </>
-                )
+                case RoomStage.END:
+                    return (
+                        <>
+                            <Head>
+                                <title>{APP_NAME} - Results</title>
+                            </Head>
+                            <div>End</div>
+                        </>
+                    )
 
-            default:
-                return <ScreenMessage text={GENERAL_ERROR} />
+                default:
+                    return <ScreenMessage text={GENERAL_ERROR} />
+            }
         }
+        return null
     }
 
     return (
         <GameContainer>
             <RoomDataHandler roomSlug={roomSlug!}>
-                {(roomData) => (
+                {(roomData, roomDataLoading) => (
                     <PlayerDataHandler
-                        roomSlug={roomData.slug}
-                        playerSlug={playerSlug!}
+                        roomSlug={roomData?.slug}
+                        playerSlug={playerSlug}
                     >
-                        {(playerData) => (
-                            <PlayersDataHandler roomSlug={roomSlug!}>
-                                {(playersData) => (
+                        {(playerData, playerDataLoading) => (
+                            <PlayersDataHandler roomSlug={roomSlug}>
+                                {(playersData, playersDataLoading) => (
                                     <>
                                         {getPageContent(
                                             roomData,
                                             playerData,
                                             playersData
                                         )}
+                                        {(roomDataLoading ||
+                                            playersDataLoading ||
+                                            playerDataLoading) && (
+                                            <SquareLoader
+                                                color={color.black}
+                                                loading
+                                                size={space.lg}
+                                            />
+                                        )}
                                         <BecomeAdminButton
-                                            roomSlug={roomData.slug}
-                                            playerSlug={playerData.slug}
+                                            roomSlug={roomData?.slug}
+                                            playerSlug={playerData?.slug}
                                             players={playersData}
                                         />
                                     </>
