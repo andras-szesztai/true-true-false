@@ -29,6 +29,9 @@ const Home = () => (
                     },
                 ],
             }}
+            twitter={{
+                cardType: 'summary_large_image',
+            }}
         />
         <HomePageContainer>
             <HomeContentContainer>
