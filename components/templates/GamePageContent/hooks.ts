@@ -1,3 +1,4 @@
+import { usePrevious } from 'react-use'
 import { Role, RoundStage } from '@prisma/client'
 import { useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
@@ -12,20 +13,23 @@ import {
 import { PlayerPoint, Points } from 'types/points'
 import { fetcher } from 'utils/fetcher'
 
-import { usePrevious } from 'react-use'
+import { isEqual } from 'lodash'
 import { getSelectedPlayerScore } from './utils'
 import { Props } from './types'
 
 export const useCalculatePoints = (
-    revealData: GetRevealAnswerResponseSuccess | null
+    revealData: GetRevealAnswerResponseSuccess | null,
+    roundStage: RoundStage
 ) => {
     const [points, setPoints] = useState<{
         selectedPlayer: number
         correctlyGuessed: number
         falselyGuessed: number
     } | null>(null)
+
+    const prevRevealData = usePrevious(revealData)
     useEffect(() => {
-        if (revealData && !points) {
+        if (revealData && !isEqual(revealData, prevRevealData) && !points) {
             const validGuesses = revealData.guesses.filter(
                 (g) => !!g.selectedAnswerId
             )
@@ -45,7 +49,13 @@ export const useCalculatePoints = (
                     falselyGuessedLength && -1 - correctlyGuessedLength,
             })
         }
-    }, [revealData, points])
+    }, [revealData, points, roundStage, prevRevealData])
+
+    useEffect(() => {
+        if (roundStage === RoundStage.QUESTION) {
+            setPoints(null)
+        }
+    }, [roundStage])
 
     return points
 }

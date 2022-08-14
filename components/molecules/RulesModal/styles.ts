@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 import { designTokens } from 'styles/designTokens'
@@ -12,22 +11,17 @@ const containerStylesMap = {
     },
 }
 
-export const Container = styled.div<{ isFixed: boolean }>`
-    ${({ isFixed }) =>
-        isFixed &&
-        css`
-            position: fixed;
-            @media only screen and (min-width: ${breakPoints.md}px) {
-                flex-direction: column;
-                right: ${containerStylesMap.position[breakPoints.md]};
-                top: ${containerStylesMap.position[breakPoints.md]};
-            }
+export const Container = styled.div`
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        position: fixed;
+        right: ${containerStylesMap.position[breakPoints.md]};
+        top: ${containerStylesMap.position[breakPoints.md]};
+    }
 
-            @media only screen and (min-width: ${breakPoints.lg}px) {
-                right: ${containerStylesMap.position[breakPoints.lg]};
-                top: ${containerStylesMap.position[breakPoints.lg]};
-            }
-        `}
+    @media only screen and (min-width: ${breakPoints.lg}px) {
+        right: ${containerStylesMap.position[breakPoints.lg]};
+        top: ${containerStylesMap.position[breakPoints.lg]};
+    }
 `
 
 export const ModalContainer = styled.div`

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Role } from '@prisma/client'
+import { useMount } from 'react-use'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { MainTitle } from 'components/atoms/MainTitle'
@@ -23,6 +24,8 @@ const ResultsPageContent = ({
         }
     }, [isDeleteStarted, router, playerRole])
 
+    useMount(() => fetch('/api/room/clean-up'))
+
     return (
         <HomeContentContainer>
             <MainTitle>✨ Results ✨</MainTitle>
@@ -32,7 +35,7 @@ const ResultsPageContent = ({
                 displayScore
             />
             <AdminButton
-                text={`${isDeleteStarted ? 'Finish' : 'Start'} Room Delete`}
+                text={`${isDeleteStarted ? 'Finish' : 'Start'} Room Deletion`}
                 role={playerRole}
                 slug={roomSlug}
                 customError={
@@ -43,7 +46,7 @@ const ResultsPageContent = ({
                 onSuccess={
                     isDeleteStarted
                         ? () => {
-                              router.push('/')
+                              router.push('/room-deleted')
                           }
                         : undefined
                 }

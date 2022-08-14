@@ -4,6 +4,8 @@ import { Role } from '@prisma/client'
 import { GENERAL_ERROR } from 'constants/messages'
 import { prisma } from 'utils/prisma'
 
+// TODO make it not fixed on small
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse

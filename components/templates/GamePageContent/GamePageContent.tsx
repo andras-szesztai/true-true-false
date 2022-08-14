@@ -1,4 +1,3 @@
-import { useWindowSize } from 'react-use'
 import { Role, RoundStage } from '@prisma/client'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
@@ -10,7 +9,6 @@ import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { StatementSelectionBoard } from 'components/organisms/StatementSelectionBoard'
 import { StatementRevealBoard } from 'components/organisms/StatementRevealBoard'
 import { QuestionCounter } from 'components/organisms/QuestionCounter'
-import { designTokens } from 'styles/designTokens'
 
 import { getAdminButtonProps } from './utils'
 import {
@@ -21,13 +19,8 @@ import {
 } from './hooks'
 import { Props } from './types'
 
-const { breakPoints } = designTokens
-
 const GamePageContent = ({ room, player, players }: Props) => {
     const { selectedPlayerId, slug: roomSlug, roundStage } = room
-
-    const { width } = useWindowSize()
-    const isMobileSize = width <= breakPoints.md
 
     const { statementsData, statementsError } =
         useFetchSelectedPlayerStatementsQuestion(selectedPlayerId, roomSlug)
@@ -37,7 +30,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
         roomSlug
     )
 
-    const points = useCalculatePoints(revealData)
+    const points = useCalculatePoints(revealData, roundStage)
     const { updateScoresSuccess, updateScoresError } =
         useUpdatePlayerPointsRequest(room, player, players, points, revealData)
 
@@ -57,18 +50,9 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 player={player}
                 players={players}
                 size={PlayerTileSize.md}
-                isFixed={!isMobileSize}
                 fullWidth
                 displayScore
             />
-            {roundStage !== RoundStage.IDLE && (
-                <QuestionCounter
-                    questionsLeft={room.questionsLeft}
-                    roomSlug={roomSlug}
-                    playerRole={player.role}
-                    adminButtonIsEnabled={roundStage === RoundStage.QUESTION}
-                />
-            )}
             {roundStage === RoundStage.IDLE && player.role === Role.USER && (
                 <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />
             )}
@@ -112,6 +96,14 @@ const GamePageContent = ({ room, player, players }: Props) => {
                     )}
                     role={player.role}
                     slug={roomSlug}
+                />
+            )}
+            {roundStage !== RoundStage.IDLE && (
+                <QuestionCounter
+                    questionsLeft={room.questionsLeft}
+                    roomSlug={roomSlug}
+                    playerRole={player.role}
+                    adminButtonIsEnabled={roundStage === RoundStage.QUESTION}
                 />
             )}
         </HomeContentContainer>
