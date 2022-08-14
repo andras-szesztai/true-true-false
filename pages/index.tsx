@@ -9,8 +9,8 @@ import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
 // FEAT
-// - 1. End Screen with delete game (players & statements) button for Admin
-// - 2. CreatedBy & links
+// - 1. CreatedBy & links
+// - 2. End Screen with delete game (players & statements) button for Admin (router.push to home page on success)
 // MISC
 // - Thumbnail for sharing url social media or chat
 // - Add custom favicon
