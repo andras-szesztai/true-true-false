@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { HomePageContainer } from 'components/atoms/containers/HomePageContainer'
@@ -11,14 +11,31 @@ import { APP_NAME } from 'constants/appName'
 // MISC
 // - Thumbnail for sharing url social media or chat
 // - setup for SEO
+// - Review rules
 // TEST
 // - e2e test with cypress
 
 const Home = () => (
     <>
-        <Head>
-            <title>{APP_NAME}</title>
-        </Head>
+        <NextSeo
+            title={APP_NAME}
+            description="An online team building game, find out more about your fellow players while having fun together."
+            openGraph={{
+                type: 'website',
+                url: 'https://truetruefalse.netlify.app/',
+                title: APP_NAME,
+                description:
+                    'Online team building game, find out more about your fellow players while having fun together.',
+                images: [
+                    {
+                        url: 'https://ibb.co/4Tj1xjQ',
+                        width: 800,
+                        height: 600,
+                        alt: `${APP_NAME} Home Screen`,
+                    },
+                ],
+            }}
+        />
         <HomePageContainer>
             <HomeContentContainer>
                 <MainTitle>{APP_NAME}</MainTitle>
