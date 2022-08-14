@@ -9,8 +9,6 @@ import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
 // MISC
-// - Thumbnail for sharing url social media or chat
-// - setup for SEO
 // - Review rules
 // TEST
 // - e2e test with cypress
@@ -26,14 +24,12 @@ const Home = () => (
                 title: APP_NAME,
                 description:
                     'Online team building game, find out more about your fellow players while having fun together.',
-                images: [
-                    {
-                        url: 'https://ibb.co/4Tj1xjQ',
-                        width: 800,
-                        height: 600,
-                        alt: `${APP_NAME} Home Screen`,
-                    },
-                ],
+                images: [{ url: 'https://ibb.co/4Tj1xjQ' }],
+            }}
+            twitter={{
+                handle: '@handle',
+                site: '@some',
+                cardType: 'summary_large_image',
             }}
         />
         <HomePageContainer>
