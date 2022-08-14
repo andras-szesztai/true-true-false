@@ -8,8 +8,6 @@ import { JoinRoom } from 'components/organisms/JoinRoom'
 import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
-// FIX
-// - Solution for Mobile slug and decrease questions button (not fixed after certain width)
 // MISC
 // - Thumbnail for sharing url social media or chat
 // - setup for SEO
