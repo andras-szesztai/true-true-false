@@ -9,46 +9,28 @@ const { space, fontSize, breakPoints } = designTokens
 
 const containerStylesMap = {
     position: {
-        base: `${space.sm}px`,
-        [breakPoints.sm]: `${space.base}px`,
         [breakPoints.md]: `${space.md}px`,
         [breakPoints.lg]: `${space.lg}px`,
     },
 }
 
-export const Container = styled.div<Pick<Props, 'isFixed'>>`
+export const Container = styled.div`
     display: flex;
     gap: ${space.xs}px;
     justify-content: center;
 
-    ${({ isFixed }) =>
-        isFixed &&
-        css`
-            position: fixed;
-            justify-content: flex-end;
-
-            right: ${containerStylesMap.position.base};
-            top: ${containerStylesMap.position.base};
-
-            @media only screen and (min-width: ${breakPoints.sm}px) {
-                right: ${containerStylesMap.position[breakPoints.sm]};
-                top: ${containerStylesMap.position[breakPoints.sm]};
-            }
-
-            @media only screen and (min-width: ${breakPoints.md}px) {
-                flex-direction: column;
-                right: ${containerStylesMap.position[breakPoints.md]};
-                top: ${containerStylesMap.position[breakPoints.md]};
-            }
-
-            @media only screen and (min-width: ${breakPoints.lg}px) {
-                right: ${containerStylesMap.position[breakPoints.lg]};
-                top: ${containerStylesMap.position[breakPoints.lg]};
-            }
-        `}
-
     @media only screen and (min-width: ${breakPoints.md}px) {
+        position: fixed;
+        justify-content: flex-end;
+        flex-direction: column;
         gap: 0;
+        right: ${containerStylesMap.position[breakPoints.md]};
+        top: ${containerStylesMap.position[breakPoints.md]};
+    }
+
+    @media only screen and (min-width: ${breakPoints.lg}px) {
+        right: ${containerStylesMap.position[breakPoints.lg]};
+        top: ${containerStylesMap.position[breakPoints.lg]};
     }
 `
 

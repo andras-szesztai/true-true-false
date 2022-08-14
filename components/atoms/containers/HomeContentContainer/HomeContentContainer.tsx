@@ -16,14 +16,14 @@ const HomeContentContainer = styled.div`
     justify-items: center;
 
     gap: ${stylesMap.gap.base}px;
-    padding-block: ${space.md}px;
+    padding: ${space.md}px 0;
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
         gap: ${stylesMap.gap[breakPoints.sm]}px;
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
-        padding-block: 0px;
+        padding: 0px;
     }
 
     @media only screen and (min-width: ${breakPoints.lg}px) {

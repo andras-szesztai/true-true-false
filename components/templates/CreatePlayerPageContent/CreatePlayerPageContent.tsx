@@ -3,6 +3,7 @@ import { SquareLoader } from 'react-spinners'
 
 import { GameContainer } from 'components/atoms/containers/GameContainer'
 import { RoomSlugSizes, RoomSlugText } from 'components/atoms/RoomSlugText'
+import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { CreatePlayer } from 'components/organisms/CreatePlayer'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import { designTokens } from 'styles/designTokens'
@@ -17,28 +18,30 @@ const CreatePlayerPageContent = ({ isAdmin }: Props) => {
     } = useRouter()
     return (
         <GameContainer>
-            <RoomDataHandler roomSlug={roomSlug!}>
-                {(roomData, roomDataLoading) =>
-                    roomDataLoading ? (
-                        <SquareLoader
-                            color={color.black}
-                            loading
-                            size={space.lg}
-                        />
-                    ) : (
-                        <>
-                            <RoomSlugText
-                                size={RoomSlugSizes.lg}
-                                slug={roomData?.slug}
+            <HomeContentContainer>
+                <RoomDataHandler roomSlug={roomSlug!}>
+                    {(roomData, roomDataLoading) =>
+                        roomDataLoading ? (
+                            <SquareLoader
+                                color={color.black}
+                                loading
+                                size={space.lg}
                             />
-                            <CreatePlayer
-                                roomSlug={roomData?.slug}
-                                isAdmin={isAdmin}
-                            />
-                        </>
-                    )
-                }
-            </RoomDataHandler>
+                        ) : (
+                            <>
+                                <RoomSlugText
+                                    size={RoomSlugSizes.lg}
+                                    slug={roomData?.slug}
+                                />
+                                <CreatePlayer
+                                    roomSlug={roomData?.slug}
+                                    isAdmin={isAdmin}
+                                />
+                            </>
+                        )
+                    }
+                </RoomDataHandler>
+            </HomeContentContainer>
         </GameContainer>
     )
 }

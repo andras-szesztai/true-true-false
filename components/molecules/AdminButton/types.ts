@@ -11,4 +11,6 @@ export type AdminButtonProps = Pick<GetPlayerResponseSuccess, 'role'> &
         apiRoute?: string
         size?: ButtonSizes
         noSuccessMessage?: boolean
+        onSuccess?: () => void
+        customError?: string
     }

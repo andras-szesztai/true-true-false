@@ -8,8 +8,6 @@ const { space, fontSize, color, breakPoints } = designTokens
 
 const stylesMap = {
     position: {
-        base: `${space.sm}px`,
-        [breakPoints.sm]: `${space.base}px`,
         [breakPoints.md]: `${space.md}px`,
         [breakPoints.lg]: `${space.lg}px`,
     },
@@ -21,22 +19,19 @@ const stylesMap = {
 }
 
 export const Container = styled.div`
-    position: fixed;
-    display: flex;
+    display: grid;
     gap: ${space.base}px;
+    grid-auto-flow: column;
     align-items: center;
 
-    bottom: ${stylesMap.position.base};
-    left: ${stylesMap.position.base};
     font-size: ${stylesMap.fontSize.base};
 
     @media only screen and (min-width: ${breakPoints.sm}px) {
-        bottom: ${stylesMap.position[breakPoints.sm]};
-        left: ${stylesMap.position[breakPoints.sm]};
         font-size: ${stylesMap.fontSize[breakPoints.sm]};
     }
 
     @media only screen and (min-width: ${breakPoints.md}px) {
+        position: fixed;
         bottom: ${stylesMap.position[breakPoints.md]};
         left: ${stylesMap.position[breakPoints.md]};
     }

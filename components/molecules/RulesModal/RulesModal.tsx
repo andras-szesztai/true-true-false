@@ -1,20 +1,16 @@
-import { useToggle, useWindowSize } from 'react-use'
+import { useToggle } from 'react-use'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { Modal } from 'components/atoms/Modal'
-import { designTokens } from 'styles/designTokens'
 
 import { Container } from './styles'
 import { RULES_PARAGRAPHS } from './constants'
 
 const RulesModal = () => {
-    const { width } = useWindowSize()
     const [isOpen, toggleIsOpen] = useToggle(false)
-
-    const isMobileSize = width <= designTokens.breakPoints.md
     return (
         <>
-            <Container isFixed={!isMobileSize}>
+            <Container>
                 <Button
                     size={ButtonSizes.sm}
                     text="How to Play?"

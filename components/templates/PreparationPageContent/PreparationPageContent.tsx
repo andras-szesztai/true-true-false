@@ -58,11 +58,7 @@ const PreparationPageContent = ({ room, player, players }: Props) => {
     const allReady = !players.some((d) => d.showLoading)
     return (
         <HomeContentContainer>
-            <RoomSlugText
-                slug={room.slug}
-                size={RoomSlugSizes.md}
-                isFixed={!isMobileSize}
-            />
+            <RoomSlugText slug={room.slug} size={RoomSlugSizes.md} />
             <PlayersBoard
                 player={player}
                 players={players}
