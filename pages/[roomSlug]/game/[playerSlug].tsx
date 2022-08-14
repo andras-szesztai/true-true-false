@@ -2,16 +2,18 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { RoomStage } from '@prisma/client'
 import { SquareLoader } from 'react-spinners'
+import { orderBy } from 'lodash'
 
 import { GameContainer } from 'components/atoms/containers/GameContainer'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
+import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { RoomDataHandler } from 'components/organisms/RoomDataHandler'
 import { PlayersDataHandler } from 'components/organisms/PlayersDataHandler'
 import { PlayerDataHandler } from 'components/organisms/PlayerDataHandler'
-import { BecomeAdminButton } from 'components/molecules/BecomeAdminButton'
 import { LobbyPageContent } from 'components/templates/LobbyPageContent'
 import { PreparationPageContent } from 'components/templates/PreparationPageContent'
 import { GamePageContent } from 'components/templates/GamePageContent'
+import { ResultsPageContent } from 'components/templates/ResultsPageContent'
 import { GENERAL_ERROR } from 'constants/messages'
 import { APP_NAME } from 'constants/appName'
 import {
@@ -81,7 +83,9 @@ const PlayerGamePage = () => {
                             <Head>
                                 <title>{APP_NAME} - Results</title>
                             </Head>
-                            <div>End</div>
+                            <ResultsPageContent
+                                players={orderBy(playersData, 'score', 'desc')}
+                            />
                         </>
                     )
 

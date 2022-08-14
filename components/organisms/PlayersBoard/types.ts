@@ -5,9 +5,9 @@ import {
 } from 'types/apiResponses'
 
 export interface Props {
-    player: GetPlayerResponseSuccess
     players: GetPlayersResponseSuccess
     size: PlayerTileSize
+    player?: GetPlayerResponseSuccess
     isFixed?: boolean
     isLoading?: boolean
     fullWidth?: boolean

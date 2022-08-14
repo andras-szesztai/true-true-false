@@ -213,61 +213,105 @@ export const NameContainer = styled.div<Pick<Props, StyleProps>>`
 
 const scoreContainerStylesMap = {
     width: {
-        base: `${space.xl}px`,
-        [breakPoints.sm]: `${space.xxl}px`,
-        [breakPoints.md]: `${space['3xl']}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.xl}px`,
+            [PlayerTileSize.lg]: `${space.xxl}px`,
+        },
+        [breakPoints.sm]: {
+            [PlayerTileSize.md]: `${space.xxl}px`,
+            [PlayerTileSize.lg]: `${space['4xl']}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space['3xl']}px`,
+            [PlayerTileSize.lg]: `${space['5xl']}px`,
+        },
     },
     paddingRight: {
-        base: `${space.base}px`,
-        [breakPoints.md]: `${space.md}px`,
+        base: {
+            [PlayerTileSize.md]: `${space.base}px`,
+            [PlayerTileSize.lg]: `${space.md}px`,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: `${space.md}px`,
+            [PlayerTileSize.lg]: `${space.lg}px`,
+        },
     },
 }
 
-export const ScoreContainer = styled.div`
+export const ScoreContainer = styled.div<Pick<Props, 'size'>>`
     align-self: stretch;
     position: relative;
     display: flex;
     align-items: center;
 
-    width: ${scoreContainerStylesMap.width.base};
-    padding-right: ${scoreContainerStylesMap.paddingRight.base};
+    ${({ size }) => css`
+        width: ${scoreContainerStylesMap.width.base[size]};
+        padding-right: ${scoreContainerStylesMap.paddingRight.base[size]};
 
-    @media only screen and (min-width: ${breakPoints.sm}px) {
-        width: ${scoreContainerStylesMap.width[breakPoints.sm]};
-    }
+        @media only screen and (min-width: ${breakPoints.sm}px) {
+            width: ${scoreContainerStylesMap.width[breakPoints.sm][size]};
+        }
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        width: ${scoreContainerStylesMap.width[breakPoints.md]};
-        padding-right: ${scoreContainerStylesMap.paddingRight[breakPoints.md]};
-    }
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            width: ${scoreContainerStylesMap.width[breakPoints.md][size]};
+            padding-right: ${scoreContainerStylesMap.paddingRight[
+                breakPoints.md
+            ][size]};
+        }
+    `}
 `
 
 export const ScoreBar = styled.span<{ width: number }>`
     width: ${({ width }) => width * 100}%;
     height: 50%;
     background: ${color.black};
-`
 
-export const StarContainer = styled.span`
-    position: absolute;
-    left: ${space.xxs}px;
-    top: 50%;
-    transform: translateY(-50%);
+    @media only screen and (min-width: ${breakPoints.md}px) {
+        height: 60%;
+    }
 `
 
 const scoreNumberContainerStylesMap = {
     fontSize: {
-        base: fontSize.sm,
-        [breakPoints.md]: fontSize.base,
+        base: {
+            [PlayerTileSize.md]: fontSize.sm,
+            [PlayerTileSize.lg]: fontSize.base,
+        },
+        [breakPoints.md]: {
+            [PlayerTileSize.md]: fontSize.base,
+            [PlayerTileSize.lg]: fontSize.md,
+        },
     },
 }
 
-export const ScoreNumberContainer = styled.span`
+export const StarContainer = styled.span<Pick<Props, 'size'>>`
+    position: absolute;
+    left: ${space.xxs}px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    ${({ size }) => css`
+        font-size: ${scoreNumberContainerStylesMap.fontSize.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            font-size: ${scoreNumberContainerStylesMap.fontSize[breakPoints.md][
+                size
+            ]};
+        }
+    `}
+`
+
+export const ScoreNumberContainer = styled.span<Pick<Props, 'size'>>`
     position: absolute;
     right: 0px;
-    font-size: ${scoreNumberContainerStylesMap.fontSize.base};
 
-    @media only screen and (min-width: ${breakPoints.md}px) {
-        font-size: ${scoreNumberContainerStylesMap.fontSize[breakPoints.md]};
-    }
+    ${({ size }) => css`
+        font-size: ${scoreNumberContainerStylesMap.fontSize.base[size]};
+
+        @media only screen and (min-width: ${breakPoints.md}px) {
+            font-size: ${scoreNumberContainerStylesMap.fontSize[breakPoints.md][
+                size
+            ]};
+        }
+    `}
 `

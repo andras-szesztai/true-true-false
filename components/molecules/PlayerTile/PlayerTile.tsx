@@ -74,12 +74,14 @@ const PlayerTile = ({
                 <p>{name}</p>
             </NameContainer>
             {!isUndefined(score) && (
-                <ScoreContainer>
+                <ScoreContainer size={size}>
                     <ScoreBar width={maxScore ? score / maxScore : 0} />
                     {score === maxScore && !!maxScore && (
-                        <StarContainer>⭐</StarContainer>
+                        <StarContainer size={size}>⭐</StarContainer>
                     )}
-                    <ScoreNumberContainer>{score}</ScoreNumberContainer>
+                    <ScoreNumberContainer size={size}>
+                        {score}
+                    </ScoreNumberContainer>
                 </ScoreContainer>
             )}
         </Container>
