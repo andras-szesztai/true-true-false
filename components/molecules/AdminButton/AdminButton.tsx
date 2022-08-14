@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Role } from '@prisma/client'
-import { usePrevious, useToggle } from 'react-use'
+import { useMeasure, usePrevious, useToggle } from 'react-use'
 
 import { Button, ButtonSizes } from 'components/atoms/Button'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
@@ -16,6 +16,7 @@ const AdminButton = ({
     size = ButtonSizes.md,
     noSuccessMessage,
 }: AdminButtonProps) => {
+    const [ref, { height: buttonHeight }] = useMeasure<HTMLDivElement>()
     const [isLoading, setIsLoading] = useToggle(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useToggle(false)
@@ -49,7 +50,7 @@ const AdminButton = ({
     }
 
     return (
-        <>
+        <div ref={ref} style={{ minHeight: buttonHeight }}>
             {error && <ScreenMessage text={error} />}
             {text && role === Role.ADMIN && !success && (
                 <Button
@@ -63,7 +64,7 @@ const AdminButton = ({
             {!noSuccessMessage && success && (
                 <ScreenMessage text="Just One More Second..." />
             )}
-        </>
+        </div>
     )
 }
 

@@ -45,17 +45,7 @@ const StatementSelectionBoard = ({
         )
     }
 
-    if (submitState.data || isPlayerReady) {
-        return (
-            <ScreenMessage
-                text={
-                    isAllReady
-                        ? 'Everyone is ready! 🚀'
-                        : 'Waiting for Others to Select ⏳'
-                }
-            />
-        )
-    }
+    const isSubmitted = submitState.data || isPlayerReady
 
     return (
         <>
@@ -96,13 +86,22 @@ const StatementSelectionBoard = ({
                 ))}
             </div>
             {submitState.error && <ErrorMessage text="Please Try Again!" />}
-            {!isCurrentPlayerSelected && (
+            {!isCurrentPlayerSelected && !isSubmitted && (
                 <Button
                     text="Submit"
                     onClick={submitSelectedStatement}
                     size={ButtonSizes.md}
                     isDisabled={!selectedId}
                     isLoading={submitState.loading}
+                />
+            )}
+            {(submitState.data || isPlayerReady) && isSubmitted && (
+                <ScreenMessage
+                    text={
+                        isAllReady
+                            ? 'Everyone is ready! 🚀'
+                            : 'Waiting for Others to Select ⏳'
+                    }
                 />
             )}
         </>

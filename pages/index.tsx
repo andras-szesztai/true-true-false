@@ -17,7 +17,6 @@ import { APP_NAME } from 'constants/appName'
 // TEST
 // - e2e test with cypress
 // FIX
-// - Switch between submit & waiting (should keep statements in view)
 // - Solution for Mobile slug and decrease questions button (not fixed after certain width)
 
 const Home = () => (
