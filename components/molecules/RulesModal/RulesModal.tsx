@@ -1,18 +1,17 @@
+import { useToggle, useWindowSize } from 'react-use'
+
 import { Button, ButtonSizes } from 'components/atoms/Button'
-import { useRef } from 'react'
-import { useClickAway, useToggle, useWindowSize } from 'react-use'
+import { Modal } from 'components/atoms/Modal'
 import { designTokens } from 'styles/designTokens'
 
-import { Container, ModalContainer } from './styles'
+import { Container } from './styles'
+import { RULES_PARAGRAPHS } from './constants'
 
 const RulesModal = () => {
     const { width } = useWindowSize()
     const [isOpen, toggleIsOpen] = useToggle(false)
-    const modalRef = useRef<HTMLDivElement>(null)
-    useClickAway(modalRef, toggleIsOpen)
 
     const isMobileSize = width <= designTokens.breakPoints.md
-
     return (
         <>
             <Container isFixed={!isMobileSize}>
@@ -20,9 +19,19 @@ const RulesModal = () => {
                     size={ButtonSizes.sm}
                     text="Rules"
                     onClick={toggleIsOpen}
+                    isDisabled={isOpen}
                 />
             </Container>
-            {isOpen && <ModalContainer ref={modalRef}>Hello</ModalContainer>}
+            <Modal
+                isOpen={isOpen}
+                handleClose={() => {
+                    toggleIsOpen(false)
+                }}
+            >
+                {RULES_PARAGRAPHS.map(({ key, text }) => (
+                    <p key={key}>{text}</p>
+                ))}
+            </Modal>
         </>
     )
 }

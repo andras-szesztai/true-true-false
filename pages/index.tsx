@@ -5,7 +5,7 @@ import { HomePageContainer } from 'components/atoms/containers/HomePageContainer
 import { Link, LinkSizes } from 'components/atoms/Link'
 import { MainTitle } from 'components/atoms/MainTitle'
 import { JoinRoom } from 'components/organisms/JoinRoom'
-import { RulesModal } from 'components/organisms/RulesModal'
+import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_NAME } from 'constants/appName'
 
 // FEAT
