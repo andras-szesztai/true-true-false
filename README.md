@@ -20,4 +20,6 @@ Check it out at [TrueTrueFalse App](https://truetruefalse.netlify.app/)
 
 ## API Routes Visualized
 
+[Figma Design](https://www.figma.com/file/bCWEjEJmUVKwrPMG2Ava2b/TrueTrueFalse?node-id=2%3A2)
+
 [Excalidraw Board](https://app.excalidraw.com/l/4EKX9x2X0PW/6kI83xbWmcg)
