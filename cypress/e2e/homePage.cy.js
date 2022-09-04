@@ -21,29 +21,14 @@ describe('Home Page', () => {
     })
 
     it('redirects to correct url & creates room on @createRoomButton click', () => {
-        cy.intercept('/api/room', (req) => {
-            req.reply({
-                body: {
-                    slug: 'testS',
-                },
-                delay: 10,
-            })
-        }).as('createRoomRequest')
+        cy.intercept('/api/room', { slug: 'testS' }).as('createRoomRequest')
         cy.intercept('/api/room/testS', {
             slug: 'testS',
             stage: 'LOBBY',
         })
         cy.intercept('/api/room/testS/players', [])
         cy.get('@createRoomButton').click()
-        cy.get('h1')
-            .contains('🧹🧽 One Second, We Are Preparing Your Room...')
-            .should('be.visible')
         cy.url().should('be.equal', `${Cypress.config('baseUrl')}/create-room`)
-        cy.wait('@createRoomRequest')
-        cy.url().should(
-            'be.equal',
-            `${Cypress.config('baseUrl')}/testS/create-player/admin`
-        )
     })
 
     it('types into @joinRoomInput and enables @joinButton if roomId is correct', () => {})
