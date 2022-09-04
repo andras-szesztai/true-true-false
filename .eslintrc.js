@@ -1,5 +1,11 @@
 module.exports = {
-    extends: ['next/core-web-vitals', 'airbnb', 'airbnb/hooks', 'prettier'],
+    extends: [
+        'next/core-web-vitals',
+        'airbnb',
+        'airbnb/hooks',
+        'prettier',
+        'plugin:cypress/recommended',
+    ],
     plugins: ['react', '@typescript-eslint', 'prettier'],
     env: {
         browser: true,
@@ -23,6 +29,10 @@ module.exports = {
         'react/prop-types': 'off',
         'react/jsx-props-no-spreading': 'off',
         'import/prefer-default-export': 'off',
+        'import/no-extraneous-dependencies': [
+            'error',
+            { devDependencies: true },
+        ],
         'no-param-reassign': 'off',
         'import/extensions': [
             'error',
