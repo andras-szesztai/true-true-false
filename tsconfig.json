@@ -19,7 +19,8 @@
             "styles/*": ["styles/*"],
             "utils/*": ["utils/*"],
             "components/*": ["components/*"]
-        }
+        },
+        "types": ["responselike"]
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]

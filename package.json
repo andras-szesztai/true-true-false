@@ -27,6 +27,7 @@
         "@types/lodash": "^4.14.182",
         "@types/node": "^18.0.3",
         "@types/react": "^18.0.15",
+        "@types/responselike": "^3.0.0",
         "@typescript-eslint/eslint-plugin": "^5.30.5",
         "cypress": "^10.6.0",
         "eslint": "^8.19.0",
