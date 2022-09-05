@@ -30,6 +30,7 @@
         "@types/responselike": "^3.0.0",
         "@typescript-eslint/eslint-plugin": "^5.30.5",
         "cypress": "^10.6.0",
+        "cypress-plugin-tab": "^1.0.5",
         "eslint": "^8.19.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-next": "^12.2.2",

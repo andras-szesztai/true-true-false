@@ -5,6 +5,5 @@ export default defineConfig({
     e2e: {
         baseUrl: 'http://localhost:3000',
         projectId: '1wc953',
-        supportFile: false,
     },
 })

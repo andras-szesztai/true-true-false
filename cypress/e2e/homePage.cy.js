@@ -5,17 +5,20 @@
 // - make testS and invalid fixture or just const
 
 describe('Home Page', () => {
+    const TEST_SLUG = '@tEsT'
     beforeEach(() => {
         cy.visit('/')
         cy.get('a').contains('Create a Room').as('createRoomButton')
         cy.get('input').as('joinRoomInput')
         cy.get('a').contains('Join').as('joinButton')
         cy.get('button').contains('How to Play?').as('howToPlayButton')
-        cy.intercept('/api/room/testS', {
-            slug: 'testS',
-            stage: 'LOBBY',
-        }).as('getRoomRequestValid')
-        cy.intercept('/api/room/testS/players', [])
+        cy.intercept(`/api/room/${TEST_SLUG}`, { slug: TEST_SLUG }).as(
+            'getRoomRequestValid'
+        )
+        cy.intercept(`/api/room/${TEST_SLUG}/players`, [])
+        cy.intercept('/_next/static/development/_devPagesManifest.json').as(
+            'pageLoad'
+        )
     })
 
     it('displays correct elements with correct text on mount', () => {
@@ -33,14 +36,14 @@ describe('Home Page', () => {
     })
 
     it('redirects to correct url & creates room on @createRoomButton click', () => {
-        cy.intercept('/api/room', { slug: 'testS' }).as('createRoomRequest')
+        cy.intercept('/api/room', { slug: TEST_SLUG }).as('createRoomRequest')
         cy.get('@createRoomButton').click()
         cy.url().should('be.equal', `${Cypress.config('baseUrl')}/create-room`)
     })
 
     it('types into @joinRoomInput and enables @joinButton if roomId is correct', () => {
-        cy.intercept('/api/room/inVal').as('getRoomRequestInvalid')
-        cy.get('@joinRoomInput').type('inVal')
+        cy.intercept('/api/room/inV@l').as('getRoomRequestInvalid')
+        cy.get('@joinRoomInput').type('inV@l')
         cy.wait('@getRoomRequestInvalid')
         cy.get('span')
             .contains('Could Not Find Room By Provided ID')
@@ -48,7 +51,7 @@ describe('Home Page', () => {
         cy.get('@joinButton')
             .should('have.css', 'background-color')
             .and('eq', 'rgb(249, 218, 168)')
-        cy.get('@joinRoomInput').clear().type('testS')
+        cy.get('@joinRoomInput').clear().type(TEST_SLUG)
         cy.wait('@getRoomRequestValid')
         cy.get('span')
             .contains('Could Not Find Room By Provided ID')
@@ -59,13 +62,25 @@ describe('Home Page', () => {
         cy.get('@joinButton').click()
         cy.url().should(
             'be.equal',
-            `${Cypress.config('baseUrl')}/testS/create-player`
+            `${Cypress.config('baseUrl')}/${TEST_SLUG}/create-player`
         )
     })
 
-    it('redirects to room lobby on enabled @joinButton click', () => {})
+    it('opens game rules on @howToPlayButton click', () => {
+        cy.get('p').contains('How to Play').should('not.exist')
+        cy.get('@howToPlayButton').click()
+        cy.get('p').contains('How to Play').should('be.visible')
+        cy.get('body').click(0, 0)
+        cy.get('p').contains('How to Play').should('not.exist')
+    })
 
-    it('opens game rules on @howToPlayButton click', () => {})
-
-    it('focuses on elements with keyboard navigation', () => {})
+    it.only('focuses on elements with keyboard navigation', () => {
+        cy.wait('@pageLoad')
+        cy.get('body').tab()
+        cy.get('@createRoomButton').then((button) => {
+            cy.focused().should('contain', button.text())
+        })
+        cy.tab()
+        // Tab the rest
+    })
 })
