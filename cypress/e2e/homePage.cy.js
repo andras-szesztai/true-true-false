@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-// TODO
-// - make create-room POST
-// - make testS and invalid fixture or just const
-
 describe('Home Page', () => {
     const TEST_SLUG = '@tEsT'
     beforeEach(() => {
@@ -25,9 +21,11 @@ describe('Home Page', () => {
         cy.get('h1').contains('TrueTrueFalse').should('be.visible')
         cy.get('@createRoomButton').should('be.visible')
         cy.get('@joinRoomInput').should('be.visible')
-        cy.get('@joinRoomInput')
-            .invoke('attr', 'placeholder')
-            .should('contain', 'Enter Room ID')
+        cy.get('@joinRoomInput').should(
+            'have.attr',
+            'placeholder',
+            'Enter Room ID'
+        )
         cy.get('@joinButton').should('be.visible')
         cy.get('@joinButton')
             .should('have.css', 'background-color')
@@ -81,6 +79,17 @@ describe('Home Page', () => {
             cy.focused().should('contain', button.text())
         })
         cy.tab()
-        // Tab the rest
+        cy.get('@joinRoomInput').then((input) => {
+            cy.focused().should('contain', input.text())
+            cy.focused().should('have.attr', 'placeholder', 'Enter Room ID')
+        })
+        cy.tab()
+        cy.get('@joinButton').then((button) => {
+            cy.focused().should('contain', button.text())
+        })
+        cy.tab()
+        cy.get('@howToPlayButton').then((button) => {
+            cy.focused().should('contain', button.text())
+        })
     })
 })

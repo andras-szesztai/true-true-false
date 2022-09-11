@@ -12,6 +12,7 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - Review rules
 // TEST
 // - e2e test with cypress
+// - make all .create to POST
 
 const Home = () => (
     <>
