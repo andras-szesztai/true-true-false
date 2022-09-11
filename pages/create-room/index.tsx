@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import useSWR from 'swr'
 
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
 import { fetcher } from 'utils/fetcher'
-import Head from 'next/head'
 
 import { PostRoomResponse } from 'types/apiResponses'
 import { APP_NAME } from 'constants/appName'

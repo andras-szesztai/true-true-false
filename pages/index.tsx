@@ -12,7 +12,21 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - Review rules
 // TEST
 // - e2e test with cypress
+// REFACTOR
 // - make all .create to POST
+
+// E2E Pages:
+// [x] home
+// []  404
+// []  create room
+// []  room slug without player & slug/game without player
+// []  create player (admin incl)
+// []  room slug without player
+// []  Lobby
+// []  Preparation
+// []  Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
+// []  Results page
+// []  room deleted
 
 const Home = () => (
     <>

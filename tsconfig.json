@@ -22,6 +22,11 @@
         },
         "types": ["responselike"]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "cypress/e2e/homePage.cy.js"
+    ],
     "exclude": ["node_modules", "e2e.ts"]
 }
