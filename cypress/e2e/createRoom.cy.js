@@ -3,12 +3,6 @@
 describe('Create Room Page', () => {
     const TEST_SLUG = '@tEsT'
     beforeEach(() => {
-        cy.visit('/create-room')
-        cy.get('h1')
-            .contains('One Second, We Are Preparing Your Room')
-            .as('loadingText')
-    })
-    it('creates room with returned slug as id & redirects to create-player (admin) page', () => {
         cy.intercept('/api/room', (req) => {
             req.reply({
                 delay: 3000,
@@ -17,6 +11,12 @@ describe('Create Room Page', () => {
                 },
             })
         }).as('createRoomRequest')
+        cy.visit('/create-room')
+        cy.get('h1')
+            .contains('One Second, We Are Preparing Your Room')
+            .as('loadingText')
+    })
+    it('creates room with returned slug as id & redirects to create-player (admin) page', () => {
         cy.intercept(`/api/room/${TEST_SLUG}`, { slug: TEST_SLUG })
         cy.intercept(`/api/room/${TEST_SLUG}/players`, [])
         cy.get('@loadingText').should('be.visible')
