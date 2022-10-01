@@ -73,7 +73,11 @@ describe('Home Page', () => {
     })
 
     it.only('focuses on elements with keyboard navigation', () => {
-        // cy.wait('@pageLoad')
+        cy.url().then((url) => {
+            if (url.includes('local')) {
+                cy.wait('@pageLoad')
+            }
+        })
         cy.get('body').tab()
         cy.get('@createRoomButton').then((button) => {
             cy.focused().should('contain', button.text())

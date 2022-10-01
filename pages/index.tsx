@@ -14,6 +14,7 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - e2e test with cypress
 // REFACTOR
 // - make all .create to POST
+// - prisma DB to prod
 
 // E2E Pages:
 // [x] home
