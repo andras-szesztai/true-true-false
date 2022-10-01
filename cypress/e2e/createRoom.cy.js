@@ -11,15 +11,16 @@ describe('Create Room Page', () => {
     it('creates room with returned slug as id & redirects to create-player (admin) page', () => {
         cy.intercept('/api/room', (req) => {
             req.reply({
-                delay: 500,
+                delay: 1000,
                 body: {
                     slug: TEST_SLUG,
                 },
             })
-        })
+        }).as('createRoomRequest')
         cy.intercept(`/api/room/${TEST_SLUG}`, { slug: TEST_SLUG })
         cy.intercept(`/api/room/${TEST_SLUG}/players`, [])
         cy.get('@loadingText').should('be.visible')
+        cy.wait('@createRoomRequest')
         cy.url().should(
             'be.equal',
             `${Cypress.config('baseUrl')}/${TEST_SLUG}/create-player/admin`
@@ -28,11 +29,12 @@ describe('Create Room Page', () => {
     it('display error message if request to create room failed', () => {
         cy.intercept('GET', '/api/room', (req) => {
             req.reply({
-                delay: 500,
+                delay: 1000,
                 statusCode: 400,
             })
-        })
+        }).as('createRoomRequest')
         cy.get('@loadingText').should('be.visible')
+        cy.wait('@createRoomRequest')
         cy.get('@loadingText').should('not.exist')
         cy.get('h1')
             .contains(
