@@ -40,20 +40,22 @@ describe('Home Page', () => {
     })
 
     it('types into @joinRoomInput and enables @joinButton if roomId is correct', () => {
-        cy.intercept('/api/room/inV@l').as('getRoomRequestInvalid')
+        const errorMessage = 'Could Not Find Room By Provided ID'
+        cy.intercept('/api/room/inV@l', {
+            statusCode: 404,
+            body: {
+                error: errorMessage,
+            },
+        }).as('getRoomRequestInvalid')
         cy.get('@joinRoomInput').type('inV@l')
         cy.wait('@getRoomRequestInvalid')
-        cy.get('span')
-            .contains('Could Not Find Room By Provided ID')
-            .should('be.visible')
+        cy.get('span').contains(errorMessage).should('be.visible')
         cy.get('@joinButton')
             .should('have.css', 'background-color')
             .and('eq', 'rgb(249, 218, 168)')
         cy.get('@joinRoomInput').clear().type(TEST_SLUG)
         cy.wait('@getRoomRequestValid')
-        cy.get('span')
-            .contains('Could Not Find Room By Provided ID')
-            .should('not.be.exist')
+        cy.get('span').contains(errorMessage).should('not.be.exist')
         cy.get('@joinButton')
             .should('have.css', 'background-color')
             .and('eq', 'rgb(246, 193, 92)')
