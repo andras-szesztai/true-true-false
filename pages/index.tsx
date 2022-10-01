@@ -15,17 +15,17 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - prisma DB to prod
 
 // E2E Pages:
-// [x] home
+// [x] Home
 // [x] 404
-// [x] create room
-// []  room slug without player & slug/game without player
-// []  create player (admin incl)
-// []  room slug without player
+// [x] Create room
+// [x]  Room slug without player & slug/game without player
+// []  Create player (admin incl)
+// []  Room slug without player
 // []  Lobby
 // []  Preparation
 // []  Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
 // []  Results page
-// []  room deleted
+// []  Room deleted
 
 const Home = () => (
     <>
