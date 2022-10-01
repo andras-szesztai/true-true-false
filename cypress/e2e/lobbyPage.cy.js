@@ -17,7 +17,6 @@ describe('Loggy Page', () => {
         isActive: true,
     }
     beforeEach(() => {
-        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         cy.intercept(`/api/room/${ROOM_SLUG}`, {
             slug: ROOM_SLUG,
             stage: 'LOBBY',
@@ -26,6 +25,7 @@ describe('Loggy Page', () => {
     })
 
     it('displays correct elements while waiting for players to join', () => {
+        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         const PLAYERS = [PLAYER_TWO, PLAYER_ONE]
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
@@ -44,6 +44,7 @@ describe('Loggy Page', () => {
     })
 
     it('display Start button for admin user', () => {
+        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
             ...PLAYER_ONE,
