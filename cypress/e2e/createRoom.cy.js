@@ -11,7 +11,7 @@ describe('Create Room Page', () => {
     it('creates room with returned slug as id & redirects to create-player (admin) page', () => {
         cy.intercept('/api/room', (req) => {
             req.reply({
-                delay: 1000,
+                delay: 3000,
                 body: {
                     slug: TEST_SLUG,
                 },
@@ -29,7 +29,7 @@ describe('Create Room Page', () => {
     it('display error message if request to create room failed', () => {
         cy.intercept('GET', '/api/room', (req) => {
             req.reply({
-                delay: 1000,
+                delay: 3000,
                 statusCode: 400,
             })
         }).as('createRoomRequest')

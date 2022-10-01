@@ -31,7 +31,10 @@ describe('Loggy Page', () => {
             slug: PLAYER_SLUG,
             ...PLAYER_ONE,
         })
-        cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS)
+        cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS).as(
+            'playersRequest'
+        )
+        cy.wait('@playersRequest')
         cy.get('h1').contains('2 Players in the Lobby').should('be.visible')
         cy.get('h1').contains('Waiting for Others to Join').should('be.visible')
         cy.get('h1').contains(ROOM_SLUG).should('be.visible')
