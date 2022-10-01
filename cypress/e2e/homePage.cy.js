@@ -72,7 +72,7 @@ describe('Home Page', () => {
         cy.get('p').contains('How to Play').should('not.exist')
     })
 
-    it('focuses on elements with keyboard navigation', () => {
+    it('is keyboard navigable', () => {
         cy.url().then((url) => {
             if (url.includes('local')) {
                 cy.wait('@pageLoad')
