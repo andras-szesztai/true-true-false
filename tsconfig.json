@@ -19,8 +19,16 @@
             "styles/*": ["styles/*"],
             "utils/*": ["utils/*"],
             "components/*": ["components/*"]
-        }
+        },
+        "types": ["responselike"]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "cypress/e2e/homePage.cy.js",
+        "cypress/support/component.js",
+        "cypress/support/commands.js"
+    ],
+    "exclude": ["node_modules", "e2e.ts"]
 }

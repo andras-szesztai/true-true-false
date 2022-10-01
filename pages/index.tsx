@@ -10,8 +10,22 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
 // - Review rules
-// TEST
-// - e2e test with cypress
+// REFACTOR
+// - make all .create to POST
+// - prisma DB to prod
+// - disabled attribute on a & buttons
+
+// E2E Pages:
+// [x] Home
+// [x] 404
+// [x] Create room
+// [x] Room slug without player & slug/game without player
+// [x] Create player
+// []  Lobby
+// []  Preparation
+// []  Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
+// []  Results page
+// []  Room deleted
 
 const Home = () => (
     <>
