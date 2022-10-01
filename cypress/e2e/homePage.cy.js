@@ -34,7 +34,7 @@ describe('Home Page', () => {
     })
 
     it('redirects to correct url & creates room on @createRoomButton click', () => {
-        cy.intercept('/api/room', { slug: TEST_SLUG }).as('createRoomRequest')
+        cy.intercept('/api/room', { slug: TEST_SLUG })
         cy.get('@createRoomButton').click()
         cy.url().should('be.equal', `${Cypress.config('baseUrl')}/create-room`)
     })
@@ -72,7 +72,7 @@ describe('Home Page', () => {
         cy.get('p').contains('How to Play').should('not.exist')
     })
 
-    it.only('focuses on elements with keyboard navigation', () => {
+    it('focuses on elements with keyboard navigation', () => {
         cy.url().then((url) => {
             if (url.includes('local')) {
                 cy.wait('@pageLoad')

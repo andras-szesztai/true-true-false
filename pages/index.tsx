@@ -10,16 +10,14 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
 // - Review rules
-// TEST
-// - e2e test with cypress
 // REFACTOR
 // - make all .create to POST
 // - prisma DB to prod
 
 // E2E Pages:
 // [x] home
-// []  404
-// []  create room
+// [x] 404
+// [x] create room
 // []  room slug without player & slug/game without player
 // []  create player (admin incl)
 // []  room slug without player
