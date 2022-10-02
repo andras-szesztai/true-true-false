@@ -17,7 +17,6 @@ describe('Idle Room Stage', () => {
         role: 'USER',
         slug: PLAYER_SLUG,
     }
-    const PLAYERS = [PLAYER_ONE, PLAYER_TWO]
 
     beforeEach(() => {
         cy.intercept(`/api/room/${ROOM_SLUG}`, {
@@ -25,9 +24,10 @@ describe('Idle Room Stage', () => {
             stage: 'GAME',
             roundStage: 'IDLE',
         }).as('roomRequest')
-        cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS).as(
-            'playersRequest'
-        )
+        cy.intercept(`/api/room/${ROOM_SLUG}/players`, [
+            PLAYER_ONE,
+            PLAYER_TWO,
+        ]).as('playersRequest')
     })
 
     it('should show Start First Round button for Admin', () => {
@@ -36,18 +36,13 @@ describe('Idle Room Stage', () => {
             PLAYER_ONE
         ).as('playerRequest')
         // TODO - PUT or POST
-        cy.intercept(
-            ` /api/room/${ROOM_SLUG}/start-round
-      `,
-            { success: true }
-        ).as('startRoundRequest')
+        cy.intercept(`/api/room/${ROOM_SLUG}/start-round`, {
+            success: true,
+        }).as('startRoundRequest')
         cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         cy.wait('@roomRequest')
         cy.wait('@playerRequest')
         cy.wait('@playersRequest')
-        PLAYERS.forEach((d) => {
-            cy.get('p').contains(d.name).should('be.visible')
-        })
         cy.get('button').contains('Start First Round').as('startButton')
         cy.get('@startButton').should('be.visible')
         cy.get('@startButton').should('be.enabled')
