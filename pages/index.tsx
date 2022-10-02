@@ -11,9 +11,8 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // MISC
 // - Review rules
 // REFACTOR
-// - make all .create to POST
-// - prisma DB to prod
-// - disabled attribute on a & buttons
+// - make all create requests to POST or update requests PUT
+// - disabled attribute on a & buttons & test update
 
 // E2E Pages:
 // [x] Home
@@ -21,11 +20,11 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // [x] Create room
 // [x] Room slug without player & slug/game without player
 // [x] Create player
-// []  Lobby
-// []  Preparation
-// []  Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
-// []  Results page
-// []  Room deleted
+// [x] Lobby
+// [x] Preparation
+// [ ] Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
+// [ ] Results page
+// [ ] Room deleted
 
 const Home = () => (
     <>

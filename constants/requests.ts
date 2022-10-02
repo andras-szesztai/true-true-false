@@ -15,16 +15,6 @@ export const GET_ROOM_REQUEST_FIELDS = {
     isDeleteStarted: true,
 }
 
-export const GET_PLAYERS_REQUEST_FIELDS = {
-    name: true,
-    emoji: true,
-    isActive: true,
-    id: true,
-    role: true,
-    showLoading: true,
-    score: true,
-}
-
 export const POST_PLAYER_REQUEST_FIELD = {
     id: true,
     slug: true,
@@ -40,6 +30,16 @@ export const GET_PLAYER_REQUEST_FIELD = {
     showLoading: true,
     score: true,
     selectedAnswerId: true,
+}
+
+export const GET_PLAYERS_REQUEST_FIELDS = {
+    name: true,
+    emoji: true,
+    isActive: true,
+    id: true,
+    role: true,
+    showLoading: true,
+    score: true,
 }
 
 export const GET_STATEMENT_FOR_QUESTION_REQUEST_FIELD = {
