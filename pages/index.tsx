@@ -19,7 +19,7 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // [x] 5. Create player
 // [x] 6. Lobby
 // [x] 7. Preparation
-// [ ] 8. Game Idle
+// [x] 8. Game Idle
 // [ ] 9. Game Question
 // [ ] 10. Game Question End
 // [ ] 11. Game Guess Reveal

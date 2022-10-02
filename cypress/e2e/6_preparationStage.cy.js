@@ -1,4 +1,4 @@
-/// <reference types="cypress" />]
+/// <reference types="cypress" />
 
 describe('Preparation Stage', () => {
     const ROOM_SLUG = '@tEsT'
