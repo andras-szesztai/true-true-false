@@ -1,4 +1,4 @@
-describe('Idle Room Stage', () => {
+describe('Idle Round Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'
     const PLAYER_ONE = {

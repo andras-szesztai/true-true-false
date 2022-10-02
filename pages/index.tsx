@@ -9,10 +9,11 @@ import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
-// - Review rules
-// - Search TODOs
+// - Review game rules
+// - Search for TODOs
+// - Test unhappy paths - error handling from server in UI
+// - Test endpoints
 // E2E Pages:
-// [ ] 10. Game Question End
 // [ ] 11. Game Guess Reveal
 // [ ] 12. Game Score Reveal
 // [ ] 13. Game Scoring,

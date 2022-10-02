@@ -1,4 +1,4 @@
-describe('Question Room Stage', () => {
+describe('Question Round Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'
     const PLAYER_ONE = {
@@ -46,6 +46,10 @@ describe('Question Room Stage', () => {
             PLAYER_ONE,
             PLAYER_TWO,
         ]).as('playersRequest')
+        cy.intercept(
+            `/api/room/${ROOM_SLUG}/statement/2/for-question`,
+            STATEMENTS
+        ).as('statementsRequest')
     })
 
     it('should display selectable statements & submit button for guessing player and admin features if admin', () => {
@@ -58,10 +62,6 @@ describe('Question Room Stage', () => {
         cy.intercept(`/api/room/${ROOM_SLUG}/update-round-stage/QUESTION_END`, {
             success: true,
         }).as('roundStageUpdateRequest')
-        cy.intercept(
-            `/api/room/${ROOM_SLUG}/statement/2/for-question`,
-            STATEMENTS
-        ).as('statementsRequest')
         cy.intercept(
             `/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`,
             PLAYER_ONE
@@ -100,11 +100,7 @@ describe('Question Room Stage', () => {
         cy.wait('@roundStageUpdateRequest')
     })
 
-    it.only('should display non-selectable statements for guessed player and no admin features if not admin', () => {
-        cy.intercept(
-            `/api/room/${ROOM_SLUG}/statement/2/for-question`,
-            STATEMENTS
-        ).as('statementsRequest')
+    it('should display non-selectable statements for guessed player and no admin features if not admin', () => {
         cy.intercept(
             `/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`,
             PLAYER_TWO
