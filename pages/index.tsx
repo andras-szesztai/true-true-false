@@ -12,14 +12,6 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - Review rules
 
 // E2E Pages:
-// [x] 1. Home
-// [x] 2. 404
-// [x] 3. Create room
-// [x] 4. Room slug without player & slug/game without player
-// [x] 5. Create player
-// [x] 6. Lobby
-// [x] 7. Preparation
-// [x] 8. Game Idle
 // [ ] 9. Game Question
 // [ ] 10. Game Question End
 // [ ] 11. Game Guess Reveal

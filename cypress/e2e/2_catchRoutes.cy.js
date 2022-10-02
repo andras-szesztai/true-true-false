@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Catch Routes', () => {
     const TEST_ROOM_SLUG = '@tEsT'
     beforeEach(() => {

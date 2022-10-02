@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Create Player Page', () => {
     const TEST_ROOM_SLUG = '@tEsT'
     const TEST_PLAYER_SLUG = '@PlayerSlug'

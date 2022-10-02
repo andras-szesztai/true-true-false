@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Loggy Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'

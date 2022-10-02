@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Create Room Page', () => {
     const TEST_SLUG = '@tEsT'
     it('creates room with returned slug as id & redirects to create-player (admin) page', () => {
