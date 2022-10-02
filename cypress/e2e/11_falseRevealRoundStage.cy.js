@@ -1,4 +1,4 @@
-describe('Guess Reveal Round Stage', () => {
+describe('False Reveal Round Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'
     const PLAYER_ONE = {
@@ -20,11 +20,12 @@ describe('Guess Reveal Round Stage', () => {
         slug: PLAYER_SLUG,
         score: 0,
     }
+    const FALSE_STATEMENT_ID = 2
     beforeEach(() => {
         cy.intercept(`/api/room/${ROOM_SLUG}`, {
             slug: ROOM_SLUG,
             stage: 'GAME',
-            roundStage: 'GUESS_REVEAL',
+            roundStage: 'FALSE_REVEAL',
             selectedPlayerId: 2,
             questionsLeft: 8,
         }).as('roomRequest')
@@ -33,7 +34,7 @@ describe('Guess Reveal Round Stage', () => {
             PLAYER_TWO,
         ]).as('playersRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/statement/2/for-reveal`, {
-            falseStatement: { id: 2 },
+            falseStatement: { id: FALSE_STATEMENT_ID },
             guesses: [{ id: 1, selectedAnswerId: 1 }],
         }).as('revealRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/statement/2/for-question`, {
@@ -43,7 +44,7 @@ describe('Guess Reveal Round Stage', () => {
 
     it('should display statements and Reveal Button if Player is ADMIN', () => {
         // TODO - PUT
-        cy.intercept(`/api/room/${ROOM_SLUG}/update-round-stage/FALSE_REVEAL`, {
+        cy.intercept(`/api/room/${ROOM_SLUG}/update-round-stage/SCORE_REVEAL`, {
             success: true,
         }).as('roundStageUpdateRequest')
         cy.intercept(
@@ -67,9 +68,22 @@ describe('Guess Reveal Round Stage', () => {
                         .contains(PLAYER_ONE.emoji)
                         .should('be.visible')
                 }
+                if (s.id === FALSE_STATEMENT_ID) {
+                    cy.get('p')
+                        .contains(s.text)
+                        .parent()
+                        .should('have.css', 'background-color')
+                        .and('eq', 'rgb(0, 0, 0)')
+                } else {
+                    cy.get('p')
+                        .contains(s.text)
+                        .parent()
+                        .should('have.css', 'background-color')
+                        .and('eq', 'rgb(253, 242, 228)')
+                }
             })
         })
-        cy.get('button').contains('Reveal False').as('revealButton')
+        cy.get('button').contains('Calculate Scores').as('revealButton')
         cy.get('@revealButton').should('be.visible')
         cy.get('@revealButton').should('not.be.disabled')
         cy.get('@revealButton').click()
@@ -99,8 +113,21 @@ describe('Guess Reveal Round Stage', () => {
                         .contains(PLAYER_ONE.emoji)
                         .should('be.visible')
                 }
+                if (s.id === FALSE_STATEMENT_ID) {
+                    cy.get('p')
+                        .contains(s.text)
+                        .parent()
+                        .should('have.css', 'background-color')
+                        .and('eq', 'rgb(0, 0, 0)')
+                } else {
+                    cy.get('p')
+                        .contains(s.text)
+                        .parent()
+                        .should('have.css', 'background-color')
+                        .and('eq', 'rgb(253, 242, 228)')
+                }
             })
         })
-        cy.contains('Reveal False').should('not.exist')
+        cy.contains('Calculate Scores').should('not.exist')
     })
 })
