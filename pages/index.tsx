@@ -10,7 +10,6 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
 // - Review rules
-
 // E2E Pages:
 // [ ] 9. Game Question
 // [ ] 10. Game Question End

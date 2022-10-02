@@ -20,12 +20,12 @@ describe('Preparation Stage', () => {
             slug: ROOM_SLUG,
             stage: 'PREPARATION',
             roundStage: 'IDLE',
-        })
+        }).as('roomRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
             role: 'ADMIN',
             ...PLAYER_ONE,
-        })
+        }).as('playerRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS).as(
             'playersRequest'
         )
@@ -37,6 +37,8 @@ describe('Preparation Stage', () => {
             }
         ).as('postStatementsRequest')
         cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
+        cy.wait('@roomRequest')
+        cy.wait('@playerRequest')
         cy.wait('@playersRequest')
     })
 

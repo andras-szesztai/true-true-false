@@ -19,19 +19,21 @@ describe('Loggy Stage', () => {
             slug: ROOM_SLUG,
             stage: 'LOBBY',
             roundStage: 'IDLE',
-        })
+        }).as('roomRequest')
     })
 
     it('displays correct elements while waiting for players to join', () => {
-        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         const PLAYERS = [PLAYER_TWO, PLAYER_ONE]
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
             ...PLAYER_ONE,
-        })
+        }).as('playerRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS).as(
             'playersRequest'
         )
+        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
+        cy.wait('@roomRequest')
+        cy.wait('@playerRequest')
         cy.wait('@playersRequest')
         cy.get('h1').contains('2 Players in the Lobby').should('be.visible')
         cy.get('h1').contains('Waiting for Others to Join').should('be.visible')
