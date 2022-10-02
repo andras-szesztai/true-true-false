@@ -1,6 +1,6 @@
 /// <reference types="cypress" />]
 
-describe('Preparation Page', () => {
+describe('Preparation Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'
     const PLAYER_ONE = {
@@ -52,9 +52,7 @@ describe('Preparation Page', () => {
             )
         })
         cy.get('button').contains('Submit')
-        cy.get('button')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(249, 218, 168)')
+        cy.get('button').should('be.disabled')
         PLAYERS.forEach((d) => {
             cy.get('p').contains(d.name).should('be.visible')
         })
@@ -64,16 +62,12 @@ describe('Preparation Page', () => {
         cy.get('textarea').each((value) => {
             cy.get(value).type('Some statement')
         })
-        cy.get('button')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(246, 193, 92)')
+        cy.get('button').should('not.be.disabled')
         cy.get('button').click()
         cy.wait('@postStatementsRequest')
         cy.get('h1').contains('Waiting for Others to Submit Statements')
         cy.get('button').contains('Start').should('be.visible')
-        cy.get('button')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(249, 218, 168)')
+        cy.get('button').should('be.disabled')
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
             role: 'USER',
@@ -88,6 +82,7 @@ describe('Preparation Page', () => {
             PLAYER_ONE,
             PLAYER_TWO,
         ]).as('playersReadyRequest')
+        // TODO - PUT
         cy.intercept(`/api/room/${ROOM_SLUG}/update-room-stage/GAME`, {
             success: true,
         }).as('gameStageRequest')
@@ -95,9 +90,7 @@ describe('Preparation Page', () => {
         cy.get('textarea').each((value) => {
             cy.get(value).type('Some statement')
         })
-        cy.get('button')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(246, 193, 92)')
+        cy.get('button').should('not.be.disabled')
         cy.get('button').click()
         cy.wait('@postStatementsRequest')
         cy.get('button').contains('Start').should('be.visible')

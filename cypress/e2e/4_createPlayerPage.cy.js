@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Create Room Page', () => {
+describe('Create Player Page', () => {
     const TEST_ROOM_SLUG = '@tEsT'
     const TEST_PLAYER_SLUG = '@PlayerSlug'
     const UNAVAILABLE_PLAYER_NAME = 'Woody'
@@ -29,7 +29,7 @@ describe('Create Room Page', () => {
     it('displays correct elements for player creation phase', () => {
         cy.wait('@roomIdRequestValid')
         cy.get('h1').first().contains('Room')
-        cy.get('h1').last().contains(`${TEST_ROOM_SLUG}`)
+        cy.get('h1').last().contains(TEST_ROOM_SLUG)
         cy.get('@createPlayerInput').should('be.visible')
         cy.get('@createPlayerInput').should(
             'have.attr',
@@ -40,6 +40,7 @@ describe('Create Room Page', () => {
     })
 
     it('displays disabled Enter Lobby button until available user name is selected', () => {
+        // TODO - POST
         cy.intercept(`/api/room/${TEST_ROOM_SLUG}/player`, {
             slug: TEST_PLAYER_SLUG,
         })
@@ -51,9 +52,7 @@ describe('Create Room Page', () => {
             slug: TEST_PLAYER_SLUG,
         }).as('playerRequest')
         cy.wait('@roomIdRequestValid')
-        cy.get('@enterButton')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(249, 218, 168)')
+        cy.get('@enterButton').should('be.disabled')
         cy.get('button').first().click()
         cy.get(
             '[data-name="smileys_people"] > :nth-child(1) > button > .emoji-img'
@@ -62,17 +61,13 @@ describe('Create Room Page', () => {
         cy.get('span')
             .contains('Sorry, Name & Emoji Combination Is Already Taken')
             .should('be.visible')
-        cy.get('@enterButton')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(249, 218, 168)')
+        cy.get('@enterButton').should('be.disabled')
         cy.get('@createPlayerInput').clear()
         cy.get('span')
             .contains('Sorry, Name & Emoji Combination Is Already Taken')
             .should('not.exist')
         cy.get('@createPlayerInput').type(AVAILABLE_PLAYER_NAME)
-        cy.get('@enterButton')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(246, 193, 92)')
+        cy.get('@enterButton').should('not.be.disabled')
         cy.get('@enterButton').click()
         cy.wait('@playerRequest')
         cy.url().should(

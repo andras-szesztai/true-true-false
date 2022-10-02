@@ -10,21 +10,23 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
 // - Review rules
-// REFACTOR
-// - make all create requests to POST or update requests PUT
-// - disabled attribute on a & buttons & test update
 
 // E2E Pages:
-// [x] Home
-// [x] 404
-// [x] Create room
-// [x] Room slug without player & slug/game without player
-// [x] Create player
-// [x] Lobby
-// [x] Preparation
-// [ ] Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
-// [ ] Results page
-// [ ] Room deleted
+// [x] 1. Home
+// [x] 2. 404
+// [x] 3. Create room
+// [x] 4. Room slug without player & slug/game without player
+// [x] 5. Create player
+// [x] 6. Lobby
+// [x] 7. Preparation
+// [ ] 8. Game Idle
+// [ ] 9. Game Question
+// [ ] 10. Game Question End
+// [ ] 11. Game Guess Reveal
+// [ ] 12. Game Score Reveal
+// [ ] 13. Game Scoring,
+// [ ] 14. Results page
+// [ ] 15. Room deleted
 
 const Home = () => (
     <>
