@@ -14,11 +14,11 @@ import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 // - Test unhappy paths - error handling from server in UI
 // - Test endpoints
 // E2E Pages:
-// [ ] 11. Game Guess Reveal
-// [ ] 12. Game Score Reveal
-// [ ] 13. Game Scoring,
-// [ ] 14. Results page
-// [ ] 15. Room deleted
+// [ ] 12. Game False Reveal
+// [ ] 13. Game Score Reveal
+// [ ] 14. Game Scoring
+// [ ] 15. Results page
+// [ ] 16. Room deleted
 
 const Home = () => (
     <>

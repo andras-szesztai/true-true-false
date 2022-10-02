@@ -20,12 +20,11 @@ describe('Question Room Stage', () => {
         slug: PLAYER_SLUG,
         score: 0,
     }
-
     beforeEach(() => {
         cy.intercept(`/api/room/${ROOM_SLUG}`, {
             slug: ROOM_SLUG,
             stage: 'GAME',
-            roundStage: 'QUESTION_END',
+            roundStage: 'GUESS_REVEAL',
             selectedPlayerId: 2,
             questionsLeft: 8,
         }).as('roomRequest')
@@ -44,7 +43,7 @@ describe('Question Room Stage', () => {
 
     it('should display statements and Reveal Button if Player is ADMIN', () => {
         // TODO - PUT
-        cy.intercept(`/api/room/${ROOM_SLUG}/update-round-stage/GUESS_REVEAL`, {
+        cy.intercept(`/api/room/${ROOM_SLUG}/update-round-stage/FALSE_REVEAL`, {
             success: true,
         }).as('roundStageUpdateRequest')
         cy.intercept(
@@ -59,11 +58,18 @@ describe('Question Room Stage', () => {
         cy.wait('@revealRequest')
         cy.wait('@playersRequest')
         cy.fixture('statements').then((statements) => {
-            statements.forEach((s) => {
+            statements.forEach((s, i) => {
                 cy.get('p').contains(s.text).should('be.visible')
+                if (i === 0) {
+                    cy.get('p')
+                        .contains(s.text)
+                        .siblings()
+                        .contains(PLAYER_ONE.emoji)
+                        .should('be.visible')
+                }
             })
         })
-        cy.get('button').contains('Reveal Guesses').as('revealButton')
+        cy.get('button').contains('Reveal False').as('revealButton')
         cy.get('@revealButton').should('be.visible')
         cy.get('@revealButton').should('not.be.disabled')
         cy.get('@revealButton').click()
@@ -84,8 +90,15 @@ describe('Question Room Stage', () => {
         cy.wait('@revealRequest')
         cy.wait('@playersRequest')
         cy.fixture('statements').then((statements) => {
-            statements.forEach((s) => {
+            statements.forEach((s, i) => {
                 cy.get('p').contains(s.text).should('be.visible')
+                if (i === 0) {
+                    cy.get('p')
+                        .contains(s.text)
+                        .siblings()
+                        .contains(PLAYER_ONE.emoji)
+                        .should('be.visible')
+                }
             })
         })
         cy.contains('Reveal Guesses').should('not.exist')

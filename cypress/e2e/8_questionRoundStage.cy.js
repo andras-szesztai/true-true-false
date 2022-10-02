@@ -19,20 +19,6 @@ describe('Question Round Stage', () => {
         slug: PLAYER_SLUG,
         score: 0,
     }
-    const STATEMENTS = [
-        {
-            id: 1,
-            text: 'A',
-        },
-        {
-            id: 2,
-            text: 'B',
-        },
-        {
-            id: 3,
-            text: 'C',
-        },
-    ]
 
     beforeEach(() => {
         cy.intercept(`/api/room/${ROOM_SLUG}`, {
@@ -46,10 +32,9 @@ describe('Question Round Stage', () => {
             PLAYER_ONE,
             PLAYER_TWO,
         ]).as('playersRequest')
-        cy.intercept(
-            `/api/room/${ROOM_SLUG}/statement/2/for-question`,
-            STATEMENTS
-        ).as('statementsRequest')
+        cy.intercept(`/api/room/${ROOM_SLUG}/statement/2/for-question`, {
+            fixture: 'statements',
+        }).as('statementsRequest')
     })
 
     it('should display selectable statements & submit button for guessing player and admin features if admin', () => {
@@ -71,8 +56,13 @@ describe('Question Round Stage', () => {
         cy.wait('@playerRequest')
         cy.wait('@playersRequest')
         cy.wait('@statementsRequest')
-        STATEMENTS.forEach((s) => {
-            cy.get('label').contains(s.text).should('be.visible')
+        cy.fixture('statements').then((statements) => {
+            statements.forEach((s, i) => {
+                cy.get('label').contains(s.text).should('be.visible')
+                if (i === 0) {
+                    cy.get('label').contains(s.text).as('statementToClick')
+                }
+            })
         })
         cy.get('div').contains('10 Questions').should('be.visible')
         cy.get('button').contains('Decrease').should('be.visible')
@@ -80,7 +70,7 @@ describe('Question Round Stage', () => {
         cy.get('button').contains('Submit').as('submitButton')
         cy.get('@submitButton').should('be.visible')
         cy.get('@submitButton').should('be.disabled')
-        cy.get('label').contains(STATEMENTS[0].text).click()
+        cy.get('@statementToClick').click()
         cy.get('@submitButton').should('not.be.disabled')
         cy.get('@submitButton').click()
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
@@ -110,8 +100,10 @@ describe('Question Round Stage', () => {
         cy.wait('@playerRequest')
         cy.wait('@playersRequest')
         cy.wait('@statementsRequest')
-        STATEMENTS.forEach((s) => {
-            cy.get('label').contains(s.text).should('be.visible')
+        cy.fixture('statements').then((statements) => {
+            statements.forEach((s) => {
+                cy.get('label').contains(s.text).should('be.visible')
+            })
         })
         cy.contains('Submit').should('not.exist')
         cy.contains('Decrease').should('not.exist')
