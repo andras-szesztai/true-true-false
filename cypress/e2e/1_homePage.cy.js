@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Home Page', () => {
     const TEST_SLUG = '@tEsT'
     beforeEach(() => {

@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Catch Routes', () => {
     const TEST_ROOM_SLUG = '@tEsT'
     beforeEach(() => {
@@ -25,7 +23,7 @@ describe('Catch Routes', () => {
         cy.url().should('be.equal', `${Cypress.config('baseUrl')}/create-room`)
     })
 
-    it.only('displays Create a Player button if provided Room ID is valid but Player ID is not provided', () => {
+    it('displays Create a Player button if provided Room ID is valid but Player ID is not provided', () => {
         cy.intercept(`/api/room/${TEST_ROOM_SLUG}`, {
             slug: TEST_ROOM_SLUG,
         }).as('roomIdRequestValid')

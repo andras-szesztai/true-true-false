@@ -1,6 +1,4 @@
-/// <reference types="cypress" />
-
-describe('Loggy Page', () => {
+describe('Loggy Stage', () => {
     const ROOM_SLUG = '@tEsT'
     const PLAYER_SLUG = '@tEsTpLaYeR'
     const PLAYER_ONE = {
@@ -21,19 +19,21 @@ describe('Loggy Page', () => {
             slug: ROOM_SLUG,
             stage: 'LOBBY',
             roundStage: 'IDLE',
-        })
+        }).as('roomRequest')
     })
 
     it('displays correct elements while waiting for players to join', () => {
-        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
         const PLAYERS = [PLAYER_TWO, PLAYER_ONE]
         cy.intercept(`/api/room/${ROOM_SLUG}/player/${PLAYER_SLUG}`, {
             slug: PLAYER_SLUG,
             ...PLAYER_ONE,
-        })
+        }).as('playerRequest')
         cy.intercept(`/api/room/${ROOM_SLUG}/players`, PLAYERS).as(
             'playersRequest'
         )
+        cy.visit(`/${ROOM_SLUG}/game/${PLAYER_SLUG}`)
+        cy.wait('@roomRequest')
+        cy.wait('@playerRequest')
         cy.wait('@playersRequest')
         cy.get('h1').contains('2 Players in the Lobby').should('be.visible')
         cy.get('h1').contains('Waiting for Others to Join').should('be.visible')
@@ -50,12 +50,13 @@ describe('Loggy Page', () => {
             ...PLAYER_ONE,
         })
         cy.intercept(`/api/room/${ROOM_SLUG}/players`, [PLAYER_ONE])
+        cy.intercept(`/api/room/${ROOM_SLUG}/update-room-stage/PREPARATION`, {
+            success: true,
+        }).as('preparationStageRequest')
         cy.get('h1').contains('2 Players in the Lobby').should('not.exist')
         cy.get('button').contains('Start').as('startButton')
         cy.get('@startButton').should('be.visible')
-        cy.get('@startButton')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(249, 218, 168)')
+        cy.get('@startButton').should('be.disabled')
         cy.intercept(`/api/room/${ROOM_SLUG}/players`, [
             PLAYER_ONE,
             PLAYER_TWO,
@@ -63,8 +64,9 @@ describe('Loggy Page', () => {
         cy.wait('@playersRequest')
         cy.wait('@playersRequest')
         cy.get('h1').contains('2 Players in the Lobby').should('be.visible')
-        cy.get('@startButton')
-            .should('have.css', 'background-color')
-            .and('eq', 'rgb(246, 193, 92)')
+        cy.get('@startButton').should('not.be.disabled')
+        cy.get('@startButton').click()
+        cy.wait('@preparationStageRequest')
+        cy.get('h1').contains('Just One More Second').should('be.visible')
     })
 })

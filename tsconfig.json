@@ -26,7 +26,7 @@
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        "cypress/e2e/homePage.cy.js",
+        "cypress/e2e/1_homePage.cy.js",
         "cypress/support/component.js",
         "cypress/support/commands.js"
     ],

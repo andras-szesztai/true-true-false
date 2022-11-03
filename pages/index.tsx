@@ -9,23 +9,16 @@ import { RulesModal } from 'components/molecules/RulesModal'
 import { APP_DESCRIPTION, APP_NAME } from 'constants/appName'
 
 // MISC
-// - Review rules
-// REFACTOR
-// - make all .create to POST
-// - prisma DB to prod
-// - disabled attribute on a & buttons
-
+// - Review game rules
+// - Search for TODOs
+// - Test unhappy paths - error handling from server in UI
+// - Test endpoints
 // E2E Pages:
-// [x] Home
-// [x] 404
-// [x] Create room
-// [x] Room slug without player & slug/game without player
-// [x] Create player
-// []  Lobby
-// []  Preparation
-// []  Game - Idle, Question, Question End, Guess Reveal, Score Reveal, Scoring
-// []  Results page
-// []  Room deleted
+// [ ] 12. Game False Reveal
+// [ ] 13. Game Score Reveal
+// [ ] 14. Game Scoring
+// [ ] 15. Results page
+// [ ] 16. Room deleted
 
 const Home = () => (
     <>

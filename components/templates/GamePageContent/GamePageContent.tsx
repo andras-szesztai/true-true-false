@@ -1,4 +1,5 @@
 import { Role, RoundStage } from '@prisma/client'
+import { useWindowSize } from 'react-use'
 
 import { HomeContentContainer } from 'components/atoms/containers/HomeContentContainer'
 import { ScreenMessage } from 'components/atoms/ScreenMessage'
@@ -9,6 +10,7 @@ import { PlayersBoard } from 'components/organisms/PlayersBoard'
 import { StatementSelectionBoard } from 'components/organisms/StatementSelectionBoard'
 import { StatementRevealBoard } from 'components/organisms/StatementRevealBoard'
 import { QuestionCounter } from 'components/organisms/QuestionCounter'
+import { designTokens } from 'styles/designTokens'
 
 import { getAdminButtonProps } from './utils'
 import {
@@ -20,6 +22,7 @@ import {
 import { Props } from './types'
 
 const GamePageContent = ({ room, player, players }: Props) => {
+    const { width } = useWindowSize()
     const { selectedPlayerId, slug: roomSlug, roundStage } = room
 
     const { statementsData, statementsError } =
@@ -42,6 +45,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
         ? isAllPlayersReady
         : !!player.selectedAnswerId
     const selectedPlayer = players.find((p) => p.id === selectedPlayerId)
+    const isMobileSize = width <= designTokens.breakPoints.md
 
     return (
         <HomeContentContainer>
@@ -52,6 +56,7 @@ const GamePageContent = ({ room, player, players }: Props) => {
                 size={PlayerTileSize.md}
                 fullWidth
                 displayScore
+                isFixed={!isMobileSize}
             />
             {roundStage === RoundStage.IDLE && player.role === Role.USER && (
                 <ScreenMessage text="Waiting for Admin to Start First Round ⏳" />

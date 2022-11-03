@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('404 Page', () => {
     it('displays when invalid url is entered', () => {
         cy.visit('/404', { failOnStatusCode: false })
